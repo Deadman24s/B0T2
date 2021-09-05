@@ -20,10 +20,11 @@ module.exports = {
       embed.setDescription(`**Application Command Help**-\n
         **01** ~~»~~ __\`${prefix}application reject <user> <reason>\`__- *To reject an application*.
         **02** ~~»~~ __\`${prefix}application accept <user> <message>\`__- *To accept an application*.
-        **03** ~~»~~ __\`${prefix}application ignore <user> <reason>\`__- *To ignore an application*.`);
+        **03** ~~»~~ __\`${prefix}application ignore <user> <reason>\`__- *To ignore an application*.
+        **04** ~~»~~ __\`${prefix}application blacklist <userID>\`__- *To add/remove a user's ID from the blacklist*`);
       await message.channel.send(embed).catch(console.error());
     }
-    if(args[0] == "reject" || args[0] == "accept" || args[0] == ignore){
+    if(args[0] == "reject" || args[0] == "accept" || args[0] == "ignore"){
       if(!args[1]){
         embed.setDescription("Please provide a user")
           .setColor("RED");
@@ -68,6 +69,52 @@ module.exports = {
             .setColor("GREEN");
           await message.channel.send(embed).catch(console.error());
         }
+      }
+    }
+    else if(args[0] == "blacklist"){
+      let blackList = await database.get("applicationBlackList");
+      let blackListIDs;
+      if(!blackList){
+        blackList = " ";
+        await database.set("applicationBlackList", blackList);
+      }
+      blackListIDs = blackList.split(" ");
+      if(args[1] == "remove"){
+        for(let i=0; i<=blackListIDs.length-1; i++){
+          if(args[2] == blackListIDs[i]){
+            if(blackListIDs.length > 1){
+              for(let j=i; j<=blackListIDs.length-2; j++){
+                blackListIDs[j] = blackListIDs[j+1];
+              }
+            }
+            let t = blackListIDs.pop();
+            blackList = blackListIDs.join(" ");
+            await database.set("applicationBlackList", blackList);
+            embed.setDescription(`Successfully removed ${args[2]} from the application blacklist.`)
+              .setColor("GREEN");
+            await message.channel.send(embed);
+            return;
+          }
+        }
+        embed.setDescription(`That ID (${args[2]}) is not blacklisted.`)
+          .setColor("RED");
+        await message.channel.send(embed);
+      }
+      else if(args[1] == "add"){
+        for(let i=0; i<=blackListIDs.length-1; i++){
+          if(args[2] == blackListIDs[i]){
+            embed.setDescription(`ID (${args[2]}) is already blacklisted.`)
+              .setColor("RED");
+            await message.channel.send(embed);
+            return;
+          }
+        }
+        blackListIDs[blackListIDs.length] = args[2];
+        blackList = blackListIDs.join(" ");
+        await database.set("applicationBlackList", blackList);
+        embed.setDescription(`Successfully added ${args[2]} to the application blacklist.`)
+          .setColor("GREEN");
+        await message.channel.send(embed);
       }
     }
   }

@@ -331,7 +331,7 @@ module.exports = {
         if(guildIDsList){
           guildIDsArray = guildIDsList.split(" ");
           for(let i=0; i<=guildIDsArray.length-1; i++){
-            if(args[1] = guildIDsArray[i]){
+            if(args[1] == guildIDsArray[i]){
               if(guildIDsArray.length > 1){
                 for(let j=i; j<=guildIDsArray.length-2; i++){
                   guildIDsArray[j] = guildIDsArray[j+1];

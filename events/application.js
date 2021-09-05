@@ -49,6 +49,18 @@ module.exports = (Discord, client, Keyv, fs, path) =>{
         await message.channel.send(embed).catch(console.error);
         return;
       }
+      let blackList = await database.get("applicationBlackList");
+      if(blackList){
+        let blackListIDs = blackList.split(" ");
+        for(let i=0; i<=blackListIDs.length-1; i++){
+          if(message.author.id == blackListIDs[i]){
+            embed.setDescription("Sorry, You are blacklisted so you cannot apply for staff.")
+              .setColor("RED");
+            await message.channel.send(embed);
+            return;
+          }
+        }
+      } 
       for(let i=1; i<=16; i++){
         questions[i] = await database.get(`appQuestion${i}`);
         if(!questions[i]){

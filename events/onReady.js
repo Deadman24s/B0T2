@@ -70,7 +70,7 @@ module.exports = async (client, Keyv, util, prefix, errorMessageBuilder) =>{
         });
         database.on('error', err => console.log('Connection Error', err));
         let guildsDB = new Keyv('sqlite://./databases/database.sqlite', {
-          table: `${guild.id}`
+          table: "11111111111"
         });
         guildsDB.on('error', err => console.log('Connection Error', err));
 

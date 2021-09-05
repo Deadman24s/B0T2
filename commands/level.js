@@ -13,6 +13,9 @@ module.exports = {
       .setTimestamp();
     const coinEmojiID =  await database.get('botCoinEmojiID');
     let coinEmoji = client.emojis.cache.get(coinEmojiID);
+    if(!coinEmoji){
+      coinEmoji = client.emojis.cache.get("860047308607062036");
+    }
     let coinText = await database.get('botCoinName');
     let coins;
     let lvl, points, person, maxPoints, pointsPercentage;
@@ -48,9 +51,6 @@ module.exports = {
         }
         else{
           person = message.author;
-        }
-        if(!coinEmoji){
-          coinEmoji = client.emojis.cache.get("860047308607062036");
         }
         if(!coinText){
           coinText = "Bot Coin";
