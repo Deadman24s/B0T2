@@ -3,12 +3,10 @@ module.exports = async(message, args, database, prefix, isAdmin, errorMessageBui
     if(message.author.bot) return;
     const countingChannelID = await database.get("countingChannelID");
     if(!countingChannelID){
-      console.log(errorMessageBuilder("Counting Channel's ID is not provided."));
       return;
     }
     const countingChannel = message.guild.channels.cache.get(countingChannelID);
     if(!countingChannel){
-      console.log(errorMessageBuilder("Counting Channel's not present."));
       return;
     }
     if(isAdmin(message.member)){

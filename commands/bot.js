@@ -17,14 +17,6 @@ module.exports = {
       .setThumbnail(client.user.displayAvatarURL())
       .setFooter(client.user.username)
       .setTimestamp();
-    if(!isAdmin(message.member)){
-      if(args[0] == "invite"){
-        embed.setDescription("**B0T Invite Link**-\n *__https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot__*")
-          .setColor("RANDOM");
-        await message.channel.send(embed);
-      }
-      return;
-    }
     if(!isAdmin(message.guild.me)){
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
@@ -114,7 +106,8 @@ module.exports = {
             **04** ~~»~~ __\`-bot cpu\`__- *To get the bot's CPU usage info*.
             **05** ~~»~~ __\`-bot storage <location>\`__- *To find the storage usage*.
             **06** ~~»~~ __\`-bot rename <name>\`__- *To rename the bot*.
-            **07** ~~»~~ __\`-bot avatar <url>\`__- *To change the bot's avatar*.`);
+            **07** ~~»~~ __\`-bot avatar <url>\`__- *To change the bot's avatar*.
+            **08** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.`);
         await message.channel.send(embed);    
       }
       else if(args[0] == "system" || args[0] == "mem"){
@@ -292,6 +285,14 @@ module.exports = {
           .setImage(`${args[1]}`);
         message.channel.send(embed);
         message.delete();
+      }
+    }
+    else{
+      if((!args[0]) || args[0] == "help"){
+        embed.setTitle("Bot Commands Help")
+          .setDescription(`
+            **01** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.`);
+        await message.channel.send(embed);    
       }
     }
   }    
