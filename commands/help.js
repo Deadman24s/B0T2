@@ -15,6 +15,7 @@ module.exports = {
     
     embed.setTitle(`${client.user.username} Bot Member Help`)
       .setDescription(`
+        **${prefix}apply** » __Apply for server staff__.
         **${prefix}avater** » __Get avatar of a member__.[*alias* - **pfp**.]
         **${prefix}coins** » __To check your coins__.
         **${prefix}create** » __Create a new ticket__.[*alias* - **new**, **t**, **ticket**.]
