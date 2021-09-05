@@ -44,7 +44,7 @@ module.exports = {
       n = n+1;
       await database.set("image number", n);  
       background = await Canvas.loadImage(
-        path.join(__dirname, `../backgrounds/background ${n-1}.jpeg`)
+        path.join(__dirname, `../backgrounds/background ${n}.jpeg`)
       );
     }
     else{
