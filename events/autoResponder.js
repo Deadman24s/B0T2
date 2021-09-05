@@ -19,9 +19,10 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
   else if(content == `f`){
     const fid = await database.get('fEmojiID');
     const f = client.emojis.cache.get(fid);
-    if(fid){
-      message.react(f);
+    if(!f){
+      f = client.emojis.cache.get("836091658969808907");
     }
+    message.react(f);
   }
   else if(content.includes('haha') || content.includes('hehe') || content.includes('heeh')){
     message.channel.send('https://tenor.com/view/you-mad-bro-u-mad-bro-laugh-ha-ha-ha-are-you-mad-gif-17215780').then((msg) => setTimeout(function(){msg.delete();}, 5000));

@@ -29,7 +29,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
         **02** ~~»~~ __\`${prefix}set help roles\`__- *To set all the roles variables*.
         **03** ~~»~~ __\`${prefix}set help emojis\`__- *To set all the emojis variables*.
         **04** ~~»~~ __\`${prefix}set help misc\`__- *To set all the misc variables*.
-        **05** ~~»~~ __\`${prefix}set appQuestions\`__- *To set all the 16 application questions*.`);
+        **05** ~~»~~ __\`${prefix}set help appQuestions\`__- *To set all the 16 application questions*.`);
       }
       else if(args[1] == "channels"){
       embed.setDescription(`
@@ -108,6 +108,10 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
         else{
           channelID = args[1];
           channel = message.guild.channels.cache.get(channelID);
+          if(!channel){
+            channel = message.mentions.channels.first();
+            channelID = channel.id;
+          }
           if(!channel){
             embed.setDescription("Either the channel ID is incorrect or the channel does not exists.")
               .setColor("RED");

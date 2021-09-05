@@ -23,6 +23,11 @@ module.exports = {
       await message.channel.send(embed);
       return;
     }
+    if(args[0] == "invite"){
+      embed.setDescription("**B0T INVITE LINK**-\n __*https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot*__")
+        .setColor("RANDOM");
+      message.channel.send(embed);
+    }
 
     let divider = 1048576;
         

@@ -25,10 +25,19 @@ module.exports = {
     }
     let upID = await database.get('upEmojiID');
     let up = client.emojis.cache.get(upID);
+    if(!up){
+      up = client.emojis.cache.get("822116117791113276");
+    }
     let updownID = await database.get('updownEmojiID');
     let updown = client.emojis.cache.get(updownID);
+    if(!updown){
+     updown = client.emojis.cache.get("822116137596354560"); 
+    }
     let downID = await database.get('downEmojiID');
     let down = client.emojis.cache.get(downID);
+    if(!down){
+      down = client.emojis.cache.get("822116155489386536");
+    }
     if(!(up || updown || down)){
       embed.setDescription("The suggestion emojis are not setup. Please ask the staff to set them first")
         .setColor("RED");
