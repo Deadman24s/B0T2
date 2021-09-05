@@ -44,7 +44,7 @@ module.exports = {
     let freeMemory = os.freemem() / divider;
     let freeMemoryText = freeMemory.toFixed(2) + "MB";
     if(freeMemory >= 1024){
-      freeMemoryText = (freeMemory / 1024).toFixed(2) + "MB";
+      freeMemoryText = (freeMemory / 1024).toFixed(2) + "GB";
     }
     let freeMemoryPercentage = ((freeMemory * 100) / totalMemory).toFixed(2);
     let freeMemoryPercentageBar = levelBarBuilder(client, freeMemoryPercentage);
