@@ -50,7 +50,7 @@ module.exports = {
           person = message.author;
         }
         if(!coinEmoji){
-          coinEmoji = "🪙";
+          coinEmoji = client.emojis.cache.get("860047308607062036");
         }
         if(!coinText){
           coinText = "Bot Coin";

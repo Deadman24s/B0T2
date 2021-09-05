@@ -51,7 +51,7 @@ module.exports = async (Discord, message, args, client, prefix, database, levelB
       coinEmojiID =  await database.get('botCoinEmojiID');
       coinEmoji = client.emojis.cache.get(coinEmojiID);
       if(!coinEmoji){
-        coinEmoji = "🪙";
+        coinEmoji = client.emojis.cache.get("860047308607062036");
       }
       coinText = await database.get('botCoinName');
       if(!coinText){
