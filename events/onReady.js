@@ -69,6 +69,25 @@ module.exports = async (client, Keyv, util, prefix, errorMessageBuilder) =>{
           table: `${guild.id}`
         });
         database.on('error', err => console.log('Connection Error', err));
+        let guildsDB = new Keyv('sqlite://./databases/database.sqlite', {
+          table: `${guild.id}`
+        });
+        guildsDB.on('error', err => console.log('Connection Error', err));
+
+        let guildIDsList = await guildsDB.get("guildsIDs");
+        let guildIDsArray;
+        let found = false;
+        if(guildIDsList){
+          guildIDsArray = guildIDsList.split(" ");
+          for(let i=0; i<=guildIDsArray.length-1; i++){
+            if(guild.id == guildIDsArray[i])
+              found = true;
+          }
+          if(!found){
+            guild.leave;
+            continue;
+          }
+        }
   
         let playingStatusChannelID = await database.get('playingStatusChannelID');
         if(playingStatusChannelID){

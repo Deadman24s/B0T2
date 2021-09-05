@@ -6,6 +6,9 @@ const os = require('os'),
 const usageBarBuilder = require('../builders/usageBarBuilder.js');
 const levelBarBuilder = require('../builders/levelBarBuilder.js');
 const uptimeBuilder = require('../builders/uptimeBuilder.js');
+
+const Keyv = require('keyv');
+const databaseBuilder = require("../builders/databaseBuilder.js");
   
 module.exports = {
   name : 'bot',
@@ -23,6 +26,7 @@ module.exports = {
       await message.channel.send(embed);
       return;
     }
+    database = databaseBuilder(Keyv, "11111111111");
     if(args[0] == "invite"){
       embed.setDescription("**B0T INVITE LINK**-\n __*https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot*__")
         .setColor("RANDOM");
@@ -112,7 +116,10 @@ module.exports = {
             **05** ~~»~~ __\`-bot storage <location>\`__- *To find the storage usage*.
             **06** ~~»~~ __\`-bot rename <name>\`__- *To rename the bot*.
             **07** ~~»~~ __\`-bot avatar <url>\`__- *To change the bot's avatar*.
-            **08** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.`);
+            **08** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.
+            **09** ~~»~~ __\`-bot guildAdd <guildID>\`__- *To add a guild into the bot's database*.
+            **10** ~~»~~ __\`-bot guildRemove <guildID>\`__- *To remove a guild from the bot's database*.
+            **11** ~~»~~ __\`-bot guildsList\`__- *To get the list of guild IDs in the database*.`);
         await message.channel.send(embed);    
       }
       else if(args[0] == "system" || args[0] == "mem"){
@@ -290,6 +297,85 @@ module.exports = {
           .setImage(`${args[1]}`);
         message.channel.send(embed);
         message.delete();
+      }
+      else if(args[0] == "guildAdd"){
+        let guildIDsList = await database.get("guildsIDs");
+        let guildIDsArray;
+        if(guildIDsList){
+          guildIDsArray = guildIDsList.split(" ");
+          for(let i=0; i<=guildIDsArray.length-1; i++){
+            if(args[1] == guildIDsArray[i]){
+              embed.setDescription("Guild ID already added in the database.")
+                .setColor("RED");
+              message.channel.send(embed);
+              return;
+            }
+          }
+          guildIDsArray[guildIDsArray.length] = args[1];
+          guildIDsList = guildIDsArray.join(" ");
+          await database.set("guildsIDs", guildIDsList);
+          embed.setDescription(`Successfully added the guild ID \`${args[1]}\` into the database.`)
+            .setColor("GREEN");
+          message.channel.send(embed);
+        }
+        else{
+          await database.set("guildsIDs", args[1]);
+          embed.setDescription("Successfully added the guildID into the database.")
+            .setColor("GREEN");
+          message.channel.send(embed);
+        }
+      }
+      else if(args[0] == "guildRemove"){
+        let guildIDsList = await database.get("guildsIDs");
+        let guildIDsArray;
+        if(guildIDsList){
+          guildIDsArray = guildIDsList.split(" ");
+          for(let i=0; i<=guildIDsArray.length-1; i++){
+            if(args[1] = guildIDsArray[i]){
+              if(guildIDsArray.length > 1){
+                for(let j=i; j<=guildIDsArray.length-2; i++){
+                  guildIDsArray[j] = guildIDsArray[j+1];
+                } 
+              }
+              let t = await guildIDsArray.pop();
+              guildIDsList = guildIDsArray.join(" ");
+              await database.set("guildsIDs", guildIDsList);
+              embed.setDescription(`Successfully removed the guild ID \`${t}\` from the database.`)
+                .setColor("GREEN");
+              message.channel.send(embed);
+              return;
+            }
+          }
+          embed.setDescription(`Couldn't find that guild ID \`${args[1]}\` in the database.`)
+            .setColor("RED");
+          message.channel.send(embed);
+        }
+        else{
+          embed.setDescription("The guild IDs list is empty.")
+            .setColor("RED");
+          message.channel.send(embed);
+        }
+      }
+      else if(args[0] == "guildsList"){
+        let guildIDsList = await database.get("guildsIDs");
+        let guildIDsArray;
+        let guildNamesList;
+        let guildNamesArray = [];
+        if(guildIDsList){
+          guildIDsArray = guildIDsList.split(" ");
+          for(let i=0; i<=guildIDsArray.length-1; i++){
+            guildNamesArray[i] = client.guilds.cache.get(guildIDsArray[i]).name;
+          }
+          guildNamesList = guildNamesArray.join(",");
+          guildIDsList = guildIDsArray.join(",");
+          message.channel.send(guildIDsList);
+          message.channel.send(guildNamesList);
+        }
+        else{
+          embed.setDescription("The guild IDs list is empty.")
+            .setColor("RED");
+          message.channel.send(embed);
+        }
       }
     }
     else{
