@@ -34,31 +34,31 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
       else if(args[1] == "channels"){
       embed.setDescription(`
         **Set Help Channels**\n
-        **01** ~~»~~ __\`${prefix}set chatLogsChannelID <ID>\`__- *To set the chat logs channel*.
-        **02** ~~»~~ __\`${prefix}set verificationChannelID <ID>\`__- *To set the verification channel*.
-        **03** ~~»~~ __\`${prefix}set memeChannelID <ID>\`__- *To set the memes channel*.
-        **04** ~~»~~ __\`${prefix}set botChannelID <ID>\`__- *To set the bot commands channel*.
-        **05** ~~»~~ __\`${prefix}set applicationLogsChannelID <ID>\`__- *To set the application logs channel*.
-        **06** ~~»~~ __\`${prefix}set countingChannelID <ID>\`__- *To set the counting channel*.
-        **07** ~~»~~ __\`${prefix}set totalMemberCountChannelID <ID>\`__- *To set the total members counter channel*.
-        **08** ~~»~~ __\`${prefix}set memberCountChannelID <ID>\`__- *To set the members counter channel*.
-        **09** ~~»~~ __\`${prefix}set botCountChannelID <ID>\`__- *To set the bots counter channel*.
-        **10** ~~»~~ __\`${prefix}set playerJoinLogsChannelID <ID>\`__- *To set the join logs channel*.
-        **11** ~~»~~ __\`${prefix}set playerLeaveLogsChannelID <ID>\`__- *To set the leave logs channe*.
-        **12** ~~»~~ __\`${prefix}set announcementChannelID <ID>\`__- *To set the announcement channel*.
-        **13** ~~»~~ __\`${prefix}set suggestionChannelID <ID>\`__- *To set the suggestion channel*.
-        **14** ~~»~~ __\`${prefix}set chatFilterLogsChannelID <ID>\`__- *To set the chat filter logs channel*.
-        **15** ~~»~~ __\`${prefix}set ticketChannelID <ID>\`__- *To set the ticket channel*.
-        **16** ~~»~~ __\`${prefix}set transcriptsChannelID <ID>\`__- *To set the transcripts channel*.
-        **17** ~~»~~ __\`${prefix}set playingStatusChannelID <ID>\`__- *To set the minecraft server's playing status channel*.`);
+        **01** ~~»~~ __\`${prefix}set chatLogsChannel <channel>\`__- *To set the chat logs channel*.
+        **02** ~~»~~ __\`${prefix}set verificationChannel <channel>\`__- *To set the verification channel*.
+        **03** ~~»~~ __\`${prefix}set memeChannel <channel>\`__- *To set the memes channel*.
+        **04** ~~»~~ __\`${prefix}set botChannel <channel>\`__- *To set the bot commands channel*.
+        **05** ~~»~~ __\`${prefix}set applicationLogsChannel <channel>\`__- *To set the application logs channel*.
+        **06** ~~»~~ __\`${prefix}set countingChannel <channel>\`__- *To set the counting channel*.
+        **07** ~~»~~ __\`${prefix}set totalMemberCountChannel <channel>\`__- *To set the total members counter channel*.
+        **08** ~~»~~ __\`${prefix}set memberCountChannel <channel>\`__- *To set the members counter channel*.
+        **09** ~~»~~ __\`${prefix}set botCountChannel <channel>\`__- *To set the bots counter channel*.
+        **10** ~~»~~ __\`${prefix}set playerJoinLogsChannel <channel>\`__- *To set the join logs channel*.
+        **11** ~~»~~ __\`${prefix}set playerLeaveLogsChannel <channel>\`__- *To set the leave logs channe*.
+        **12** ~~»~~ __\`${prefix}set announcementChannel <channel>\`__- *To set the announcement channel*.
+        **13** ~~»~~ __\`${prefix}set suggestionChannel <channel>\`__- *To set the suggestion channel*.
+        **14** ~~»~~ __\`${prefix}set chatFilterLogsChannel <channel>\`__- *To set the chat filter logs channel*.
+        **15** ~~»~~ __\`${prefix}set ticketChannel <channel>\`__- *To set the ticket channel*.
+        **16** ~~»~~ __\`${prefix}set transcriptsChannel <channel>\`__- *To set the transcripts channel*.
+        **17** ~~»~~ __\`${prefix}set playingStatusChannel <channel>\`__- *To set the minecraft server's playing status channel*.`);
       }
       else if(args[1] == "roles"){
         embed.setDescription(`
           **Set Help Roles**\n
-          **01** ~~»~~ __\`${prefix}set pingRoleID <ID>\`__- *To set the ping role*.
-          **02** ~~»~~ __\`${prefix}set staffRoleID <ID>\`__- *To set the staffRole*.
-          **03** ~~»~~ __\`${prefix}set verifiedRoleID <ID>\`__- *To set the verified role*.
-          **04** ~~»~~ __\`${prefix}set mutedRoleID <ID>\`__- *To set the muted role*.`);  
+          **01** ~~»~~ __\`${prefix}set pingRole <role>\`__- *To set the ping role*.
+          **02** ~~»~~ __\`${prefix}set staffRole <role>\`__- *To set the staffRole*.
+          **03** ~~»~~ __\`${prefix}set verifiedRole <role>\`__- *To set the verified role*.
+          **04** ~~»~~ __\`${prefix}set mutedRole <role>\`__- *To set the muted role*.`);  
       }
       else if(args[1] == "emojis"){
         embed.setDescription(`
@@ -99,7 +99,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
     }
     else{
       let text;
-      if(args[0].includes('ChannelID')){
+      if(args[0].includes('Channel')){
         let channelID, channel;
         if(!args[1]){
           channelID = message.channel.id;
@@ -119,71 +119,71 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
             return;
           }
         }
-        if(args[0] == "chatLogsChannelID"){
+        if(args[0] == "chatLogsChannel"){
           await database.set(args[0], channelID);
           text = "chat logs";
         }
-        else if(args[0] == "verificationChannelID"){
+        else if(args[0] == "verificationChannel"){
           await database.set(args[0], channelID);
           text = "verification"
         }
-        else if(args[0] == "memeChannelID"){
+        else if(args[0] == "memeChannel"){
           await database.set(args[0], channelID);
           text = "memes";
         }
-        else if(args[0] == "botChannelID"){
+        else if(args[0] == "botChannel"){
           await database.set(args[0], channelID);
           text = "bot commands"
         }
-        else if(args[0] == "applicationLogsChannelID"){
+        else if(args[0] == "applicationLogsChannel"){
           await database.set(args[0], channelID);
           text = "applications logs"
         }
-        else if(args[0] == "countingChannelID"){
+        else if(args[0] == "countingChannel"){
           await database.set(args[0], channelID);
           text = "counting";
         }
-        else if(args[0] == "totalMemberCountChannelID"){
+        else if(args[0] == "totalMemberCountChannel"){
           await database.set(args[0], channelID);
           text = "total member count";
         }
-        else if(args[0] == "memberCountChannelID"){
+        else if(args[0] == "memberCountChannel"){
           await database.set(args[0], channelID);
           text = "member count";
         }
-        else if(args[0] == "botCountChannelID"){
+        else if(args[0] == "botCountChannel"){
           await database.set(args[0], channelID);
           text = "bot count";
         }
-        else if(args[0] == "playerJoinLogsChannelID"){
+        else if(args[0] == "playerJoinLogsChannel"){
           await database.set(args[0], channelID);
           text = "player join logs";
         }
-        else if(args[0] == "playerLeaveLogsChannelID"){
+        else if(args[0] == "playerLeaveLogsChannel"){
           await database.set(args[0], channelID);
           text = "player leave logs";
         }
-        else if(args[0] == "announcementChannelID"){
+        else if(args[0] == "announcementChannel"){
           await database.set(args[0], channelID);
           text = "announcement";
         }
-        else if(args[0] == "suggestionChannelID"){
+        else if(args[0] == "suggestionChannel"){
           await database.set(args[0], channelID);
           text = "suggestion";
         }
-        else if(args[0] == "chatFilterLogsChannelID"){
+        else if(args[0] == "chatFilterLogsChannel"){
           await database.set(args[0], channelID);
           text = "chat filter logs";
         }
-        else if(args[0] == "ticketChannelID"){
+        else if(args[0] == "ticketChannel"){
           await database.set(args[0], channelID);
           text = "ticket";
         }
-        else if(args[0] == "transcriptsChannelID"){
+        else if(args[0] == "transcriptsChannel"){
           await database.set(args[0], channelID);
           text = "transcripts";
         }
-        else if(args[0] == "playingStatusChannelID"){
+        else if(args[0] == "playingStatusChannel"){
           await database.set(args[0], channelID);
           text = "minecraft server playing status";
         }
@@ -196,7 +196,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
         embed.setDescription(`Successfully set "${channel}" as \`${text}\` channel.`);
         await message.channel.send(embed);
       }
-      else if(args[0].includes("RoleID")){
+      else if(args[0].includes("Role")){
         let roleID, role;
         if(!args[1]){
           embed.setDescription("Invalid Syntax.")
@@ -207,24 +207,27 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           roleID = args[1];
           role = message.guild.roles.cache.get(roleID);
           if(!role){
+            role = message.mentions.roles.first();
+          }
+          if(!role){
             embed.setDescription("Either the role ID is incorrect or the role does not exists..")
               .setColor("RED");
             await message.channel.send(embed); 
           }
           else{
-            if(args[0] == "staffRoleID"){
+            if(args[0] == "staffRole"){
               await database.set(args[0], roleID);
               text = "staff";
             }
-            else if(args[0] == "pingRoleID"){
+            else if(args[0] == "pingRole"){
               await database.set(args[0], roleID);
               text = "ping";
             }
-            else if(args[0] == "verifiedRoleID"){
+            else if(args[0] == "verifiedRole"){
               await database.set(args[0], roleID);
               text = "verified";
             }
-            else if(args[0] == "mutedRoleID"){
+            else if(args[0] == "mutedRole"){
               await database.set(args[0], roleID);
               text = "muted";
             }

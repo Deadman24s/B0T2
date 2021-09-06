@@ -18,7 +18,7 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
   }
   else if(content == `f`){
     const fid = await database.get('fEmojiID');
-    const f = client.emojis.cache.get(fid);
+    let f = client.emojis.cache.get(fid);
     if(!f){
       f = client.emojis.cache.get("836091658969808907");
     }
