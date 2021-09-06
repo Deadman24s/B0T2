@@ -1,4 +1,3 @@
-
 const http = require("http");
 const fs = require("fs");
 
@@ -13,7 +12,7 @@ module.exports = (command) =>{
       response.write(html);  
       response.end();  
     });
-    webServer.listen(PORT)
+    webServer.listen(PORT);
   });
   console.log(`\nWebsite running on Port: ${PORT}`);
 }
