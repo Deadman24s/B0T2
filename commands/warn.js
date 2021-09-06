@@ -55,7 +55,7 @@ module.exports = {
       embed.setTitle(`You were warned`)
         .setDescription(`Reason- \`${warnReason}\`.`)
         .setFooter(`${warnsCount} ${warnsText}`);
-      await person.send(embed).catch(console.log(`Couldn't DM ${person.username}.`));
+      await person.send(embed).catch(console.log(`Couldn't DM ${person.user.username}.`));
     }
   }
 }
