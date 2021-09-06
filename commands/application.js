@@ -42,11 +42,10 @@ module.exports = {
       if(!reason){
         reason = "Not Provided."
       }
-      const checkFile = fs.statSync(`./applications/${applicant.id}.txt`);
+      const checkFile = fs.statSync(`./applications/${message.guild.id}/${applicant.id}.txt`);
       if(checkFile){
-        fs.unlink(`./applications/${applicant.id}.txt`, (err) => {
+        fs.unlink(`./applications/${message.guild.id}/${applicant.id}.txt`, (err) => {
           if (err) throw err;
-          console.log(`./applications/${applicant.id}.txt was deleted`);
         });
         if(args[0] == "reject"){
           embed.setDescription(`Your application got rejected.\nReason- \`${reason}\``)

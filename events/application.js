@@ -204,14 +204,20 @@ module.exports = (Discord, client, Keyv, fs, path) =>{
               responce.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == '✅' || reaction.emoji.name == '❌'),
                 {max: 1, time: 240000 }).then(async collected => {
                   if (collected.first().emoji.name == '✅') {
-                    let logchannel = client.channels.cache.get(applicationLogsChannelID);
-                    const logFileLocation = path.join(__dirname, "..", "applications", `${message.author.id}.txt`);
+                    let directoryLocation = path.join(__dirname, "..", "applications", `${guild.id}`);
                     try{
-                      let stats = fs.statSync(logFileLocation);
-                      message.channel.send("You are already having a pending application.\nApplication canceled.");
-                      return
+                      let findDirectory = fs.statSync(directoryLocation);
                     }catch (error){
-                      //This error is good. It means file s not present so we will continue creating the file.
+                      fs.mkdir(path.join(__dirname, "..", "applications", guild.id));
+                    }
+                    let logchannel = client.channels.cache.get(applicationLogsChannelID);
+                    const logFileLocation = path.join(__dirname, "..", "applications", `${guild.id}`, `${message.author.id}.txt`);
+                    try{
+                      let findFile = fs.statSync(logFileLocation);
+                      message.channel.send("You are already having a pending application.\nApplication canceled.");
+                      return;
+                    }catch (error){
+                      //This error is good. It means file is not present so we will continue creating the file.
                     }
                     try {
                       fs.writeFile(logFileLocation,

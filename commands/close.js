@@ -28,17 +28,17 @@ module.exports = {
       if(message.channel.name.startsWith("ticket")){
         ticketOwnerID = message.channel.name.replace("ticket-","");
         ticketOwner = message.guild.members.cache.get(ticketOwnerID);
-        logFileLocation = path.join(__dirname, "..", "transcripts", `ticket-${ticketOwnerID}.txt`);
+        logFileLocation = path.join(__dirname, "..", "transcripts", `${message.guild.id}`, `ticket-${ticketOwnerID}.txt`);
       }  
       else if(message.channel.name.startsWith("bug")){
         ticketOwnerID = message.channel.name.replace("bug-","");
         ticketOwner = message.guild.members.cache.get(ticketOwnerID);
-        logFileLocation = path.join(__dirname, "..", "transcripts", `bug-${ticketOwnerID}.txt`);
+        logFileLocation = path.join(__dirname, "..", "transcripts", `${message.guild.id}`, `bug-${ticketOwnerID}.txt`);
       }  
       else if(message.channel.name.startsWith("report")){
         ticketOwnerID = message.channel.name.replace("report-","");
         ticketOwner = message.guild.members.cache.get(ticketOwnerID);
-        logFileLocation = path.join(__dirname, "..", "transcripts", `report-${ticketOwnerID}.txt`);
+        logFileLocation = path.join(__dirname, "..", "transcripts", `${message.guild.id}`, `report-${ticketOwnerID}.txt`);
       }    
       let isFile = false;
       try{
