@@ -5,9 +5,10 @@ let guild;
 let questions = [];
 let database;
 let applicationLogsChannelID;
+let botChannelID;
 let canApply;
 let prefix = '-';
-module.exports = (Discord, client, Keyv, fs, path) =>{
+module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
   client.on('message', async message => {
     if(message.guild){
       guild = message.guild;
@@ -32,6 +33,14 @@ module.exports = (Discord, client, Keyv, fs, path) =>{
       database = new Keyv('sqlite://./databases/database.sqlite', {
         table: `${guild.id}`
       });
+      botChannelID = await database.get("botChannelID");
+      if(botChannelID){
+        if((message.channel.id != botChannelID) && (!isAdmin(message.member))){
+          await message.reply(`Please use <#${botChannelID}>.`).then((msg) => setTimeout(function(){msg.delete();}, 15000));
+          await message.delete();
+          return;
+        }
+      }
       applicationLogsChannelID = await database.get("applicationLogsChannelID");
       canApply = await database.get("canApply");
       database.on('error', err => console.log('Connection Error', err));

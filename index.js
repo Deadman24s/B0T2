@@ -56,7 +56,7 @@ client.on("guildMemberRemove", async member => {
 })
 
 const application = require('./events/application.js');
-application(Discord, client, Keyv, fs, path);
+application(Discord, client, isAdmin, Keyv, fs, path);
 
 const messageEmojiFinder = require('./editors/messageEmojiFinder.js');
 
