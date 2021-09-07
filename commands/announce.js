@@ -49,6 +49,9 @@ module.exports = {
     if(pingRole){
       await announcementChannel.send(`${pingRole}`).then((msg) => setTimeout(function(){msg.delete();}, 500));  
     }
-    await message.channel.send("Successfully Announced you message.");
+    let e = new Discord.MessageEmbed()
+      .setDescription("Successfully Announced you message.")
+      .setColor("GREEN");
+    await message.channel.send(e);
   }
 }

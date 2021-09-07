@@ -81,6 +81,9 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
       }
       if(!(authorId in userApplications)) {
         userApplications[authorId] = { "step" : 1}
+        embed.setDescription("Application started!\nPlease check your DM and continue filling the application.")
+          .setColor("GREEN");
+        let msg = await message.channel.send(embed);
         embed.setAuthor("", guild.iconURL())
           .setTitle("~~>>>~~ __**STAFF APPLICATION**__ ~~<<<~~")
           .setDescription(`Thank you for choosing to apply for ${guild.name} staff, Please provide clear and honest answers. Good luck!\n
@@ -90,7 +93,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
         await message.author.send(embed).catch( async() =>{
           embed.setDescription("Couldn't send you a message.\nEither your DMs are disabled or I'm blocked from your DM.")
             .setColor("RED");
-          await message.reply(embed);
+          await msg.edit(embed);
           return;
         });
       }
