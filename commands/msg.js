@@ -15,7 +15,7 @@ module.exports = {
       await message.channel.send(embed);
       return;
     }
-    reciever = personFinder(message, args[0]);
+    reciever = personFinder(message, args[0], "user");
     if(reciever === "not found"){
       embed.setDescription("Wrong user provided or user doesn't exists in this server.")
         .setColor("RED");

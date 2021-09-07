@@ -19,7 +19,7 @@ module.exports = {
         await message.channel.send('Please provide ID of the person you want to remove.');
         return;
       }
-      let person = personFinder(message, args[0]);
+      let person = personFinder(message, args[0], "member");
       if(person === "not found"){
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");

@@ -25,7 +25,7 @@ module.exports = {
       await message.channel.send(embed);
     }
     else{
-      let person = personFinder(message, args[0]);
+      let person = personFinder(message, args[0], "user");
       if(person === "not found"){
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");
@@ -48,14 +48,14 @@ module.exports = {
       if(warnsCount > 1)
         warnsText = warnsText + 's';
       await database.set(`${person.id} warns`, warnsCount);
-      embed.setTitle(`${person.user.username} was warned`)
+      embed.setTitle(`${person.username} was warned`)
         .setDescription(`Reason- \`${warnReason}\`.`)
         .setFooter(`${warnsCount} ${warnsText}`);
       await message.channel.send(embed);
       embed.setTitle(`You were warned`)
         .setDescription(`Reason- \`${warnReason}\`.`)
         .setFooter(`${warnsCount} ${warnsText}`);
-      await person.send(embed).catch(console.log(`Couldn't DM ${person.user.username}.`));
+      await person.send(embed).catch(console.log(`Couldn't DM ${person.username}.`));
     }
   }
 }

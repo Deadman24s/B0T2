@@ -33,7 +33,7 @@ module.exports = {
         await message.channel.send(embed);
         return;
       }
-      let applicant = personFinder(message, args[1]);
+      let applicant = personFinder(message, args[1], "user");
       if(applicant === "not found"){
         embed.setDescription("Wrong user provided or user doesn't exist in this server.")
           .setColor("RED");
@@ -53,7 +53,7 @@ module.exports = {
           embed.setDescription(`Your application got rejected.\nReason- \`${reason}\``)
             .setColor("RED")
           await applicant.send(embed).catch(console.error());
-          embed.setDescription(`Sucessfully rejected the application of ${applicant.user.tag}[${applicant.id}]\nReason-${reason}`)
+          embed.setDescription(`Sucessfully rejected the application of ${applicant.tag}[${applicant.id}]\nReason-${reason}`)
             .setColor("GREEN");
           await message.channel.send(embed).catch(console.error()); 
         }
@@ -61,12 +61,12 @@ module.exports = {
           embed.setDescription(`Your application was accepted.🥳\nMessage from staff- \`${reason}\``)
             .setColor("GREEN")
           await applicant.send(embed).catch(console.error());
-          embed.setDescription(`Sucessfully accepted the application of ${applicant.user.tag}[${applicant.id}]\nMessage from staff-${reason}`)
+          embed.setDescription(`Sucessfully accepted the application of ${applicant.tag}[${applicant.id}]\nMessage from staff-${reason}`)
             .setColor("GREEN");
           await message.channel.send(embed).catch(console.error());
         }
         else if(args[0] == "ignore"){
-          embed.setDescription(`Sucessfully ignored the application of ${applicant.user.tag}[${applicant.id}]\nReason-${reason}`)
+          embed.setDescription(`Sucessfully ignored the application of ${applicant.tag}[${applicant.id}]\nReason-${reason}`)
             .setColor("GREEN");
           await message.channel.send(embed).catch(console.error());
         }

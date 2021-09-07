@@ -28,7 +28,7 @@ module.exports = {
         n = args[1];
       }
     }
-    let person = personFinder(message, args[0]);
+    let person = personFinder(message, args[0], "member");
       if(person === "not found"){
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");

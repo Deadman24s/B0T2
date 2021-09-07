@@ -15,14 +15,14 @@ module.exports = {
       await message.channel.send(embed);
       return;
     }
-    let person = personFinder(message, args[0]);
+    let person = personFinder(message, args[0], "user");
     if(person === "not found"){
       embed.setDescription("Wrong user provided or user doesn't exists in this server.")
         .setColor("RED");
       await message.channel.send(embed);
       return;
     } 
-    if((person.id == message.author.id) || (isAdmin(person) === "true")){
+    if((person.id == message.author.id) || isAdmin(person)){
       embed.setDescription("You can't ban them lol.")
         .setColor("RED");
       await message.channel.send(embed);

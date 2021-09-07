@@ -40,8 +40,7 @@ module.exports = {
     else{
       if(!args[1]){
         if(args[0]){
-          person = personFinder(message, args[0]);
-          person = person.user;
+          person = personFinder(message, args[0], "user");
           if(person === "not found"){
             embed.setDescription("Wrong user provided or user doesn't exists in this server.")
               .setColor("RED");
@@ -79,7 +78,7 @@ module.exports = {
           if(!args[1])
             person = message.author;
           else{
-            person = personFinder(message, args[0]).user;
+            person = personFinder(message, args[0], "user");
             if(person === "not found"){
               embed.setDescription("Wrong user provided or user doesn't exists in this server.")
                 .setColor("RED");

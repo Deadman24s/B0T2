@@ -16,7 +16,7 @@ module.exports = {
       return;
     }
     let person, warnsCount, warnsText = "warning";
-    person = personFinder(message, args[0]).user;
+    person = personFinder(message, args[0], "user");
     if((person === "not found") || (!args[0])){
       person = message.author;
     }
@@ -38,7 +38,7 @@ module.exports = {
       await message.channel.send(embed);
     }
     else if(args[0] == "clear"){
-      person = personFinder(message, args[0]).user;
+      person = personFinder(message, args[0], "user");
       if((person === "not found") || (!args[0])){
         person = message.author;
       }
@@ -52,7 +52,7 @@ module.exports = {
       await message.channel.send(embed);
     }
     else if(args[0] == "set"){
-      person = personFinder(message, args[0]).user;
+      person = personFinder(message, args[0], "user");
       if((person === "not found") || (!args[0])){
         person = message.author;
       }

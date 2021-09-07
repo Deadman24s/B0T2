@@ -12,7 +12,7 @@ module.exports = {
       await message.channel.send(embed);    
     }
     else{
-      let person = personFinder(message, args[0]).user;
+      let person = personFinder(message, args[0], "user");
       if(person === "not found"){
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");
