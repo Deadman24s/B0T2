@@ -1,5 +1,5 @@
 const https = require('https');
-let url = 'https://www.reddit.com/r/meme/hot/.json?limit=100';
+let url = 'https://www.reddit.com/r/savagememes/hot/.json?limit=100';
 
 module.exports = {
   name : 'meme',
@@ -23,7 +23,7 @@ module.exports = {
       await message.channel.send(embed);
       return;
     }
-    if(args[1]){
+    if(args[0]){
       url = `https://www.reddit.com/r/${args[1]}/hot/.json?limit=100`;
     }
     if(message.channel.id != memeChannelID) return;  
