@@ -5,17 +5,22 @@ module.exports = {
   description : 'for verification',
 
   async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+    let embed = new Discord.MessageEmbed()
+      .setColor("RED")
+      .setTimestamp();
     let verificationText;
     const verifiedRoleID = await database.get('verifiedRoleID');
     const verificationChannelID = await database.get('verificationChannelID');
     if((!verifiedRoleID) || (!verificationChannelID)){
-      message.channel.send('The verification system is not setup. Kindly ask the lazy to setup is first.').then((msg) => setTimeout(function(){msg.delete();}, 20000));
+      embed.setDescription('The verification system is not setup. Kindly ask the staff to setup is first.')
+      message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 20000));
       return;
     }
     const verifiedRole = message.guild.roles.cache.get(verifiedRoleID);
     const verificationChannel = message.guild.channels.cache.get(verificationChannelID);
     if((!verifiedRole) || (!verificationChannel)){
-      message.channel.send('The verification system is not setup. Kindly ask the server staff to setup it first.').then((msg) => setTimeout(function(){msg.delete();}, 20000));
+      embed.setDescription('The verification system is not setup. Kindly ask the server staff to setup it first.');
+      message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 20000));
       message.delete();
       return;
     }
@@ -24,8 +29,15 @@ module.exports = {
       verificationText = "Already Verified!";
     }
     else{
-      await message.guild.members.cache.get(message.author.id).roles.add(verifiedRoleID);
-      verificationText = "Successfully Verified!";
+      try{
+        await message.guild.members.cache.get(message.author.id).roles.add(verifiedRoleID);
+        verificationText = "Successfully Verified!";
+      }catch{
+        embed.setDescription("Sorry, I'm lower in rank than you.\nPlease put my role above yours so that i can work propely.");
+        await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 20000));
+        await message.delete();
+        return;
+      }
     }
     let ix = 1000;
     let iy = 350;

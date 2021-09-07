@@ -120,71 +120,71 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           }
         }
         if(args[0] == "chatLogsChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "chat logs";
         }
         else if(args[0] == "verificationChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "verification"
         }
         else if(args[0] == "memeChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "memes";
         }
         else if(args[0] == "botChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "bot commands"
         }
         else if(args[0] == "applicationLogsChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "applications logs"
         }
         else if(args[0] == "countingChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "counting";
         }
         else if(args[0] == "totalMemberCountChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "total member count";
         }
         else if(args[0] == "memberCountChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "member count";
         }
         else if(args[0] == "botCountChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "bot count";
         }
         else if(args[0] == "playerJoinLogsChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "player join logs";
         }
         else if(args[0] == "playerLeaveLogsChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "player leave logs";
         }
         else if(args[0] == "announcementChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "announcement";
         }
         else if(args[0] == "suggestionChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "suggestion";
         }
         else if(args[0] == "chatFilterLogsChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "chat filter logs";
         }
         else if(args[0] == "ticketChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "ticket";
         }
         else if(args[0] == "transcriptsChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "transcripts";
         }
         else if(args[0] == "playingStatusChannel"){
-          await database.set(args[0], channelID);
+          await database.set(`${args[0]}ID`, channelID);
           text = "minecraft server playing status";
         }
         else{
@@ -208,6 +208,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           role = message.guild.roles.cache.get(roleID);
           if(!role){
             role = message.mentions.roles.first();
+            roleID = role.id;
           }
           if(!role){
             embed.setDescription("Either the role ID is incorrect or the role does not exists..")
@@ -216,19 +217,19 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           }
           else{
             if(args[0] == "staffRole"){
-              await database.set(args[0], roleID);
+              await database.set(`${args[0]}ID`, roleID);
               text = "staff";
             }
             else if(args[0] == "pingRole"){
-              await database.set(args[0], roleID);
+              await database.set(`${args[0]}ID`, roleID);
               text = "ping";
             }
             else if(args[0] == "verifiedRole"){
-              await database.set(args[0], roleID);
+              await database.set(`${args[0]}ID`, roleID);
               text = "verified";
             }
             else if(args[0] == "mutedRole"){
-              await database.set(args[0], roleID);
+              await database.set(`${args[0]}ID`, roleID);
               text = "muted";
             }
             else{

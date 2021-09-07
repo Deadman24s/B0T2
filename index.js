@@ -78,7 +78,7 @@ client.on('message', async message => {
       prefix = checkPrefix;
     }
 
-    let args = message.content.split(/ +/);
+    let args = message.content.replace("\n", " \n ").replace("::", ": :").split(/ +/);
     //==========Counting Section===================================================
     counting(message, args, database, prefix, isAdmin, errorMessageBuilder);
     //==========Level/Points Section===============================================
