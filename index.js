@@ -78,7 +78,7 @@ client.on('message', async message => {
       prefix = checkPrefix;
     }
 
-    let args = message.content.replace("\n", " \n ").replace("::", ": :").split(/ +/);
+    let args = message.content.split(/ +/);
     //==========Counting Section===================================================
     counting(message, args, database, prefix, isAdmin, errorMessageBuilder);
     //==========Level/Points Section===============================================
@@ -92,7 +92,7 @@ client.on('message', async message => {
     }
     //===============================================================================
     if(message.content.startsWith(prefix)){
-      args = message.content.slice(prefix.length).replace('\n', " \n ").split(/ +/);
+      args = message.content.slice(prefix.length).replace("::", ": :").replace("\n", " \n ").split(/ +/);
       //==========Custom Commands====================================================
       customCommands(Discord, client, message, args, database, messageEmojiFinder);
       //==========Commands Finder====================================================

@@ -4,15 +4,27 @@ module.exports = async(Discord, member, Canvas, path, database, type) => {
   const context = canvas.getContext('2d');  
   let sendingChannelID, sendingChannel;
   let jl;
+  let msg;
+  let embed = new Discord.MessageEmbed()
+    .setTimestamp();
   if(type == "Welcome"){
     sendingChannelID = await database.get("playerJoinLogsChannelID");
-    jl = "Joined"; 
+    jl = "Joined";
+    msg = await database.get("playerJoinMessage"); 
+    embed.setColor("GREEN");
   }else if(type == "Good Bye"){
     sendingChannelID = await database.get("playerLeaveLogsChannelID");
     jl = "Left";
+    msg = await database.get("playerLeaveMessage"); 
+    embed.setColor("RED");
   }else{
     return;
   }
+  if(!msg){
+    msg = `**${member.user.username} ${jl}**!\n||**[**${member.user.tag}**]** **[**${member.id}**]**||`;
+  }
+  msg = msg.replace("{user}", member).replace("{userid}", member.id).replace("{usertag}", member.user.tag).replace("{username}", member.user.username).replace("{guild}", member.guild).replace("{guildid}", member.guild.id);
+  embed.setDescription(`${msg}`);
   if(sendingChannelID){
     sendingChannel = await member.guild.channels.cache.get(sendingChannelID);
   }else{
@@ -23,6 +35,14 @@ module.exports = async(Discord, member, Canvas, path, database, type) => {
   }
   let background;
   let wimg = await database.get("welcomeImage");
+  if(wimg){
+    try{
+      background = await Canvas.loadImage(wimg);
+    }catch{
+      await database.set("welcomeImage", null);
+      wimg = null;
+    }
+  }
   if(!wimg){
     var n = await database.get("image number");
     if(!n){
@@ -65,6 +85,6 @@ module.exports = async(Discord, member, Canvas, path, database, type) => {
   context.drawImage(avatar, 25, 25, 200, 200);
 
   const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
-  await sendingChannel.send(`**${member.user.username} ${jl}**!\n||**[**${member.user.tag}**]** **[**${member.id}**]**||`, attachment);
+  await sendingChannel.send(embed).then(sendingChannel.send(' ', attachment));
   return attachment;
 }

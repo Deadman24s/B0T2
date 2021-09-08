@@ -7,9 +7,7 @@ module.exports = (client, message, args) => {
         emoji = client.emojis.cache.find(e => e.name == emojiName);
       if(emoji){
         args[i] = emoji;    
-      }else{
-        args[i] = `:${emojiName}:`
-      }  
+      }
     }
   } 
   return args.join(" ").replace(" \n ", '\n'); 

@@ -79,7 +79,10 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           **05** ~~»~~ __\`${prefix}set welcomeImage <url>\`__- *To set the player welcome image*.
           **06** ~~»~~ __\`${prefix}set leaveImage <url>\`__- *To set the player leave image*.
           **07** ~~»~~ __\`${prefix}set botPrefix <prefix>\`__- *To set the bot's prefix*.
-          **08** ~~»~~ __\`${prefix}set botCoinName <name>\`__- *To set the bot's coin name*.`);
+          **08** ~~»~~ __\`${prefix}set botCoinName <name>\`__- *To set the bot's coin name*.
+          **09** ~~»~~ __\`${prefix}set playerJoinMessage <msg>\`__- *To set the player join message*.
+          **10** ~~»~~ __\`${prefix}set playerLeaveMessage <msg>\`__- *To set the player leave message*.
+          [For player join/leave messages, you can use the placeholders- \`{user}\` \`{username}\` \`{userid}\` \`{usertag}\` \`{guild}\` \`{guildid}\`]`);
       }
       else if(args[1] == "appQuestions"){
         embed.setDescription(`
@@ -343,6 +346,13 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
             }
             await database.set(args[0], args[1]);
             embed.setDescription(`Successfully saved the \`${args[0]}\` as \`${args[1]}\` in database.`);
+            await message.channel.send(embed);
+          }
+          else if(args[0] == "playerJoinMessage" || args[0] == "playerLeaveMessage"){
+            let msg = messageEmojiFinder(client, message, args.slice(1));
+            await database.set(args[0], msg);
+            embed.setDescription(`Successfully saved the \`${args[0]}\` as-\n ${msg}.`)
+              .setColor("GREEN");
             await message.channel.send(embed);
           }
           else{

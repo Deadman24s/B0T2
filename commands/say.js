@@ -29,7 +29,7 @@ module.exports = {
       await message.channel.send(embed);
       return;
     }
-    await textChannel.send(msg);
+    await textChannel.send(`${msg}`);
     await message.delete();      
   }
 }
