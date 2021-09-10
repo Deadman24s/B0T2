@@ -85,9 +85,10 @@ client.on('message', async message => {
     points(Discord, message, args, client, prefix, database, levelBarBuilder);
     //==========Keeping the verification Channel Clean From Bots' Messages=========
     const dbVerificationChannelID = await database.get("verificationChannelID");
-    if((message.author.bot) && (message.author.id != client.user.id)){
-      if(message.channel.id == dbVerificationChannelID) 
-        message.delete();
+    if(message.author.bot){
+      if(message.channel.id == dbVerificationChannelID && message.author.id != client.user.id){
+        await message.delete();
+      }
       return;
     }
     //===============================================================================
@@ -100,6 +101,11 @@ client.on('message', async message => {
       //=============================================================================
     }
     else{
+      if(message.channel.id == dbVerificationChannelID){
+        await message.reply(`You are only allowed to use \`${prefix}verify\` command here.`).then((msg) => setTimeout(function(){msg.delete();}, 15000));
+        await message.delete();
+        return;
+      }
       //===========Chat Filter=======================================================
       chatFilter(Discord, message, message.content.toLowerCase(), database, isAdmin);
       //===========Auto Responder=====================================================
@@ -107,7 +113,7 @@ client.on('message', async message => {
       //===========Tickets Logging====================================================
       ticketLogging(message, database, fs, path, dateBuilder);
       //==============================================================================
-    }	
+    }
   }
 });
 

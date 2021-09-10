@@ -7,7 +7,7 @@ module.exports = {
       .setColor("YELLOW")
       .setTimestamp();
     const coinEmojiID =  await database.get('botCoinEmojiID');
-    const coinEmoji = client.emojis.cache.get(coinEmojiID);
+    let coinEmoji = client.emojis.cache.get(coinEmojiID);
     let coinText = await database.get('botCoinName');
     if(!coinEmoji){
       coinEmoji = "🪙";

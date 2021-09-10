@@ -3,7 +3,7 @@ const fs = require("fs");
 
 const PORT = 25575;
 
-module.exports = (command) =>{
+module.exports = () =>{
   fs.readFile('./website/index.html', function (err, html) {
     if (err) throw err;    
   

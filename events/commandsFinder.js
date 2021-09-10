@@ -1,48 +1,52 @@
 module.exports = async(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, dbVerificationChannelID) => {
-  const command = args.shift().toLowerCase();
+  let command = args.shift().toLowerCase();
   const dbMemeChannelID = await database.get('memeChannelID');
   const dbBotChannelID = await database.get('botChannelID');
   const ticketChannelID = await database.get('ticketChannelID');
+  
   if(!isAdmin(message.member)){
     if(!dbBotChannelID){
-      await message.channel.send("The bot channel is not set. Kindly ask the staff to set it.");
+      await message.reply("The bot channel is not set. Kindly ask the staff to set it.").then((msg) => setTimeout(function(){msg.delete();}, 15000));
+      await message.delete();
       return;
     }
-    if(message.channel.id != dbVerificationChannelID){
-      if(message.channel.id != dbMemeChannelID){
-        if(!((command == "close") || ((command == 't' || command == 'ticket' || command == 'new' || command == 'create') && message.channel.id == ticketChannelID))){
-          if(message.channel.id != dbBotChannelID){
-            await message.reply(`Please use <#${dbBotChannelID}>.`).then((msg) => setTimeout(function(){msg.delete();}, 15000));
-            await message.delete();
-            return;
-          }
-        }  
+    if(message.channel.id != ticketChannelID && message.channel.id != dbMemeChannelID && message.channel.id != dbBotChannelID && message.channel.id != dbVerificationChannelID){
+      await message.reply(`Please use <#${dbBotChannelID}>.`).then((msg) => setTimeout(function(){msg.delete();}, 15000));
+      await message.delete();
+      return;
+    }
+    if(message.channel.id == ticketChannelID){
+      if(command != "t" && command != "ticket" && command != "new" && command != "create"){
+        await message.reply(`Please use <#${dbBotChannelID}>.`).then((msg) => setTimeout(function(){msg.delete();}, 15000));
+        await message.delete();
+        return;        
       }
     }
-  }
-  if(!isAdmin(message.member)){    
+    if(message.channel.id == dbMemeChannelID){
+      if(command != "meme"){
+        await message.reply(`Please use <#${dbBotChannelID}>.`).then((msg) => setTimeout(function(){msg.delete();}, 15000));
+        await message.delete();
+        return;
+      }
+    }
     if(message.channel.id == dbVerificationChannelID){
-      if(command !== "verify"){
-        message.channel.send(`You are only allowed to use \`${prefix}verify\` command here.`).then((msg) => setTimeout(function(){msg.delete();}, 20500));
-        message.delete();
+      if(command != "verify"){
+        await message.reply(`You are only allowed to use \`${prefix}verify\` command here.`).then((msg) => setTimeout(function(){msg.delete();}, 15000));
+        await message.delete();
         return;
       }
     }
   }
-  if(!client.commands.has(command)){
-    if(!isAdmin(message.member)){
-      if(message.channel.id == dbVerificationChannelID){
-        message.channel.send(`You are only allowed to use \`${prefix}verify\` command here.`).then((msg) => setTimeout(function(){msg.delete();}, 20500));
-        message.delete();
-        return;
-      }
-      return;
+  const customCommand = await database.get(`customCommand_${command}`);
+  if((!client.commands.has(command)) && command != "apply" && (!customCommand)){
+    if(message){
+      await message.react('❌');
     }
     return;
+  }else{
+    await message.react('✅');
   }
-  try{
-    client.commands.get(command).run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder);
-  }catch(error){
-    console.error(error);
+  if(client.commands.has(command)){
+    await client.commands.get(command).run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder);
   }
 }

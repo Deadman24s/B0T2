@@ -10,6 +10,7 @@ module.exports = {
       .setColor("RANDOM")
       .setTimestamp();
     const memeChannelID = await database.get("memeChannelID");
+    const botChannelID = await database.get("botChannelID");
     if(!memeChannelID){
       embed.setDescription('The meme channel is not setup. Kindly ask the staff to setup is first.')
         .setColor("RED");
@@ -17,7 +18,7 @@ module.exports = {
       return;
     }
     const memeChannel = message.guild.channels.cache.get(memeChannelID);
-    if(!memeChannel){
+    if((!memeChannel) && (message.channel.id != botChannelID)){
       embed.setDescription('The meme channel is not setup. Kindly ask the staff to setup is first.')
         .setColor("RED");
       await message.channel.send(embed);
@@ -26,7 +27,6 @@ module.exports = {
     if(args[0]){
       url = `https://www.reddit.com/r/${args[1]}/hot/.json?limit=100`;
     }
-    if(message.channel.id != memeChannelID) return;  
     https.get(url, (result) => {
       let body = '';
       result.on('data', (chunk) =>{
