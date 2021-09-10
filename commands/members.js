@@ -8,10 +8,15 @@ module.exports = {
       .setColor("YELLOW")
       .setTimestamp();
     if(!isAdmin(message.member)){
+      await message.reactions.removeAll();
+      await message.react('❌');
       return;
     }
     if(!isAdmin(message.guild.me)){
-      errorEmbed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.");
+      await message.reactions.removeAll();
+      await message.react('❌');
+      embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
+        .setColor("RED");
       await message.channel.send(embed);
       return;
     }
@@ -26,7 +31,7 @@ module.exports = {
       **Members**: __${message.guild.members.cache.filter(m => !m.user.bot).size}__\n
       **Bots**: __${message.guild.members.cache.filter(m => m.user.bot).size}__`);
     await message.channel.send(embed);       
-    embed.setDescription(membersMap);    
+    embed.setDescription(membersMap);     
     await message.channel.send(embed);
     }
 }

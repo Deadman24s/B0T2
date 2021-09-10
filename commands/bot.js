@@ -21,6 +21,8 @@ module.exports = {
       .setFooter(client.user.username)
       .setTimestamp();
     if(!isAdmin(message.guild.me)){
+      await message.reactions.removeAll();
+      await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
       await message.channel.send(embed);

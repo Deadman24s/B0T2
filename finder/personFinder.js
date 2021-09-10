@@ -1,3 +1,5 @@
+const Disord = require("discord.js");
+const client = new Disord.Client();
 module.exports = (message, id, type) => {
   let person;
   if(type == "member"){
@@ -11,7 +13,7 @@ module.exports = (message, id, type) => {
   else if(type == "user"){
     person = message.mentions.users.first();
     if(!person)
-      person = message.guild.users.cache.get(id);
+      person = message.guild.members.cache.get(id).user;
     if(!person){
       return "not found";
     }

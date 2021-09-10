@@ -73,56 +73,58 @@ module.exports = {
           .setThumbnail(person.displayAvatarURL());
         await message.channel.send(embed);
       }
-      if(isAdmin(message.member)){
-        if(args[0] == "set"){
-          if(!args[1])
-            person = message.author;
-          else{
-            person = personFinder(message, args[0], "user");
-            if(person === "not found"){
-              embed.setDescription("Wrong user provided or user doesn't exists in this server.")
-                .setColor("RED");
-              await message.channel.send(embed);
-              return;
-            }   
-          }
-          lvl = await database.get(`${person.id} lvl`) * 1;
-          points = 0;
-          if(coins > 1)
-            coinText = coinText + 's';  
-          coins = await database.get(`${message.author.id} coins`) * 1;
-          if((!coins) || coins <= 0)
-            coins = 0;
-          if((!lvl) || lvl <= 0)
-            lvl = 1;
-          if((!points) || points < 0)  
-            points = 0;  
-          if(!args[2]){
-            embed.setDescription("please provide a value to add.")
+      if(isAdmin(message.member) && args[0] == "set"){
+        if(!args[1])
+          person = message.author;
+        else{
+          person = personFinder(message, args[0], "user");
+          if(person === "not found"){
+            embed.setDescription("Wrong user provided or user doesn't exists in this server.")
               .setColor("RED");
             await message.channel.send(embed);
             return;
-          }
-          if(isNaN(args[2])){
-            embed.setDescription("Please provide a numeric value.")
-              .setColor("RED");
-            await message.channel.send(embed);
-            return;
-          }
-          args[2] *= 1;
-          lvl = args[2];
-          if(lvl <= 0)
-            lvl = 1;
-          maxPoints = lvl * 55;
-          await database.set(`${person.id} lvl`, lvl)
-          await database.set(`${person.id} points`, points)
-          pointsPercentage = (points*100)/maxPoints;
-          embed.setAuthor(person.username)
-            .setTitle(`**LEVEL** ${lvl}`)
-            .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins.toFixed(2)}** ${coinText}`)
-            .setThumbnail(person.displayAvatarURL());
+          }   
+        }
+        lvl = await database.get(`${person.id} lvl`) * 1;
+        points = 0;
+        if(coins > 1)
+          coinText = coinText + 's';  
+        coins = await database.get(`${message.author.id} coins`) * 1;
+        if((!coins) || coins <= 0)
+          coins = 0;
+        if((!lvl) || lvl <= 0)
+          lvl = 1;
+        if((!points) || points < 0)  
+          points = 0;  
+        if(!args[2]){
+          embed.setDescription("please provide a value to add.")
+            .setColor("RED");
           await message.channel.send(embed);
-        }  
+          return;
+        }
+        if(isNaN(args[2])){
+          embed.setDescription("Please provide a numeric value.")
+            .setColor("RED");
+          await message.channel.send(embed);
+          return;
+        }
+        args[2] *= 1;
+        lvl = args[2];
+        if(lvl <= 0)
+          lvl = 1;
+        maxPoints = lvl * 55;
+        await database.set(`${person.id} lvl`, lvl)
+        await database.set(`${person.id} points`, points)
+        pointsPercentage = (points*100)/maxPoints;
+        embed.setAuthor(person.username)
+          .setTitle(`**LEVEL** ${lvl}`)
+          .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins.toFixed(2)}** ${coinText}`)
+          .setThumbnail(person.displayAvatarURL());
+        await message.channel.send(embed);
+      }
+      else{
+        await message.reactions.removeAll();
+        await message.react('❌').catch(err => {/*nothing*/});
       }
     }
   }

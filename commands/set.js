@@ -7,9 +7,13 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
     .setColor("GREEN")
     .setTimestamp();    
   if(!isAdmin(message.member)){
+    await message.reactions.removeAll();
+    await message.react('❌').catch(err => {/*nothing*/});
     return;
   }
   if(!isAdmin(message.guild.me)){
+    await message.reactions.removeAll();
+    await message.react('❌').catch(err => {/*nothing*/});
     embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
       .setColor("RED");
     await message.channel.send(embed);

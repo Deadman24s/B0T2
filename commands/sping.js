@@ -8,9 +8,13 @@ module.exports = {
       .setColor("YELLOW")
       .setTimestamp();
     if(!isAdmin(message.member)){
+      await message.reactions.removeAll();
+      await message.react('❌');
       return;
     }
     if(!isAdmin(message.guild.me)){
+      await message.reactions.removeAll();
+      await message.react('❌');
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
       await message.channel.send(embed);

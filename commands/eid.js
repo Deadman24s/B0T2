@@ -3,7 +3,7 @@ module.exports = {
   description : 'to get of an emoji',
 
   async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
-    if(!(message.author.id == "564106279862140938" || message.author.id == "785663407198044220")){
+    if(!(message.author.id == "564106279862140938")){
       return;
     }
     let emojiName;

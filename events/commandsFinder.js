@@ -44,7 +44,9 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
     }
     return;
   }else{
-    await message.react('✅');
+    await message.react('✅').catch(err => {
+      //mf blocked the bot.
+    });
   }
   if(client.commands.has(command)){
     await client.commands.get(command).run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder);

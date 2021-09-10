@@ -11,7 +11,7 @@ module.exports = {
       .setThumbnail(message.author.displayAvatarURL());
     
     embed.setDescription(":mailbox_with_mail: Sending you a DM with all the available bot commands.");
-    await message.channel.send(embed); 
+    let me = await message.channel.send(embed); 
     
     embed.setTitle(`${client.user.username} Bot Member Help`)
       .setDescription(`
@@ -33,11 +33,18 @@ module.exports = {
         **${prefix}vote** » __Get minecraft server voting sites list__.
       `)
       .setColor("RANDOM");
-    await message.author.send(embed).catch( error =>{
-      embed.setDescription("Either your DMs are off or I'm blocked.")
-        .setColor("RED");
-      message.reply(embed);
+    let blocked = false;
+    await message.author.send(embed).catch( error =>{      me.edit(embed);
+      blocked = true;
     });
+    if(blocked){
+      embed.setTitle("")
+        .setDescription("Either your DMs are off or I'm blocked.")
+        .setColor("RED");
+      message.reactions.removeAll();
+      message.react('❌').catch(err => {/*nothing*/});
+      me.edit(embed);
+    }
     if(isAdmin(message.member)){
       embed.setTitle(`${client.user.username} Bot Admin Help`)
         .setDescription(`
@@ -69,9 +76,7 @@ module.exports = {
         `)
         .setColor("RANDOM");
         await message.author.send(embed).catch( error =>{
-          embed.setDescription("Either your DMs are off or I'm blocked.")
-            .setColor("RED");
-          message.reply(embed);
+          //no need of telling again.
         });
     }
   }
