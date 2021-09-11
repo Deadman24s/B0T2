@@ -33,14 +33,13 @@ module.exports = {
       return;
     }
     const msg = messageEmojiFinder(client, message, args.slice(1));
-    reciever.send(msg).catch( async error =>{
-      embed.setDescription("Couldn't send message to this user.\nEither his DMs are disabled or I'm blocked from his DM.")
-        .setColor("RED");
-      await message.channel.send(embed);
-      return;
-    });
     embed.setDescription(`Successfully messaged ${reciever}`)
       .setColor("GREEN");
-    await message.channel.send(embed);
-    }
+    let e = await message.channel.send(embed);
+    reciever.send(msg).catch( error =>{
+      embed.setDescription("Couldn't send message to this user.\nEither his DMs are disabled or I'm blocked from his DM.")
+        .setColor("RED");
+      e.edit(embed);
+    });
+  }
 }
