@@ -26,4 +26,20 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
   else if(content == "hi" || content == "hello" || content == "helo" || content == "hemlo" || content == "hey"){
     await message.channel.send("Hemlo");
   }
+  if(!isAdmin(message.member) && message.mentions.members.first()){
+    let staffRoleID = await database.get("staffRoleID");
+    let p = personFinder(message, args[0], "member");
+    if(p && staffRoleID){
+      if(isAdmin(p) || p.roles.cache.has(staffRoleID)){
+        await message.react('🇧').then(
+          message.react('🇸'),
+          message.react('🇩'),
+          message.react('🇰')
+        ).catch(err => {/*mf blocked me*/});
+        setTimeout(async () => {
+          await message.delete().catch(err => {/*Message not present*/});
+        }, 15000);
+      }
+    }
+  }
 }
