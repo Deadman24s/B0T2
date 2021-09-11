@@ -62,6 +62,7 @@ module.exports = {
           **${prefix}kick** » __Kick a member from the server__.
           **${prefix}members** » __List members present in the server__.
           **${prefix}msg** » __Private message a member as bot__.
+          **${prefix}msge** » __Message an embed to a member as bot__.
           **${prefix}mute** » __Mute a member__.
           **${prefix}nuke** » __Clean the channel with a nuke__.
           **${prefix}remove** » __Remove a member from the ticket__.
