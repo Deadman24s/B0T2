@@ -19,13 +19,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
     await message.channel.send(embed);
     return;
   }
-  if(!args[0]){
-    embed.setDescription(`What do you want to set?\nUse \`${prefix}set help\`.`)
-      .setColor("RED");
-    await message.channel.send(embed);
-    return;
-  }
-  if(args[0]=='help'){
+  if((!args[0]) || args[0]=='help'){
     if(!args[1]){
       embed.setDescription(`
         **Set Help**\n
@@ -120,7 +114,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
             channelID = channel.id;
           }
           if(!channel){
-            embed.setDescription("Either the channel ID is incorrect or the channel does not exists.")
+            embed.setDescription("Either the channel ID is incorrect or the channel with that ID no longer exists.")
               .setColor("RED");
             await message.channel.send(embed);
             return;
