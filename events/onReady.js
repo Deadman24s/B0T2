@@ -84,7 +84,7 @@ module.exports = async (client, Keyv, util, prefix, errorMessageBuilder) =>{
               found = true;
           }
           if(!found){
-            guild.leave;
+            await guild.leave();
             continue;
           }
         }
