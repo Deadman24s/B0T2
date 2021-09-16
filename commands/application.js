@@ -48,7 +48,12 @@ module.exports = {
       if(!reason){
         reason = "Not Provided."
       }
-      const checkFile = fs.statSync(`./applications/${message.guild.id}/${applicant.id}.txt`);
+      let checkFile;
+      try{
+        checkFile = fs.statSync(`./applications/${message.guild.id}/${applicant.id}.txt`);
+      }catch{
+        //nothing
+      }
       if(checkFile){
         fs.unlink(`./applications/${message.guild.id}/${applicant.id}.txt`, (err) => {
           if (err) throw err;
@@ -74,6 +79,11 @@ module.exports = {
             .setColor("GREEN");
           await message.channel.send(embed).catch(console.error());
         }
+      }
+      else{
+        embed.setDescription("There is no new application from that user.")
+          .setColor("RED");
+        await message.channel.send(embed);
       }
     }
     else if(args[0] == "blacklist"){

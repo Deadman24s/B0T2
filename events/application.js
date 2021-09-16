@@ -89,7 +89,8 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
           .setDescription(`Thank you for choosing to apply for ${guild.name} staff, Please provide clear and honest answers. Good luck!\n
             -${guild.name} Staff\n
             You can cancel the application at any time by typing \`cancel\` in the answer.\n\n
-            **Question 1**- \`${questions[1]}\``);  
+            **Question 1**- \`${questions[1]}\``)
+          .setColor("YELLOW");  
         await message.author.send(embed).catch( async() =>{
           embed.setDescription("Couldn't send you a message.\nEither your DMs are disabled or I'm blocked from your DM.")
             .setColor("RED");
