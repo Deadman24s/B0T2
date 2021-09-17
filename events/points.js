@@ -66,7 +66,7 @@ module.exports = async (Discord, message, args, client, prefix, database, levelB
         .setTitle(`**LEVEL** ${lvl}`)
         .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins}** ${coinText}`)
         .setThumbnail(message.author.avatarURL());
-      await message.author.send(embed).catch(console.error());
+    await message.author.send(embed).catch(error => {/*nothing lul*/});
     }
     await database.set(`${message.author.id} lvl`, lvl);
     await database.set(`${message.author.id} points`, points.toFixed(3));

@@ -209,10 +209,14 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           role = message.guild.roles.cache.get(roleID);
           if(!role){
             role = message.mentions.roles.first();
-            roleID = role.id;
+            try{
+              roleID = role.id;
+            }catch{
+              roleID = null;
+            }
           }
-          if(!role){
-            embed.setDescription("Either the role ID is incorrect or the role does not exists..")
+          if(!(role && roleID)){
+            embed.setDescription("Either the role ID is incorrect or the role does not exists.\nNote- `@everyone` is no longer a role so you have to provide the guild ID instead.")
               .setColor("RED");
             await message.channel.send(embed); 
           }
