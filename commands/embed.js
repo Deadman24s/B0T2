@@ -20,7 +20,7 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     let msg;
@@ -29,22 +29,22 @@ module.exports = {
       msg = messageEmojiFinder(client, message, args.slice(1));
       if(!msg){
         errorEmbed.setDescription("Write something bruh.");
-        await message.channel.send(errorEmbed);
+        await message.channel.send(errorEmbed).catch(error => {/*nothing*/});
         return;
       }
       embed.setDescription(`${msg}`);
-      await textChannel.send(embed);
+      await textChannel.send(embed).catch(error => {/*nothing*/});
     }
     else{
       msg = messageEmojiFinder(client, message, args);
       if(!msg){
         errorEmbed.setDescription("Write something bruh.");
-        await message.channel.send(errorEmbed);
+        await message.channel.send(errorEmbed).catch(error => {/*nothing*/});
         return;
       }
       embed.setDescription(`${msg}`);
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }  
-    await message.delete();
+    await message.delete().catch(error => {/*nothing*/});
   }
 }

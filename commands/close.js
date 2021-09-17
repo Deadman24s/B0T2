@@ -19,7 +19,7 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     if (message.channel.name.startsWith("ticket") || message.channel.name.startsWith("bug") || message.channel.name.startsWith("report")){
@@ -54,7 +54,7 @@ module.exports = {
       if(!transcriptsChannel){
         embed.setDescription("There is no transcripts channel set, so the ticket transcript will not be saved")
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
       }else{
         if(isFile){
           let date = dateBuilder();
@@ -64,17 +64,17 @@ module.exports = {
               attachment: logFileLocation,
               name: "transcript.txt"
             }]
-          }).catch(console.error);
+          }).catch(error => {/*nothing*/});
           if(ticketOwner){
             embed.setDescription(`Your ticket \`${message.channel.name}\` was closed.\nHere's the transcript of the ticket-`)
               .setColor("YELLOW");
-            await ticketOwner.send(embed).catch(console.error);
+            await ticketOwner.send(embed).catch(error => {/*nothing*/});
             await ticketOwner.send({
               files: [{
                 attachment: logFileLocation,
                 name: "transcript.txt"
               }]
-            }).catch(console.error);
+            }).catch(error => {/*nothing*/});
             setTimeout(function(){
               fs.unlinkSync(logFileLocation);
             }, 5000);
@@ -82,12 +82,12 @@ module.exports = {
         }else{
           embed.setDescription(`Your ticket \`${message.channel.name}\` was closed.`)
             .setColor("YELLOW");
-          await message.author.send(embed).catch(console.error);
+          await message.author.send(embed).catch(error => {/*DM OFF or blocked*/});
         }
       }
       embed.setDescription("Closing the ticket...")
         .setColor("GREEN");
-      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.channel.delete();}, 5000));
+      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.channel.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
     }
   }
 }

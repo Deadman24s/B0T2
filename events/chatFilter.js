@@ -22,15 +22,15 @@ module.exports = async(Discord, message, content, database, isAdmin) =>{
       if(swearings){
         for(let i=0; i<=swearings.length-1; i++){
           if(content.includes(swearings[i])){
-            await message.reply("No swearing bruh.").then((msg) => setTimeout(function(){msg.delete();}, 10000));
+            await message.reply("No swearing bruh.").then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 10000)).catch(error => {/*nothing*/});
             chatFilterEmbed.setDescription(`
               **User**- ${message.author.tag}\n
               **ID**- ${message.author.id}\n
               **Message**- ${message.content}\n
               **Filtered**- ${swearings[i]}\n
               **Result**- Deleted`);
-            await chatFilterLogsChannel.send(chatFilterEmbed);
-            await message.delete();
+            await chatFilterLogsChannel.send(chatFilterEmbed).catch(error => {/*nothing*/});
+            await message.delete().catch(error => {/*nothing*/});
             return;
           }
         }
@@ -51,7 +51,7 @@ module.exports = async(Discord, message, content, database, isAdmin) =>{
               **Message**- ${message.content}\n
               **Filtered**- ${badwords[i]}\n
               **Result**- Reacted with 🇳 🇴 🇺`);
-            await chatFilterLogsChannel.send(chatFilterEmbed);
+            await chatFilterLogsChannel.send(chatFilterEmbed).catch(error => {/*nothing*/});
             return;
           }
         }

@@ -85,6 +85,6 @@ module.exports = async(Discord, member, Canvas, path, database, type) => {
   context.drawImage(avatar, 25, 25, 200, 200);
 
   const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'welcome-image.png');
-  await sendingChannel.send(embed).then(sendingChannel.send(' ', attachment));
+  await sendingChannel.send(embed).then(sendingChannel.send(' ', attachment)).catch(error => {/*nothing*/});
   return attachment;
 }

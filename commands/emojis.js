@@ -16,7 +16,7 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     let i, j;
@@ -43,17 +43,17 @@ module.exports = {
       let emojis = emojisMap.split(",");
       let emojisNames = emojisNamesMap.split(",");  
       embed.setDescription("Sending you the list of all emojis bot has access to.");
-      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 5000));
+      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
       await message.author.send(emojis[j] + " => " + emojisNames[j]).catch(async err =>{
         embed.setDescription("Either your DMs are off or I'm blocked.")  
           .setColor("RED");
-        await message.reply(embed).then((msg) => setTimeout(function(){msg.delete();}, 5000));
+        await message.reply(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
         return; 
       });
       for(j=1; j <= emojis.length-1; j++){
-        await message.author.send(emojis[j] + " => " + emojisNames[j]).catch();
+        await message.author.send(emojis[j] + " => " + emojisNames[j]).catch(error => {/*nothing DMS are off or blocked*/});
       }
     }
-    await message.delete();
+    await message.delete().catch(error => {/*nothing*/});
   }
 }

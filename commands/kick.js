@@ -16,7 +16,7 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     if(!args[0]){
@@ -28,13 +28,13 @@ module.exports = {
       if(person === "not found"){
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     } 
     if(isAdmin(person)){
       embed.setDescription("Sorry, but I can't kick them.")
         .setColor("RED");
-      await message.channel.send(embed);  
+      await message.channel.send(embed).catch(error => {/*nothing*/});  
       return;
     }
     let reason = messageEmojiFinder(client, message, args.slice(1));
@@ -43,10 +43,10 @@ module.exports = {
     }
     embed.setDescription(`You were kicked from **${message.guild.name}**.\nReason- \`${reason}\``)
       .setColor("RED");
-    await person.send(embed).catch(console.error());
+    await person.send(embed).catch(error => {/*nothing DMS are off or blocked*/});
     await message.guild.members.cache.get(person.id).kick(reason).catch(console.error());
     embed.setDescription(`Successfully kicked ~~**__${person}__**~~.\nReason- \`${reason}\``)
       .setColor("GREEN");
-    await message.channel.send(embed);
+    await message.channel.send(embed).catch(error => {/*nothing*/});
   }
 }

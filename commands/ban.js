@@ -16,26 +16,26 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     let person = personFinder(message, args[0], "user");
     if(person === "not found"){
       embed.setDescription("Wrong user provided or user doesn't exists in this server.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     } 
     if((person.id == message.author.id) || isAdmin(person)){
       embed.setDescription("You can't ban them lol.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     if(person.bot){
       embed.setDescription("I can't ban my bot brother.")
         .setColor("RED");
-      message.channel.send(embed);
+      message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     let banReason,banDays;
@@ -52,7 +52,7 @@ module.exports = {
     }
     embed.setDescription(`You were banned from **${message.guild.name}**.\nReason- \`${banReason}\``)
       .setColor("RED");
-    await person.send(embed).catch(console.error());
+    await person.send(embed).catch(error => {/*nothing DMS are off or blocked*/});
     if(isNaN(banDays)){
       await message.guild.members.cache.get(person.id).ban({reason: banReason }).catch();
     }else{
@@ -60,6 +60,6 @@ module.exports = {
     }
     embed.setDescription(`Successfully banned ~~**__${person}__**~~.\nReason- \`${banReason}\`\nDuration- ${banDays} days.`)
       .setColor("GREEN");
-    await message.channel.send(embed);
+    await message.channel.send(embed).catch(error => {/*nothing*/});
     }
 }

@@ -14,14 +14,14 @@ module.exports = {
     if(!memeChannelID){
       embed.setDescription('The meme channel is not setup. Kindly ask the staff to setup is first.')
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     const memeChannel = message.guild.channels.cache.get(memeChannelID);
     if((!memeChannel) && (message.channel.id != botChannelID)){
       embed.setDescription('The meme channel is not setup. Kindly ask the staff to setup is first.')
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     if(args[0]){
@@ -40,7 +40,7 @@ module.exports = {
           embed.setTitle(subRedditName)
             .setDescription(`[${title}](${link})\n\n${text}`)
             .setURL(`https://reddit.com/${subRedditName}`);
-          await message.channel.send(embed);  
+          await message.channel.send(embed).catch(error => {/*nothing*/});  
         }
         let image = index.preview.images[0].source.url.replace('&amp;', '&')
         let title = index.title
@@ -50,7 +50,7 @@ module.exports = {
           embed.setTitle(subRedditName)
             .setDescription(`[${title}](${link})\n\n${text}`)
             .setURL(`https://reddit.com/${subRedditName}`);
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
         }
         else{
           embed.setTitle(subRedditName)
@@ -58,7 +58,7 @@ module.exports = {
             .setColor(0xFFFF00)
             .setDescription(`[${title}](${link})`)
             .setURL(`https://reddit.com/${subRedditName}`)
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
         }
         });
     });

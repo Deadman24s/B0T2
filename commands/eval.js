@@ -23,10 +23,10 @@ module.exports = {
         evaled = require("util").inspect(evaled);
       }
       embed.setDescription('**__OUTPUT__**\n```\n' + clean(evaled) + '\n```')
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       } catch (err){
         embed.setDescription("**__ERROR__**\n```\n" + clean(err) + '\n```');
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
       }
     }
 }

@@ -17,7 +17,7 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     if((!args[0]) || args[0] == "help"){
@@ -28,20 +28,20 @@ module.exports = {
         **04** ~~»~~ __\`${prefix}application blacklist\`__- *To view the application blacklist*
         **05** ~~»~~ __\`${prefix}application blacklist add <userID>\`__- *To add a user's ID in the blacklist*
         **06** ~~»~~ __\`${prefix}application blacklist remove <userID>\`__- *To remove a user's ID from the blacklist*`);
-      await message.channel.send(embed).catch(console.error());
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
     if(args[0] == "reject" || args[0] == "accept" || args[0] == "ignore"){
       if(!args[1]){
         embed.setDescription("Please provide a user")
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
         return;
       }
       let applicant = personFinder(message, args[1], "user");
       if(applicant === "not found"){
         embed.setDescription("Wrong user provided or user doesn't exist in this server.")
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
         return;  
       }
       let reason = args.slice(2).join(" ");
@@ -61,29 +61,29 @@ module.exports = {
         if(args[0] == "reject"){
           embed.setDescription(`Your application got rejected.\nReason- \`${reason}\``)
             .setColor("RED")
-          await applicant.send(embed).catch(console.error());
+          await applicant.send(embed).catch(error => {/*nothing*/});
           embed.setDescription(`Sucessfully rejected the application of ${applicant.tag}[${applicant.id}]\nReason-${reason}`)
             .setColor("GREEN");
-          await message.channel.send(embed).catch(console.error()); 
+          await message.channel.send(embed).catch(error => {/*nothing*/}); 
         }
         else if(args[0] == "accept"){
           embed.setDescription(`Your application was accepted.🥳\nMessage from staff- \`${reason}\``)
             .setColor("GREEN")
-          await applicant.send(embed).catch(console.error());
+          await applicant.send(embed).catch(error => {/*nothing*/});
           embed.setDescription(`Sucessfully accepted the application of ${applicant.tag}[${applicant.id}]\nMessage from staff-${reason}`)
             .setColor("GREEN");
-          await message.channel.send(embed).catch(console.error());
+          await message.channel.send(embed).catch(error => {/*nothing*/});
         }
         else if(args[0] == "ignore"){
           embed.setDescription(`Sucessfully ignored the application of ${applicant.tag}[${applicant.id}]\nReason-${reason}`)
             .setColor("GREEN");
-          await message.channel.send(embed).catch(console.error());
+          await message.channel.send(embed).catch(error => {/*nothing*/});
         }
       }
       else{
         embed.setDescription("There is no new application from that user.")
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
       }
     }
     else if(args[0] == "blacklist"){
@@ -98,7 +98,7 @@ module.exports = {
         blackList = blackListIDs.join("\n");
         embed.setDescription(`Blacklisted IDs- ${blackList}`)
           .setColor("RANDOM");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
       }
       else{
         if(args[1] == "remove"){
@@ -114,20 +114,20 @@ module.exports = {
               await database.set("applicationBlackList", blackList);
               embed.setDescription(`Successfully removed ${args[2]} from the application blacklist.`)
                 .setColor("GREEN");
-              await message.channel.send(embed);
+              await message.channel.send(embed).catch(error => {/*nothing*/});
               return;
             }
           }
           embed.setDescription(`That ID (${args[2]}) is not blacklisted.`)
             .setColor("RED");
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
         }
         else if(args[1] == "add"){
           for(let i=0; i<=blackListIDs.length-1; i++){
             if(args[2] == blackListIDs[i]){
               embed.setDescription(`ID (${args[2]}) is already blacklisted.`)
                 .setColor("RED");
-              await message.channel.send(embed);
+              await message.channel.send(embed).catch(error => {/*nothing*/});
               return;
             }
           }
@@ -136,7 +136,7 @@ module.exports = {
           await database.set("applicationBlackList", blackList);
           embed.setDescription(`Successfully added ${args[2]} to the application blacklist.`)
             .setColor("GREEN");
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
         }
       }
     }

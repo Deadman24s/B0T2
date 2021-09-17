@@ -15,7 +15,7 @@ module.exports = {
     }
     let emoji = client.emojis.cache.find(e => e.name == emojiName);
     if(emoji){
-      await message.channel.send('`' + emoji.id + '`').catch(console.error());
+      await message.channel.send('`' + emoji.id + '`').catch(error => {/*nothing*/});
     }
     else{ 
       return;

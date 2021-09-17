@@ -16,30 +16,30 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     reciever = personFinder(message, args[0], "user");
     if(reciever === "not found"){
       embed.setDescription("Wrong user provided or user doesn't exists in this server.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }  
     if(reciever.id == client.user.id){
       embed.setDescription("How can i message myself! :unamused:")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     const msg = messageEmojiFinder(client, message, args.slice(1));
     embed.setDescription(`Successfully messaged ${reciever}`)
       .setColor("GREEN");
-    let e = await message.channel.send(embed);
+    let e = await message.channel.send(embed).catch(error => {/*nothing*/});
     reciever.send(msg).catch( error =>{
       embed.setDescription("Couldn't send message to this user.\nEither his DMs are disabled or I'm blocked from his DM.")
         .setColor("RED");
-      e.edit(embed);
+      e.edit(embed).catch(error => {/*nothing*/});
     });
   }
 }

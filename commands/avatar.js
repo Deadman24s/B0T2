@@ -9,14 +9,14 @@ module.exports = {
       .setTimestamp();
     if(!args[0]){
       embed.setDescription(`Here is the avatar of ${message.author}`);
-      await message.channel.send(embed);    
+      await message.channel.send(embed).catch(error => {/*nothing*/});    
     }
     else{
       let person = personFinder(message, args[0], "user");
       if(person === "not found"){
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
         return;
       } 
       embed = new Discord.MessageEmbed()
@@ -24,7 +24,7 @@ module.exports = {
         .setColor("YELLOW")
         .setImage(`${person.displayAvatarURL({size: 4096})}`)
         .setTimestamp();
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
   }
 }

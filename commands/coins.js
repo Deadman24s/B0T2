@@ -27,13 +27,13 @@ module.exports = {
       embed.setAuthor(message.author.username)
         .setDescription(`${coinEmoji} **${coins.toFixed(2)}** ${coinText}`)
         .setThumbnail(message.author.displayAvatarURL());
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }else{
       person = personFinder(message, args[0], "user");
       if(person === "not found"){
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
         return;
       }  
       coins = await database.get(`${person.id} coins`);
@@ -46,7 +46,7 @@ module.exports = {
       embed.setAuthor(person.username)
         .setDescription(`${coinEmoji} **${coins.toFixed(2)}** ${coinText}`)
         .setThumbnail(person.displayAvatarURL());
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
   }
 }

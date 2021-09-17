@@ -17,7 +17,7 @@ module.exports = {
       await message.react('❌');
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     let membersMap = message.guild.members.cache
@@ -30,8 +30,8 @@ module.exports = {
       **Total Users**: __${message.guild.memberCount}__\n
       **Members**: __${message.guild.members.cache.filter(m => !m.user.bot).size}__\n
       **Bots**: __${message.guild.members.cache.filter(m => m.user.bot).size}__`);
-    await message.channel.send(embed);       
+    await message.channel.send(embed).catch(error => {/*nothing*/});       
     embed.setDescription(membersMap);     
-    await message.channel.send(embed);
+    await message.channel.send(embed).catch(error => {/*nothing*/});
     }
 }

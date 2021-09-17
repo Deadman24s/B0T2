@@ -15,7 +15,7 @@ module.exports = {
     if(!isAdmin(message.guild.me)){
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     let n = await database.get(`suggestion_number`);
@@ -41,17 +41,17 @@ module.exports = {
     if(!(up || updown || down)){
       embed.setDescription("The suggestion emojis are not setup. Please ask the staff to set them first")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     let suggestionChannelID = await database.get("suggestionChannelID");
     if(!suggestionChannelID){
-      await message.channel.send("The suggestions channel is not setup kindly ask the staff to set it up.");
+      await message.channel.send("The suggestions channel is not setup kindly ask the staff to set it up.").catch(error => {/*nothing*/});
       return;
     }
     const suggestionChannel = message.guild.channels.cache.get(suggestionChannelID);
     if(!suggestionChannel){
-      await message.channel.send("The suggestions channel is not setup kindly ask the staff to set it up.");
+      await message.channel.send("The suggestions channel is not setup kindly ask the staff to set it up.").catch(error => {/*nothing*/});
       return;    
     }
     let suggestionEmbed = new Discord.MessageEmbed()
@@ -66,34 +66,34 @@ module.exports = {
             **Suggestion Help**\n
             **01** ~~»~~ __\`${prefix}suggestion accept <ID> <reason>\`__- *To accept a suggestion*.
             **02** ~~»~~ __\`${prefix}suggestion reject <ID> <reason>\`__- *To reject a suggestion*.`);
-        await message.channel.send(embed);  
+        await message.channel.send(embed).catch(error => {/*nothing*/});  
       }
       else if(args[0] == "accept" || args[0] == "reject"){
         if((!args[1]) || isNaN(args[1]) || args[1] > n){
           embed.setDescription("That suggestion doesn't exists.")
             .setColor("RED");
-          message.channel.send(embed);
+          message.channel.send(embed).catch(error => {/*nothing*/});
           return;
         }
         let suggestionID = await database.get(`suggestion${n}_ID`);
         if(!suggestionID){
           embed.setDescription("There is no suggestion witht hat ID.")
             .setColor("RED");
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
           return;
         }
         let suggestion = message.guild.channels.cache.get(suggestionChannelID).messages.fetch(suggestionID);
         if(!suggestion){
           embed.setDescription("The suggestion no longer exists.")
             .setColor("RED");
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
           return;
         }
         let isEdited = await database.get(`suggestion${n}_isEdited`);
         if(isEdited != "false"){
           embed.setDescription(`The suggestion is already ${isEdited}.`)
             .setColor("RED");
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
           return;
         }
         let reason = editMessage(args.slice(0)).join(" ").replace(" \n ", '\n');
@@ -121,25 +121,25 @@ module.exports = {
             value: reason
           }
         );
-        await message.guild.channels.cache.get(suggestionChannelID).messages.fetch(suggestionID).edit(suggestionEmbed);
+        await message.guild.channels.cache.get(suggestionChannelID).messages.fetch(suggestionID).edit(suggestionEmbed).catch(error => {/*nothing*/});
         await database.set(`suggestion${n}_isEdited`, isEdited);
         embed.setDescription(`Successfully ${isEdited} the suggestion.\nSuggestion ID- ${n}`)
           .setColor("GREEN");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
       }
     }
     if(message.guild){
       if(!args[0]){
         embed.setDescription(`Suggest Something lol.\nSyntax- \`${prefix + cmd} <suggestion>\`.`)
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
         return;  
       }
       let suggestion = messageEmojiFinder(client, message, args.slice(0));
       n = n+1;
       suggestionEmbed.addField(`Suggestion [${n}]`, `${suggestion}`);
       let s, sid;
-      s = await suggestionChannel.send(suggestionEmbed);
+      s = await suggestionChannel.send(suggestionEmbed).catch(error => {/*nothing*/});
       sid = s.id;
       await s.react(up).then(
         s.react(updown),
@@ -151,7 +151,7 @@ module.exports = {
       await database.set(`suggestion${n}_isEdited`, "false");
       embed.setDescription(`Successfully posted your suggestion in ${suggestionChannel}.`)
         .setColor("GREEN");       
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
   }
 }

@@ -36,8 +36,8 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
       botChannelID = await database.get("botChannelID");
       if(botChannelID){
         if((message.channel.id != botChannelID) && (!isAdmin(message.member))){
-          await message.reply(`Please use <#${botChannelID}>.`).then((msg) => setTimeout(function(){msg.delete();}, 15000));
-          await message.delete();
+          await message.reply(`Please use <#${botChannelID}>.`).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 15000)).catch(error => {/*nothing*/});
+          await message.delete().catch(error => {/*nothing*/});
           return;
         }
       }
@@ -45,7 +45,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
       canApply = await database.get("canApply");
       database.on('error', err => console.log('Connection Error', err));
       if(!applicationLogsChannelID){
-        await message.channel.send("The application logs channel is not set. Knidly ask the staff to set it first.").catch(console.error);
+        await message.channel.send("The application logs channel is not set. Knidly ask the staff to set it first.").catch(error => {/*nothing*/});
         return;
       }
       if(!canApply){
@@ -55,7 +55,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
       if(canApply == "false"){
         embed.setDescription("Sorry, we are not accepting any applications.")
           .setColor("RED");
-        await message.channel.send(embed).catch(console.error);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
         return;
       }
       let blackList = await database.get("applicationBlackList");
@@ -65,7 +65,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
           if(message.author.id == blackListIDs[i]){
             embed.setDescription("Sorry, You are blacklisted so you cannot apply for staff.")
               .setColor("RED");
-            await message.channel.send(embed);
+            await message.channel.send(embed).catch(error => {/*nothing*/});
             return;
           }
         }
@@ -75,7 +75,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
         if(!questions[i]){
           embed.setDescription("All the 16 questions are not set. Please ask the staff to set them first.")
             .setColor("RED");
-          await message.author.send(embed);
+          await message.author.send(embed).catch(error => {/*nothing*/});
           return;
         }
       }
@@ -83,7 +83,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
         userApplications[authorId] = { "step" : 1}
         embed.setDescription("Application started!\nPlease check your DM and continue filling the application.")
           .setColor("GREEN");
-        let msg = await message.channel.send(embed);
+        let msg = await message.channel.send(embed).catch(error => {/*nothing*/});
         embed.setAuthor("", guild.iconURL())
           .setTitle("~~>>>~~ __**STAFF APPLICATION**__ ~~<<<~~")
           .setDescription(`Thank you for choosing to apply for ${guild.name} staff, Please provide clear and honest answers. Good luck!\n
@@ -91,10 +91,10 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
             You can cancel the application at any time by typing \`cancel\` in the answer.\n\n
             **Question 1**- \`${questions[1]}\``)
           .setColor("YELLOW");  
-        await message.author.send(embed).catch( async() =>{
+        await message.author.send(embed).catch( async error =>{
           embed.setDescription("Couldn't send you a message.\nEither your DMs are disabled or I'm blocked from your DM.")
             .setColor("RED");
-          await msg.edit(embed);
+          await msg.edit(embed).catch(error => {/*nothing*/});
           return;
         });
       }
@@ -104,14 +104,14 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
         if((!guild) || (!database)){
           embed.setDescription("There is some bug. Please report it to `ShreshthTiwari#6014`.")
             .setColor("RED");
-          await message.author.send(embed).catch(console.error());
+          await message.author.send(embed).catch(error => {/*nothing*/});
           return;  
         }
         let authorApplication = userApplications[authorId];
         if(message.content == "cancel"){
           embed.setDescription("Application canceled.")
             .setColor("RED");
-          await message.author.send(embed).catch(console.error);
+          await message.author.send(embed).catch(error => {/*nothing*/});
           delete userApplications[authorId];
           return;
         }
@@ -120,97 +120,97 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
             case 1:
               authorApplication.answer1 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 2:
               authorApplication.answer2 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 3:
               authorApplication.answer3 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 4:
               authorApplication.answer4 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 5:
               authorApplication.answer5 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 6:
               authorApplication.answer6 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 7:
               authorApplication.answer7 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 8:
               authorApplication.answer8 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 9:
               authorApplication.answer9 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 10:
               authorApplication.answer10 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 11:
               authorApplication.answer11 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 12:
               authorApplication.answer12 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 13:
               authorApplication.answer13 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 14:
               authorApplication.answer14 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 15:
               authorApplication.answer15 = message.content;
               embed.setDescription(`**Question ${authorApplication.step + 1}**- \`${questions[authorApplication.step + 1]}\``);
-              await message.author.send(embed).catch(console.error);
+              await message.author.send(embed).catch(error => {/*nothing*/});
               authorApplication.step ++;
               break;
             case 16:
               authorApplication.answer16 = message.content;
               embed.setDescription("**Please cross-check your application.**\nReact with ✅ to send the the application or with ❌ to cancel.");
-              responce = await message.author.send(embed).catch(console.error);
+              responce = await message.author.send(embed).catch(error => {/*nothing*/});
               await responce.react('✅').then(
                 responce.react('❌')
               );
@@ -227,7 +227,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                     const logFileLocation = path.join(__dirname, "..", "applications", `${guild.id}`, `${message.author.id}.txt`);
                     try{
                       let findFile = fs.statSync(logFileLocation);
-                      message.channel.send("You are already having a pending application.\nApplication canceled.");
+                      message.channel.send("You are already having a pending application.\nApplication canceled.").catch(error => {/*nothing*/});
                       return;
                     }catch (error){
                       //This error is good. It means file is not present so we will continue creating the file.
@@ -257,13 +257,13 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                       "Question 15- " + questions[15] + '\nAnswer 15- ' + authorApplication.answer15 + '\n\n' + 
                       "Question 16- " + questions[16] + '\nAnswer 16- ' + authorApplication.answer16 + '\n\n', { flag: 'wx' }, function (err) {
                         if (err){
-                          message.author.send("Error while storing your application.\nPlease report it to #ShreshthTiwari#6014.");
+                          message.author.send("Error while storing your application.\nPlease report it to #ShreshthTiwari#6014.").catch(error => {/*nothing*/});
                           success = false;
                           return;
                         }  
                       });
                     }catch(error){
-                      message.author.send(`Error while storing your application.\nPlease report it to #ShreshthTiwari#6014.`);
+                      message.author.send(`Error while storing your application.\nPlease report it to #ShreshthTiwari#6014.`).catch(error => {/*nothing*/});
                     }
                     if(success){
                       logchannel.send({
@@ -271,7 +271,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                           attachment: logFileLocation,
                           name: `${message.author.id}.txt`
                         }]
-                      }).catch(console.error);
+                      }).catch(error => {/*nothing*/});
                       let transcriptsChannelID = await database.get("transcriptsChannelID");
                       let transcriptsChannel = guild.channels.cache.get(transcriptsChannelID);
                       transcriptsChannel.send({
@@ -279,15 +279,15 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                           attachment: logFileLocation,
                           name: `${message.author.id}.txt`
                         }]
-                      }).catch(console.error);
+                      }).catch(error => {/*nothing*/});
                       let embed = new Discord.MessageEmbed()
                         .setDescription("**__THANK YOU__**.\n*Your answers have been successfully recorded*.")
                         .setThumbnail(message.author.displayAvatarURL())
                         .setColor(0xFFFF00);
-                      message.author.send(embed).catch(console.error);
+                      message.author.send(embed).catch(error => {/*nothing*/});
                     }
                     else{
-                      message.author.send("Application canceled.").catch(console.error);
+                      message.author.send("Application canceled.").catch(error => {/*nothing*/});
                       delete userApplications[authorId];
                       return;    
                     }
@@ -296,7 +296,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                 }).catch(() => {
                   embed.setDescription('No responce after 4 minutes, Application canceled')
                     .setColor("RED");
-                  message.reply(embed);
+                  message.reply(embed).catch(error => {/*nothing*/});
                   delete userApplications[authorId];
                   return;
                 });

@@ -9,6 +9,6 @@ module.exports = async(Discord, client, message, args, database, messageEmojiFin
     let parts = key.replace("\n", " \n ").split(" ");
     let msg = messageEmojiFinder(client, message, parts);
     embed.setDescription(msg);
-    await message.channel.send(embed);
+    await message.channel.send(embed).catch(error => {/*nothing*/});
   }    
 }

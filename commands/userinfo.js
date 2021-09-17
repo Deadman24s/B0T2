@@ -55,6 +55,6 @@ module.exports = {
       .setColor(0xFFFF00)
       .setThumbnail(person.displayAvatarURL({dynamic: true}))
       .setTimestamp();
-    message.channel.send(embed); 
+    message.channel.send(embed).catch(error => {/*nothing*/}); 
   }
 }      

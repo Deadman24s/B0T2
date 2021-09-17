@@ -7,7 +7,7 @@ module.exports = {
   async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
     if(message.member.voice.channel) {
       if(!args[0]){
-        await message.channel.send("Provide a link also.\n`-join <link>`");
+        await message.channel.send("Provide a link also.\n`-join <link>`").catch(error => {/*nothing*/});
         return;
       }
       let videoLink = args[0];
@@ -18,7 +18,7 @@ module.exports = {
       });  
     } 
     else{
-      await message.reply('You need to join a voice channel first!');
+      await message.reply('You need to join a voice channel first!').catch(error => {/*nothing*/});
     }  
   }
 }

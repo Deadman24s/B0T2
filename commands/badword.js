@@ -16,7 +16,7 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     let badwords = await database.get("badwordsList");
@@ -26,7 +26,7 @@ module.exports = {
     if(!args[0]){
       embed.setDescription(`What do you want to do?\nUse \`${prefix}badword help\`.`)
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }else{
       if(!args[1]){
@@ -37,7 +37,7 @@ module.exports = {
             **02** ~~»~~ __\`${prefix}badword remove <word>\`__- *To remove a word from badwords list*.
             **03** ~~»~~ __\`${prefix}badword view\`__- *To view the badwords list*.
             **04** ~~»~~ __\`${prefix}badword clear\`__- *To clear the badwords list*.`);
-          await message.channel.send(embed);  
+          await message.channel.send(embed).catch(error => {/*nothing*/});  
         }
         else if(args[0] == 'view' || args[0] == 'list'){
           if(badwordsList.length <= 0){
@@ -47,7 +47,7 @@ module.exports = {
           else{
             embed.setDescription(`Badwords list-\n||\`${badwordsList}\`||`);
           }
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
         }
         else if(args[0] == 'clear'){
           if(badwordsList.length <= 0){
@@ -59,12 +59,12 @@ module.exports = {
             embed.setDescription("Sucessfully cleared the database.")
               .setColor("GREEN");
           }
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
         }
         else{
           embed.setDescription("Please provide a word to add in the badwords list")
             .setColor("RED");
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
           return;
         }
       }
@@ -75,7 +75,7 @@ module.exports = {
             if(args[1] == badwordsList[i]){
               embed.setDescription("The word is already present in the database.")
                 .setColor("RED");
-              await message.channel.send(embed);
+              await message.channel.send(embed).catch(error => {/*nothing*/});
               return;
             }
           }
@@ -83,7 +83,7 @@ module.exports = {
           await database.set("badwordsList", badwordsList.join(" "));
           embed.setDescription(`Successfully added ||${badwordsList[badwordsList.length-1]}|| into the badwords list.`)
             .setColor("GREEN");
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
         }
         else if(args[0] == 'remove'){
           let pos = -1, word;
@@ -97,7 +97,7 @@ module.exports = {
           if(pos == -1){
             embed.setDescription("That word is not present in the database.")
               .setColor("RED");
-            await message.channel.send(embed);
+            await message.channel.send(embed).catch(error => {/*nothing*/});
             return;
           }
           for(let i = pos; i <= badwordsList.length-1; i++){
@@ -107,7 +107,7 @@ module.exports = {
           await database.set("badwordsList", badwordsList.join(" "));
           embed.setDescription(`Successfully removed ||${word}|| from the badwords list.`)
             .setColor("GREEN");
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
         }
       }
     }

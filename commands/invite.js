@@ -15,7 +15,7 @@ module.exports = {
       await message.channel.send(`${invite}`).catch(async err =>{
         embed.setDescription("There has been an error during the creation of the invite.")
           .setColor("RED");
-        await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 10000));
+        await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 10000)).catch(error => {/*nothing*/});
         return;  
       });
     }

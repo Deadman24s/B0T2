@@ -19,15 +19,15 @@ module.exports = {
     if(!staffRoleID){
       embed.setDescription("The ticket system is not set kindly ask the staff to set it.")
         .setColor("RED");
-      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 10000));
-      await message.delete();
+      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 10000)).catch(error => {/*nothing*/});
+      await message.delete().catch(error => {/*nothing*/});
       return;
     }
     if(!args[0]){
       embed.setDescription(`Kindly provide a reason also.\nSyntax- \`-${cmd} <reason>\``)
         .setColor("RED");
-      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 10000));
-      await message.delete();
+      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 10000)).catch(error => {/*nothing*/});
+      await message.delete().catch(error => {/*nothing*/});
       return;
     }
     let ticketReason = args.join(" ");

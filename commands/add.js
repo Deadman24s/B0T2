@@ -15,19 +15,19 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     if(message.channel.name.startsWith("ticket") || message.channel.name.startsWith("bug") || message.channel.name.startsWith("report")){
       if(!args[0]){
-        await message.channel.send('Please provide ID of the person you want to add.');
+        await message.channel.send('Please provide ID of the person you want to add.').catch(error => {/*nothing*/});
         return;
       }
       let person = personFinder(message, args[0], "member");
       if(person === "not found"){
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
         return;
       } 
       await message.channel.updateOverwrite(person, {
@@ -41,12 +41,12 @@ module.exports = {
       }).catch(console.error);
       embed.setDescription(`Successfully added ${person} to the ticket.`)
         .setColor("GREEN");
-      await message.channel.send(embed);  
+      await message.channel.send(embed).catch(error => {/*nothing*/});  
     }
     else{
       embed.setDescription("You can use this command only inside a ticket.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
   }
 }

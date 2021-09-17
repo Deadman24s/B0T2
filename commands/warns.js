@@ -16,7 +16,7 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     let person, warnsCount, warnsText = "warning";
@@ -39,7 +39,7 @@ module.exports = {
           **03** ~~»~~ __\`${prefix}warns clear <user>\`__- *To clear warns of a user*.
           **04** ~~»~~ __\`${prefix}warns set <user> <count>\`__- *To set warns of a user*.
         `);
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
     else if(args[0] == "clear"){
       person = personFinder(message, args[0], "user");
@@ -53,7 +53,7 @@ module.exports = {
       embed.setTitle(`${person.username}'s warnings`)
         .setDescription(`Successfully cleared their warnings.\nThey now have ${warnsCount} ${warnsText}.`)
         .setColor("GREEN");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
     else if(args[0] == "set"){
       person = personFinder(message, args[0], "user");
@@ -68,7 +68,7 @@ module.exports = {
         embed.setTitle(`${person.username}'s warnings`)
           .setDescription(`Successfully cleared their warnings.\nThey now have ${warnsCount} ${warnsText}.`)
           .setColor("GREEN");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
       }else{
         warnsCount = args[2] * 1;
         if(warnsCount > 1)
@@ -77,13 +77,13 @@ module.exports = {
         embed.setTitle(`${person.username}'s warnings`)
           .setDescription(`Successfully updated their warnings.\nThey now have ${warnsCount} ${warnsText}.`)
             .setColor("GREEN");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
       }
     }
     else{
       embed.setTitle(`${person.username}'s warnings`)
         .setDescription(`${warnsCount} ${warnsText}.`);
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
   }
 }

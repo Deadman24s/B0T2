@@ -8,9 +8,9 @@ module.exports = async(Discord, message, fs, path, date, ticketReason, person, s
     if(tempChannel){
       embed.setDescription(`You already have a ticket opened (__<#${tempChannel.id}>__). Please close it before creating a new ticket.`)
         .setColor("RED");       
-      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 10000));
-      await ticketTypeSelector.delete();
-      await message.delete();
+      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 10000)).catch(error => {/*nothing*/});
+      await ticketTypeSelector.delete().catch(error => {/*nothing*/});
+      await message.delete().catch(error => {/*nothing*/});
       return;
     }
     await message.guild.channels.create(`${ticketType}-${person}`,{ 
@@ -41,21 +41,21 @@ module.exports = async(Discord, message, fs, path, date, ticketReason, person, s
       fs.mkdir(directoryLocation, (err) => {});
       logFileLocation = path.join(__dirname, "..", "transcripts", `${message.guild.id}`, `${ticketType}-${message.author.id}.txt`);  
       await fs.appendFileSync(logFileLocation, `-------------------------------------------\nUser -> ${message.author.tag + ' || ' + message.author.id}.\nType -> ${ticketTypeText}.\nReason -> ${ticketReason}.\nDate Opened -> ${date}.\n-------------------------------------------\n`);    
-      await ticketchannel.send(embed);
-      await ticketchannel.send(`<@${message.author.id}> <@&${staffRoleID}>`).then((msg) => setTimeout(function(){msg.delete();}, 500));
+      await ticketchannel.send(embed).catch(error => {/*nothing*/});
+      await ticketchannel.send(`<@${message.author.id}> <@&${staffRoleID}>`).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 500)).catch(error => {/*nothing*/});
     });
     embed = new Discord.MessageEmbed()
     .setColor("YELLOW")
     .setTimestamp();
     embed.setDescription("Successfully opened a ticket.")
       .setColor("GREEN");
-    await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 10000));
-    await ticketTypeSelector.delete();
-    await message.delete();  
+    await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 10000)).catch(error => {/*nothing*/});
+    await ticketTypeSelector.delete().catch(error => {/*nothing*/});
+    await message.delete().catch(error => {/*nothing*/});  
   }
   embed.setTitle("**Ticket Type**")
     .setDescription("1️⃣ Normal ticket.\n2️⃣ Bug Report.\n3️⃣ Player Report.\n❌ Close.");
-  let ticketTypeSelector = await message.channel.send(embed);
+  let ticketTypeSelector = await message.channel.send(embed).catch(error => {/*nothing*/});
   embed = new Discord.MessageEmbed()
     .setColor("YELLOW")
     .setTimestamp();
@@ -76,11 +76,11 @@ module.exports = async(Discord, message, fs, path, date, ticketReason, person, s
         ticketCreator(ticketTypeSelector, 'report', 'Player Report', 'Player Report Ticket');
       } 
       else{
-        await ticketTypeSelector.delete();
-        await message.delete();
+        await ticketTypeSelector.delete().catch(error => {/*nothing*/});
+        await message.delete().catch(error => {/*nothing*/});
       }
     }).catch(async() => {
-      await ticketTypeSelector.delete();
-      await message.delete();
+      await ticketTypeSelector.delete().catch(error => {/*nothing*/});
+      await message.delete().catch(error => {/*nothing*/});
   });
 }

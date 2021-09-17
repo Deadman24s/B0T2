@@ -25,18 +25,18 @@ module.exports = {
               **VERSION**- __${response.version}__.
               **PLAYING**- __${response.onlinePlayers}__/__${response.maxPlayers}__.`)
             .setColor("GREEN");
-          message.channel.send(embed); 
+          message.channel.send(embed).catch(error => {/*nothing*/}); 
         }).catch((error) => {
           embed.setAuthor(`🔴${message.guild.name}`, message.guild.iconURL())
             .setTitle("OFFLINE")
            .setColor("RED");
-          message.channel.send(embed);
+          message.channel.send(embed).catch(error => {/*nothing*/});
         });
     }
     else{
       embed.setDescription("The server IP/port etc is not set. Kindly ask the server staff to set them first.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
   }
 }

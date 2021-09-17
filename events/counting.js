@@ -12,18 +12,18 @@ module.exports = async(message, args, database, prefix, isAdmin, errorMessageBui
     if(isAdmin(message.member)){
       if(args[0] == `${prefix}setCount`){
         if((!args[1]) || (isNaN(args[1])))
-          await message.author.send("Provide a count number bruh.");
+          await message.author.send("Provide a count number bruh.").catch(error => {/*nothing*/});
         else{  
           let n = args[1] *1;
           await database.set("num", n);
           await database.set("lastSender", null);
-          await message.author.send(`Count set to ${args[1]}`);
+          await message.author.send(`Count set to ${args[1]}`).catch(error => {/*nothing*/});
         }
       }
       if(args[0] == `${prefix}resetCount`){
         await database.set("num", 0);
         await database.set("lastSender", null);
-        await message.author.send("Count resetted to 0");
+        await message.author.send("Count resetted to 0").catch(error => {/*nothing*/});
       }
     }
     if(message.channel.id != countingChannelID){
@@ -36,7 +36,7 @@ module.exports = async(message, args, database, prefix, isAdmin, errorMessageBui
     }
     let lastSender = await database.get("lastSender");
     if((message.author.id === lastSender) || (args[1]) || (args[0] != checknum+1)){
-      message.delete();
+      message.delete().catch(error => {/*nothing*/});
       return;   
     }
     await database.set("lastSender", message.author.id);
@@ -59,13 +59,13 @@ module.exports = async(message, args, database, prefix, isAdmin, errorMessageBui
         avatarURL: message.author.displayAvatarURL(),
       });
     }catch (error) {
-      console.error('Error trying to send: ', error);
+      console.log(`Webhook creation error in Guild- ${message.guild}, ${message.guild.id} Channel- ${message.channel.id}`);
     }
     let coins = await database.get(`${message.author.id} coins`) * 1;
     if((checknum % 2 != 0) && (checknum % 3 != 0) && (checknum % 5 != 0) && (checknum % 2 != 0)){
       coins += 0.02;
       await database.set(`${message.author.id} coins`, coins);
     }
-    await message.delete();
+    await message.delete().catch(error => {/*nothing*/});
   }
 }

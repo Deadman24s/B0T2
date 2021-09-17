@@ -1,16 +1,16 @@
 module.exports = async(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, content) =>{
   if(content == 'gm') {
-    await message.channel.send("Good Morning!");
+    await message.channel.send("Good Morning!").catch(error => {/*nothing*/});
   }
   else if(content == 'gn'){
-    await message.channel.send("Good Night!");
+    await message.channel.send("Good Night!").catch(error => {/*nothing*/});
   }
   else if(content == 'rip'){
     const attachment = new Discord.MessageAttachment('https://i.imgur.com/w3duR07.png');
-    await message.channel.send(attachment);
+    await message.channel.send(attachment).catch(error => {/*nothing*/});
   }
   else if(content == 'prefix?'){
-    await message.channel.send(`My prefix is "**${prefix}**"`);
+    await message.channel.send(`My prefix is "**${prefix}**"`).catch(error => {/*nothing*/});
   }
   else if(content == `f`){
     const fid = await database.get('fEmojiID');
@@ -21,10 +21,10 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
     await message.react(f);
   }
   else if(content.includes('haha') || content.includes('hehe') || content.includes('heeh')){
-    await message.channel.send('https://tenor.com/view/you-mad-bro-u-mad-bro-laugh-ha-ha-ha-are-you-mad-gif-17215780').then((msg) => setTimeout(function(){msg.delete();}, 5000));
+    await message.channel.send('https://tenor.com/view/you-mad-bro-u-mad-bro-laugh-ha-ha-ha-are-you-mad-gif-17215780').then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
   }
   else if(content == "hi" || content == "hello" || content == "helo" || content == "hemlo" || content == "hey"){
-    await message.channel.send("Hemlo");
+    await message.channel.send("Hemlo").catch(error => {/*nothing*/});
   }
   if(!isAdmin(message.member) && message.mentions.members.first()){
     let staffRoleID = await database.get("staffRoleID");

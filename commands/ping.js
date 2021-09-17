@@ -47,9 +47,8 @@ module.exports = {
             **Database Latency**-
             \`${dbLatency}ms\`.`);
           await msg3.edit(embed); 
-        }, 1000)); 
-      }, 1000));
-    }, 1000)
-    );
+        }, 1000)).catch(error => {/*nothing*/}); 
+      }, 1000)).catch(error => {/*nothing*/});
+    }, 1000)).catch(error => {/*nothing*/});
   }
 }

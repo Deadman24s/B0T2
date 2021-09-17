@@ -25,14 +25,14 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     database = databaseBuilder(Keyv, "11111111111");
     if(args[0] == "invite"){
       embed.setDescription("**B0T INVITE LINK**-\n __*https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot*__")
         .setColor("RANDOM");
-      message.channel.send(embed);
+      message.channel.send(embed).catch(error => {/*nothing*/});
     }
 
     let divider = 1048576;
@@ -122,7 +122,7 @@ module.exports = {
             **09** ~~»~~ __\`-bot guildAdd <guildID>\`__- *To add a guild into the bot's database*.
             **10** ~~»~~ __\`-bot guildRemove <guildID>\`__- *To remove a guild from the bot's database*.
             **11** ~~»~~ __\`-bot guildsList\`__- *To get the list of guild IDs in the database*.`);
-        await message.channel.send(embed);    
+        await message.channel.send(embed).catch(error => {/*nothing*/});    
       }
       else if(args[0] == "system" || args[0] == "mem"){
         if(args[0] == "system"){
@@ -187,7 +187,7 @@ module.exports = {
             }
           );
         }
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
       }
       else if(args[0] == "cpu"){
         cpuStat.usagePercent(async function (error, percent, seconds) {
@@ -219,7 +219,7 @@ module.exports = {
                 value: `${averageCpuLoadPercentageBar}\`[${averageCpuLoadPercentage}%]\``
               }
             );  
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
         });
       }
       else if(args[0] == 'disk' || args[0] == 'storage'){
@@ -279,7 +279,7 @@ module.exports = {
                 value: `\`${diskFreeText}\`/\`${diskTotalText}\`\n${diskFreePercentageBar}\`[${diskFreePercentage}%]\``
               }
             );
-          message.channel.send(embed);            
+          message.channel.send(embed).catch(error => {/*nothing*/});            
         });
       }
       else if(args[0] == 'rename'){
@@ -288,7 +288,7 @@ module.exports = {
         client.user.setUsername(`${newname}`);
         embed = new Discord.MessageEmbed()
           .setDescription(`Successfully renamed the bot to **${newname}**`);
-        message.channel.send(embed);
+        message.channel.send(embed).catch(error => {/*nothing*/});
       }
       else if(args[0] == 'avatar'){
         let avatarlink;
@@ -297,8 +297,8 @@ module.exports = {
         embed = new Discord.MessageEmbed()
           .setDescription(`Successfully changed the bot's avatar to-\n`)
           .setImage(`${args[1]}`);
-        message.channel.send(embed);
-        message.delete();
+        await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.delete().catch(error => {/*nothing*/});
       }
       else if(args[0] == "guildAdd"){
         let guildIDsList = await database.get("guildsIDs");
@@ -309,7 +309,7 @@ module.exports = {
             if(args[1] == guildIDsArray[i]){
               embed.setDescription("Guild ID already added in the database.")
                 .setColor("RED");
-              message.channel.send(embed);
+              message.channel.send(embed).catch(error => {/*nothing*/});
               return;
             }
           }
@@ -318,13 +318,13 @@ module.exports = {
           await database.set("guildsIDs", guildIDsList);
           embed.setDescription(`Successfully added the guild ID \`${args[1]}\` into the database.`)
             .setColor("GREEN");
-          message.channel.send(embed);
+          message.channel.send(embed).catch(error => {/*nothing*/});
         }
         else{
           await database.set("guildsIDs", args[1]);
           embed.setDescription("Successfully added the guildID into the database.")
             .setColor("GREEN");
-          message.channel.send(embed);
+          message.channel.send(embed).catch(error => {/*nothing*/});
         }
       }
       else if(args[0] == "guildRemove"){
@@ -344,18 +344,18 @@ module.exports = {
               await database.set("guildsIDs", guildIDsList);
               embed.setDescription(`Successfully removed the guild ID \`${t}\` from the database.`)
                 .setColor("GREEN");
-              message.channel.send(embed);
+              message.channel.send(embed).catch(error => {/*nothing*/});
               return;
             }
           }
           embed.setDescription(`Couldn't find that guild ID \`${args[1]}\` in the database.`)
             .setColor("RED");
-          message.channel.send(embed);
+          message.channel.send(embed).catch(error => {/*nothing*/});
         }
         else{
           embed.setDescription("The guild IDs list is empty.")
             .setColor("RED");
-          message.channel.send(embed);
+          message.channel.send(embed).catch(error => {/*nothing*/});
         }
       }
       else if(args[0] == "guildsList"){
@@ -370,13 +370,13 @@ module.exports = {
           }
           guildNamesList = guildNamesArray.join(",");
           guildIDsList = guildIDsArray.join(",");
-          message.channel.send(guildIDsList);
-          message.channel.send(guildNamesList);
+          message.channel.send(guildIDsList).catch(error => {/*nothing*/});
+          message.channel.send(guildNamesList).catch(error => {/*nothing*/});
         }
         else{
           embed.setDescription("The guild IDs list is empty.")
             .setColor("RED");
-          message.channel.send(embed);
+          message.channel.send(embed).catch(error => {/*nothing*/});
         }
       }
     }
@@ -385,7 +385,7 @@ module.exports = {
         embed.setTitle("Bot Commands Help")
           .setDescription(`
             **01** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.`);
-        await message.channel.send(embed);    
+        await message.channel.send(embed).catch(error => {/*nothing*/});    
       }
     }
   }    

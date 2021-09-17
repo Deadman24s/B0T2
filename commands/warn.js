@@ -16,7 +16,7 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     let person, warnReason = "Not Defined", muteTime = 120000, warnsCount, warnsText = "warning";
@@ -26,18 +26,18 @@ module.exports = {
           **01** ~~»~~ __\`${prefix}warn\`__- *To get this help message*.
           **02** ~~»~~ __\`${prefix}warn help\`__- *To get this help message*.
           **03** ~~»~~ __\`${prefix}warn <user>\`__- *To warn a user*.`);
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
     else{
       let person = personFinder(message, args[0], "user");
       if(person === "not found"){
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
         return;
       }  
       if((person.id == message.author.id) || person.bot || isAdmin(person)){
-        await message.channel.send("You can't warn them lol.");
+        await message.channel.send("You can't warn them lol.").catch(error => {/*nothing*/});
         return;
       }
       warnsCount = await database.get(`${person.id} warns`);
@@ -55,11 +55,11 @@ module.exports = {
       embed.setTitle(`${person.username} was warned`)
         .setDescription(`Reason- \`${warnReason}\`.`)
         .setFooter(`${warnsCount} ${warnsText}`);
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       embed.setTitle(`You were warned`)
         .setDescription(`Reason- \`${warnReason}\`.`)
         .setFooter(`${warnsCount} ${warnsText}`);
-      await person.send(embed).catch(console.log(`Couldn't DM ${person.username}.`));
+      await person.send(embed).catch(error => {/*nothing*/});
     }
   }
 }

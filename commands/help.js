@@ -11,7 +11,7 @@ module.exports = {
       .setThumbnail(message.author.displayAvatarURL());
     
     embed.setDescription(":mailbox_with_mail: Sending you a DM with all the available bot commands.");
-    let me = await message.channel.send(embed); 
+    let me = await message.channel.send(embed).catch(error => {/*nothing*/}); 
     
     embed.setTitle(`${client.user.username} Bot Member Help`)
       .setDescription(`
@@ -34,7 +34,8 @@ module.exports = {
       `)
       .setColor("RANDOM");
     let blocked = false;
-    await message.author.send(embed).catch( error =>{      me.edit(embed);
+    await message.author.send(embed).catch( error =>{      
+      me.edit(embed).catch(error => {/*nothing*/});
       blocked = true;
     });
     if(blocked){
@@ -43,7 +44,7 @@ module.exports = {
         .setColor("RED");
       message.reactions.removeAll();
       message.react('❌').catch(err => {/*nothing*/});
-      me.edit(embed);
+      me.edit(embed).catch(error => {/*nothing*/});
     }
     if(isAdmin(message.member)){
       embed.setTitle(`${client.user.username} Bot Admin Help`)

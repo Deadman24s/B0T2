@@ -13,18 +13,18 @@ module.exports = {
     const verificationChannelID = await database.get('verificationChannelID');
     if((!verifiedRoleID) || (!verificationChannelID)){
       embed.setDescription('The verification system is not setup. Kindly ask the staff to setup is first.')
-      message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 20000));
+      message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 20000)).catch(error => {/*nothing*/});
       return;
     }
     const verifiedRole = message.guild.roles.cache.get(verifiedRoleID);
     const verificationChannel = message.guild.channels.cache.get(verificationChannelID);
     if((!verifiedRole) || (!verificationChannel)){
       embed.setDescription('The verification system is not setup. Kindly ask the server staff to setup it first.');
-      message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 20000));
-      message.delete();
+      message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 20000)).catch(error => {/*nothing*/});
+      message.delete().catch(error => {/*nothing*/});
       return;
     }
-    if(message.channel.id != verificationChannelID) return message.delete();
+    if(message.channel.id != verificationChannelID) return message.delete().catch(error => {/*nothing*/});
     if(message.member.roles.cache.has(verifiedRoleID)){
       verificationText = "Already Verified!";
     }
@@ -34,8 +34,8 @@ module.exports = {
         verificationText = "Successfully Verified!";
       }catch{
         embed.setDescription("Sorry, I'm lower in rank than you.\nPlease put my role above yours so that i can work propely.");
-        await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 20000));
-        await message.delete();
+        await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 20000)).catch(error => {/*nothing*/});
+        await message.delete().catch(error => {/*nothing*/});
         return;
       }
     }
@@ -79,7 +79,7 @@ module.exports = {
     x = canvas.width / 2 - ctx.measureText(text).width / 2;
     ctx.fillText(text, x, 100 + pfp.height);
     const attachment = new Discord.MessageAttachment(canvas.toBuffer());
-    message.author.send('', attachment);
-    message.delete();
+    message.author.send('', attachment).catch(error => {/*nothing DMS are off or blocked*/});
+    message.delete().catch(error => {/*nothing*/});
   }
 }

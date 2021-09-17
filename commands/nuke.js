@@ -16,7 +16,7 @@ module.exports = {
         await message.react('❌').catch(err => {/*nothing*/});
         embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
         return;
       }
       embed.setDescription("Nuking the Channel in `5` seconds!");
@@ -35,14 +35,14 @@ module.exports = {
                       .setImage("https://i.ibb.co/Bcskp4q/nuked.gif");
                     await msg.edit(embed).then(async (msg) => setTimeout(async function(){
                       await msg.channel.clone().then(async (msg) => setTimeout(async function(){
-                        await message.channel.delete();
-                      },1000));
-                    },1000));
-                  },1000));
-                },1000));
-              },1000));
-            },1000));
-          },1000));
-      }, 1000));
+                        await message.channel.delete().catch(error => {/*nothing*/});
+                      },1000)).catch(error => {/*nothing*/});
+                    },1000)).catch(error => {/*nothing*/});
+                  },1000)).catch(error => {/*nothing*/});
+                },1000)).catch(error => {/*nothing*/});
+              },1000)).catch(error => {/*nothing*/});
+            },1000)).catch(error => {/*nothing*/});
+          },1000)).catch(error => {/*nothing*/});
+      }, 1000)).catch(error => {/*nothing*/});
     }
   }

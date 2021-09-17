@@ -35,7 +35,7 @@ module.exports = {
           **03** ~~»~~ __\`${prefix}${helpText} <user>\`__- *To see a user's level*.`)
         .setColor("YELLOW");
         }
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
     else{
       if(!args[1]){
@@ -44,7 +44,7 @@ module.exports = {
           if(person === "not found"){
             embed.setDescription("Wrong user provided or user doesn't exists in this server.")
               .setColor("RED");
-            await message.channel.send(embed);
+            await message.channel.send(embed).catch(error => {/*nothing*/});
             return;
           } 
         }
@@ -71,7 +71,7 @@ module.exports = {
           .setTitle(`**LEVEL** ${lvl}`)
           .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins.toFixed(2)}** ${coinText}`)
           .setThumbnail(person.displayAvatarURL());
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
       }
       if(isAdmin(message.member) && args[0] == "set"){
         if(!args[1])
@@ -81,7 +81,7 @@ module.exports = {
           if(person === "not found"){
             embed.setDescription("Wrong user provided or user doesn't exists in this server.")
               .setColor("RED");
-            await message.channel.send(embed);
+            await message.channel.send(embed).catch(error => {/*nothing*/});
             return;
           }   
         }
@@ -99,13 +99,13 @@ module.exports = {
         if(!args[2]){
           embed.setDescription("please provide a value to add.")
             .setColor("RED");
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
           return;
         }
         if(isNaN(args[2])){
           embed.setDescription("Please provide a numeric value.")
             .setColor("RED");
-          await message.channel.send(embed);
+          await message.channel.send(embed).catch(error => {/*nothing*/});
           return;
         }
         args[2] *= 1;
@@ -120,7 +120,7 @@ module.exports = {
           .setTitle(`**LEVEL** ${lvl}`)
           .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins.toFixed(2)}** ${coinText}`)
           .setThumbnail(person.displayAvatarURL());
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
       }
       else{
         await message.reactions.removeAll();

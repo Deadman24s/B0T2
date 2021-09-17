@@ -16,7 +16,7 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     var swears = await database.get("swearsList");
@@ -28,7 +28,7 @@ module.exports = {
     if(!args[0]){
       embed.setDescription(`What do you want to do?\nUse \`${prefix}swear help\`.`)
         .setColor("RED");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
     else if(args[0] == "help"){
@@ -38,21 +38,21 @@ module.exports = {
         **02** ~~»~~ __\`${prefix}swear remove <word>\`__- *To remove a word from swearlist*.
         **03** ~~»~~ __\`${prefix}swear view\`__- *To view the swearlist*.
         **04** ~~»~~ __\`${prefix}swear clear\`__- *To clear the swearlist*.`);
-      await message.channel.send(embed);  
+      await message.channel.send(embed).catch(error => {/*nothing*/});  
     }
     else if(args[0] == 'add'){
       if(!args[1]){
         embed.setDescription("Please provide a word to add in the swear list")
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
         return;
       }
       for(let i=0; i<=swearsList.length-1; i++){
         if(args[1] == swearsList[i]){
           embed.setDescription("The word is already present in the database.")
             .setColor("RED");
-          await message.channel.send(embed);
-          await message.delete();
+          await message.channel.send(embed).catch(error => {/*nothing*/});
+          await message.delete().catch(error => {/*nothing*/});
           return;
         }
       }
@@ -60,15 +60,15 @@ module.exports = {
       await database.set("swearsList", swearsList.join(" "));
       embed.setDescription(`Successfully added ||${swearsList[swearsList.length-1]}|| into the swearlist.`)
         .setColor("GREEN");
-      await message.channel.send(embed);
-      await message.delete();
+      await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.delete().catch(error => {/*nothing*/});
     }
     else if(args[0] == 'remove'){
       let pos = -1, word;
       if(!args[1]){
         embed.setDescription("Please provide a word to remove from the swear list")
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
         return;
       }
       for(let i=0; i<=swearsList.length-1; i++){
@@ -81,7 +81,7 @@ module.exports = {
       if(pos == -1){
         embed.setDescription(`The word ||${args[1]}|| is not present in the database.`)
           .setColor("RED");
-        await message.channel.send(embed);
+        await message.channel.send(embed).catch(error => {/*nothing*/});
         return;
       }
       for(let i = pos; i <= swearsList.length-1; i++){
@@ -91,7 +91,7 @@ module.exports = {
       await database.set("swearsList", swearsList.join(" "));
       embed.setDescription(`Successfully removed ||${word}|| from the swearlist.`)
         .setColor("GREEN");
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
     else if(args[0] == 'view' || args[0] == 'list'){
       if(swearsList.length <= 0){
@@ -101,7 +101,7 @@ module.exports = {
       else{
         embed.setDescription(`Swear list-\n\`${swearsList}\``);
       }
-      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete();}, 10000));
+      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 10000)).catch(error => {/*nothing*/});
     }
     else if(args[0] == 'clear'){
       if(swearsList.length <= 0){
@@ -113,7 +113,7 @@ module.exports = {
         embed.setDescription("Sucessfully cleared the database.")
           .setColor("GREEN");
       }
-      await message.channel.send(embed);
+      await message.channel.send(embed).catch(error => {/*nothing*/});
     }
   }
 }
