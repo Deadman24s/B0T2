@@ -216,7 +216,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
             }
           }
           if(!(role && roleID)){
-            embed.setDescription("Either the role ID is incorrect or the role does not exists.\nNote- `@everyone` is no longer a role so you have to provide the guild ID instead.")
+            embed.setDescription("Either the role is incorrect or the role does not exists.\nNote- `@everyone` is no longer a role so you have to provide the guild ID instead.")
               .setColor("RED");
             await message.channel.send(embed); 
           }

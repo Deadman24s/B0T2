@@ -57,8 +57,9 @@ module.exports = async (Discord, message, args, client, prefix, database, levelB
       if(!coinText){
         coinText = "Bot Coin";
       }
-      if(coins > 1)
+      if(coins > 1){
         coinText = coinText + 's';
+      }
       maxPoints = lvl * 55;
       pointsPercentage = (points * 100)/maxPoints;
       await message.author.send(`You just advanced to level **${lvl}**!`).catch(console.error());
