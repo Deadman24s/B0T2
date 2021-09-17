@@ -231,7 +231,6 @@ module.exports = {
           location = args[1];
         }
         checkDiskSpace(location).then((diskSpace) => {
-          console.log(diskSpace);
           const toMB = 1048576;
           
           const diskTotal = diskSpace.size / toMB;
