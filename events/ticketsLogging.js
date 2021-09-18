@@ -17,10 +17,12 @@ module.exports = async(message, database, fs, path, dateBuilder) =>{
       ticketOwner = message.guild.members.cache.get(ticketOwnerID);
       logFileLocation = path.join(__dirname, "..", "transcripts", `${message.guild.id}`, `report-${ticketOwnerID}.txt`);
     }
-    try{
-      fs.appendFileSync(logFileLocation, `[${dateBuilder()}]\n${message.author.tag + ' || ' + message.author.id} -> ${message.content}\n`);
-    }catch{
-      /*prolly a wrong ticket channel*/
-    }      
+    if(ticketOwnerID && ticketOwner){
+      try{
+        fs.appendFileSync(logFileLocation, `[${dateBuilder()}]\n${message.author.tag + ' || ' + message.author.id} -> ${message.content}\n`);
+      }catch{
+        /*prolly a wrong ticket channel*/
+      } 
+    }     
   }
 }
