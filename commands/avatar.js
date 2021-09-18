@@ -5,10 +5,10 @@ module.exports = {
   async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
-      .setImage(`${message.author.displayAvatarURL({size: 4096})}`)
       .setTimestamp();
     if(!args[0]){
-      embed.setDescription(`Here is the avatar of ${message.author}`);
+      embed.setDescription(`Here is the avatar of ${message.author}`)
+        .setImage(`${message.author.displayAvatarURL({size: 4096})}`);
       await message.channel.send(embed).catch(error => {/*nothing*/});    
     }
     else{
@@ -19,8 +19,7 @@ module.exports = {
         await message.channel.send(embed).catch(error => {/*nothing*/});
         return;
       } 
-      embed = new Discord.MessageEmbed()
-        .setDescription(`Here is the PFP of ${person}`)
+      embed.setDescription(`Here is the PFP of ${person}`)
         .setColor("YELLOW")
         .setImage(`${person.displayAvatarURL({size: 4096})}`)
         .setTimestamp();
