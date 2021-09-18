@@ -9,7 +9,7 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
     const attachment = new Discord.MessageAttachment('https://i.imgur.com/w3duR07.png');
     await message.channel.send(attachment).catch(error => {/*nothing*/});
   }
-  else if(content == 'prefix?'){
+  else if(content == 'prefix?' || (message.mentions.users.first() == client.user)){
     await message.channel.send(`My prefix is "**${prefix}**"`).catch(error => {/*nothing*/});
   }
   else if(content == `f`){
