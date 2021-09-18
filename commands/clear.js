@@ -19,15 +19,15 @@ module.exports = {
       await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     }
-    let amount = args.join(" ");
-    if(!amount){
+    let amount = args[0];
+    if((!amount) || isNaN(amount)){
       embed.setDescription('please provide an amount of messages for me to delete.')
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
     } 
     if(amount < 1){
-      embed.setDescription(`you need to delete at least one message.`)
+      embed.setDescription(`You need to delete at least one message.`)
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
       return;
@@ -37,16 +37,18 @@ module.exports = {
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
     } 
-    await message.channel.messages.fetch({limit: amount}).then(messages => {
-      message.channel.bulkDelete(messages)
-    }).catch(er =>{
-      embed.setDescription("Error while cleaning, maybe they are more than 14 days old.")
-        .setColor("RED");
-      message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
-      return;
-    });
-    embed.setDescription(`Successfully removed ${amount} messages!`)
+    embed.setDescription(`Removing ${amount} messages!`)
       .setColor("GREEN");
-    await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
+    await message.channel.messages.fetch({limit: amount}).then(async messages => {
+      message.channel.bulkDelete(messages).catch(async er => {
+        embed.setDescription("Error while cleaning, maybe they are more than 14 days old.")
+          .setColor("RED");
+        await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
+        await message.delete().catch(error => {/*nothing*/});
+        return;
+      })
+      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
+      await message.delete().catch(error => {/*nothing*/});
+    });
   }
 }
