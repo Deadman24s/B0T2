@@ -1,4 +1,9 @@
 module.exports = async(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, content) =>{
+  let embed = new Discord.MessageEmbed()
+    .setTimestamp()
+    .setColor("YELLOW")
+    .setAuthor(`B0T`, client.user.displayAvatarURL({dynamic: true}))
+    .setThumbnail(message.guild.iconURL());
   if(content == 'gm') {
     await message.channel.send("Good Morning!").catch(error => {/*nothing*/});
   }
@@ -26,18 +31,31 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
   else if(content == "hi" || content == "hello" || content == "helo" || content == "hemlo" || content == "hey"){
     await message.channel.send("Hemlo").catch(error => {/*nothing*/});
   }
-  if(!isAdmin(message.member) && message.mentions.members.first()){
+  if((!isAdmin(message.member)) && message.mentions.members.first()){
     let staffRoleID = await database.get("staffRoleID");
     let p = personFinder(message, args[0], "member");
+    if(p.bot){
+      return;
+    }
     if(p && staffRoleID){
       if(isAdmin(p) || p.roles.cache.has(staffRoleID)){
         await message.react('🇧').then(
           message.react('🇸'),
           message.react('🇩'),
           message.react('🇰')
-        ).catch(err => {/*mf blocked me*/});
+        ).catch(error => {/*mf blocked me*/});
+        if(message.content.length > 1500){
+          message.content.length = 1500;
+          message.content = message.content + '...';
+        }
+        embed.setTitle(`You Were Pinged`)
+          .setDescription(`By- ${message.author.tag} | ${message.author.id}
+          Guild- ${message.guild} | ${message.guild.id}
+          Channel- ${message.channel.name} | ${message.channel.id}
+          Content- ${message.content}`);
+        await p.send(embed).catch(error => {});
         setTimeout(async () => {
-          await message.delete().catch(err => {/*Message not present*/});
+          await message.delete().catch(error => {/*Message not present*/});
         }, 15000);
       }
     }
