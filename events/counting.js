@@ -1,9 +1,5 @@
 module.exports = async(message, args, database, prefix, isAdmin, errorMessageBuilder) =>{
   if(message.guild){
-    if(message.author.bot){
-	  await message.delete().catch(error => {});
-	  return;
-	}
     const countingChannelID = await database.get("countingChannelID");
     if(!countingChannelID){
       return;
@@ -12,6 +8,12 @@ module.exports = async(message, args, database, prefix, isAdmin, errorMessageBui
     if(!countingChannel){
       return;
     }
+    if(message.author.bot){
+	  if(message.channel.id == countingChannel.id){
+	    await message.delete().catch(error => {});
+	  }
+	  return;
+	}
     if(isAdmin(message.member)){
       if(args[0] == `${prefix}setCount`){
         if((!args[1]) || (isNaN(args[1])))
