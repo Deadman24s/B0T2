@@ -1,6 +1,9 @@
 module.exports = async(message, args, database, prefix, isAdmin, errorMessageBuilder) =>{
   if(message.guild){
-    if(message.author.bot) return;
+    if(message.author.bot){
+	  await message.delete().catch(error => {});
+	  return;
+	}
     const countingChannelID = await database.get("countingChannelID");
     if(!countingChannelID){
       return;
