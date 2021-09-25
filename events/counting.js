@@ -9,7 +9,7 @@ module.exports = async(message, args, database, prefix, isAdmin, errorMessageBui
       return;
     }
     if(message.author.bot){
-	  if(message.channel.id == countingChannel.id){
+	  if((message.channel.id == countingChannel.id) && isNaN(message.content)){
 	    await message.delete().catch(error => {});
 	  }
 	  return;
