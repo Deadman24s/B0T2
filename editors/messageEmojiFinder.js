@@ -9,6 +9,11 @@ module.exports = (client, message, args) => {
         args[i] = emoji;    
       }
     }
-  } 
-  return args.join(" ").replace(" \n ", '\n'); 
+  }
+  let t = args.join("");
+  t = t.replace(" \n ", "\n");
+  t = t.replace(": \n", ":\n");
+  t = t.replace("\n :", "\n:");
+  t = t.replace(": \n :", ":\n:");
+  return t; 
 }

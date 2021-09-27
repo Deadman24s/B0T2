@@ -93,7 +93,12 @@ client.on('message', async message => {
     }
     //===============================================================================
     if(message.content.startsWith(prefix)){
-      args = message.content.slice(prefix.length).replace("::", ": :").replace("\n", " \n ").split(/ +/);
+      let t = message.content.slice(prefix.length);
+      t = t.replace("\n", " \n ").replace(":\n", ": \n").replace("\n:", "\n :").replace(":\n:", ": \n :");
+      t = t.replace("\n", " \n ").replace(":\n", ": \n").replace("\n:", "\n :").replace(":\n:", ": \n :");
+      t = t.replace("\n", " \n ").replace(":\n", ": \n").replace("\n:", "\n :").replace(":\n:", ": \n :");
+      t = t.replace("\n", " \n ").replace(":\n", ": \n").replace("\n:", "\n :").replace(":\n:", ": \n :");
+      args = t.split(/ +/);
       //==========Custom Commands====================================================
       customCommands(Discord, client, message, args, database, messageEmojiFinder);
       //==========Commands Finder====================================================
