@@ -56,7 +56,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           **01** ~~»~~ __\`${prefix}set pingRole <role>\`__- *To set the ping role*.
           **02** ~~»~~ __\`${prefix}set staffRole <role>\`__- *To set the staffRole*.
           **03** ~~»~~ __\`${prefix}set verifiedRole <role>\`__- *To set the verified role*.
-          **04** ~~»~~ __\`${prefix}set mutedRole <role>\`__- *To set the muted role*.`);  
+          **04** ~~»~~ __\`${prefix}set extraVerifiedRole <role>\`__- *To add extra verified roles*.
+          **05** ~~»~~ __\`${prefix}set mutedRole <role>\`__- *To set the muted role*.`);  
       }
       else if(args[1] == "emojis"){
         embed.setDescription(`
@@ -236,6 +237,12 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
             else if(args[0] == "mutedRole"){
               await database.set(`${args[0]}ID`, roleID);
               text = "muted";
+            }
+            else if(args[0] == "extraVerifiedRole"){
+              let verifiedRolesList = await database.get(`${args[0]}ID`);
+              verifiedRolesList = verifiedRolesList + ` ${args[1]}`;
+              await database.set(`${args[0]}ID`, verifiedRolesList);
+              text = "extra verified";
             }
             else{
               embed.setDescription("There is no subcommand with that name.")
