@@ -30,6 +30,7 @@ module.exports = {
     for(let i=0; i<=extraVerifiedRoleIDsList.length-1; i++){
       await message.guild.members.cache.get(message.author.id).roles.add(extraVerifiedRoleIDsList[i]).catch(error => {});
     }
+    //
     if(message.member.roles.cache.has(verifiedRoleID)){
       verificationText = "Already Verified!";
     }
