@@ -87,8 +87,8 @@ module.exports = async (client, Keyv, util, prefix, errorMessageBuilder) =>{
                   await playingStatusChannel.setName(`OFFLINE`);  
               })
               .catch((error) => {
-                console.log(errorMessageBuilder(`Error fethcing the info of ip- "${numericIP}" and port "${port}"`));
-                console.log(`For the guild- ${guild.name}, ${guild.id}`);
+                /*console.log(errorMessageBuilder(`Error fethcing the info of ip- "${numericIP}" and port "${port}"`));
+                console.log(`For the guild- ${guild.name}, ${guild.id}`);*/
               });
           }
         }
