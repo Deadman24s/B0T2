@@ -17,11 +17,10 @@ module.exports = async (client, Keyv, util, prefix, errorMessageBuilder) =>{
   
   let val1 = Math.floor((Math.random() * 300));
   let val2 = Math.floor((Math.random() * 200));
-  let temp;
   if(val1 < val2){
-    temp = val1;
-    val1 = val2;
-    val2 = temp;
+    val1 = val1 - val2;
+    val2 = val1 + val2;
+    val1 = val2 - val1;
   }
 
   const activitiesList = [
