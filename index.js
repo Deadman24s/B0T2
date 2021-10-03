@@ -82,7 +82,7 @@ client.on('message', async message => {
     //==========Counting Section===================================================
     counting(message, args, database, prefix, isAdmin, errorMessageBuilder);
     //==========Level/Points Section===============================================
-    points(Discord, message, args, client, prefix, database, levelBarBuilder);
+    points(Discord, message, args, client, prefix, database, levelBarBuilder, isAdmin);
     //==========Keeping the verification Channel Clean From Bots' Messages=========
     const dbVerificationChannelID = await database.get("verificationChannelID");
     if(message.author.bot){

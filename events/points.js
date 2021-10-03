@@ -3,6 +3,9 @@ module.exports = async (Discord, message, args, client, prefix, database, levelB
     .setTimestamp();
   if(message.guild){
     if((message.author.bot) || (message.content.startsWith(prefix))){
+      if(!isAdmin(message.member)){
+        await message.delete().catch(error => {});
+      }
       return;
     }
     let coins, bonusCoins, coinEmojiID, coinEmoji, coinText;
