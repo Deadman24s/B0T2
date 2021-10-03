@@ -29,15 +29,17 @@ module.exports = {
       await message.channel.send(embed).catch(error => {/*nothing*/});
     }
     else{
-      let person = personFinder(message, args[0], "user");
+      let person = personFinder(message, args[0], "member");
       if(person === "not found"){
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.delete().catch(error => {});
         return;
       }  
       if((person.id == message.author.id) || person.bot || isAdmin(person)){
         await message.channel.send("You can't warn them lol.").catch(error => {/*nothing*/});
+        await message.delete().catch(error => {});
         return;
       }
       warnsCount = await database.get(`${person.id} warns`);
@@ -52,14 +54,15 @@ module.exports = {
       if(warnsCount > 1)
         warnsText = warnsText + 's';
       await database.set(`${person.id} warns`, warnsCount);
-      embed.setTitle(`${person.username} was warned`)
-        .setDescription(`Reason- \`${warnReason}\`.`)
+      embed.setTitle(`${person.user.username} was warned`)
+        .setDescription(`Reason- ${warnReason}.`)
         .setFooter(`${warnsCount} ${warnsText}`);
       await message.channel.send(embed).catch(error => {/*nothing*/});
       embed.setTitle(`You were warned`)
-        .setDescription(`Reason- \`${warnReason}\`.`)
+        .setDescription(`Reason- ${warnReason}.`)
         .setFooter(`${warnsCount} ${warnsText}`);
       await person.send(embed).catch(error => {/*nothing*/});
     }
+    await message.delete().catch(error => {});
   }
 }
