@@ -1,4 +1,4 @@
-module.exports = async (Discord, message, args, client, prefix, database, levelBarBuilder) =>{
+module.exports = async (Discord, message, args, client, prefix, database, levelBarBuilder, isAdmin) =>{
   let embed = new Discord.MessageEmbed()
     .setTimestamp();
   if(message.guild){
@@ -76,4 +76,4 @@ module.exports = async (Discord, message, args, client, prefix, database, levelB
     await database.set(`${message.author.id} points`, points.toFixed(3));
     await database.set(`${message.author.id} coins`, coins);
   }  
-}     
+}

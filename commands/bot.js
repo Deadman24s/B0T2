@@ -29,7 +29,7 @@ module.exports = {
       return;
     }
     if(args[0] == "invite"){
-      embed.setDescription("**B0T INVITE LINK**-\n __*https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot*__")
+      embed.setDescription("[**__B0T INVITE LINK__**](https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot)")
         .setColor("RANDOM");
       message.channel.send(embed).catch(error => {/*nothing*/});
     }

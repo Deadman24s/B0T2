@@ -12,7 +12,6 @@ module.exports = {
     const verifiedRoleID = await database.get('verifiedRoleID');
     const verificationChannelID = await database.get('verificationChannelID');
     let extraVerifiedRoleIDsList = await database.get("extraVerifiedRoleID");
-    extraVerifiedRoleIDsList = extraVerifiedRoleIDsList.split(" ");
     if((!verifiedRoleID) || (!verificationChannelID)){
       embed.setDescription('The verification system is not setup. Kindly ask the staff to setup is first.')
       message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 20000)).catch(error => {/*nothing*/});
@@ -27,15 +26,18 @@ module.exports = {
       return;
     }
     if(message.channel.id != verificationChannelID) return message.delete().catch(error => {/*nothing*/});
-    for(let i=0; i<=extraVerifiedRoleIDsList.length-1; i++){
-      await message.guild.members.cache.get(message.author.id).roles.add(extraVerifiedRoleIDsList[i]).catch(error => {});
-    }
     if(message.member.roles.cache.has(verifiedRoleID)){
       verificationText = "Already Verified!";
     }
     else{
       try{
         await message.guild.members.cache.get(message.author.id).roles.add(verifiedRoleID).catch(error => {});
+        if(extraVerifiedRoleIDsList){
+          extraVerifiedRoleIDsList = extraVerifiedRoleIDsList.split(" ");
+          for(let i=0; i<=extraVerifiedRoleIDsList.length-1; i++){
+            await message.guild.members.cache.get(message.author.id).roles.add(extraVerifiedRoleIDsList[i]).catch(error => {});
+          }
+        }
         verificationText = "Successfully Verified!";
       }catch{
         embed.setDescription("Sorry, I'm lower in rank than you.\nPlease put my role above yours so that i can work propely.");
