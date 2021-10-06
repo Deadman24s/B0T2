@@ -292,9 +292,15 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                       return;    
                     }
                     delete userApplications[authorId];
+                  }else{
+                    embed.setDescription('Application canceled.')
+                      .setColor("RED");
+                    message.reply(embed).catch(error => {/*nothing*/});
+                    delete userApplications[authorId];
+                    return;
                   }
                 }).catch(() => {
-                  embed.setDescription('No responce after 4 minutes, Application canceled')
+                  embed.setDescription('No responce after 4 minutes, Application canceled.')
                     .setColor("RED");
                   message.reply(embed).catch(error => {/*nothing*/});
                   delete userApplications[authorId];

@@ -1,3 +1,4 @@
+const defaultAppQuestions = require("../defaultAppQuestions.json");
 module.exports = {
   name: "set",
   description: "set values to variables",
@@ -71,8 +72,9 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           **06** ~~»~~ __\`${prefix}set leaveImage <url>\`__- *To set the player leave image*.
           **07** ~~»~~ __\`${prefix}set botPrefix <prefix>\`__- *To set the bot's prefix*.
           **08** ~~»~~ __\`${prefix}set botCoinName <name>\`__- *To set the bot's coin name*.
-          **09** ~~»~~ __\`${prefix}set playerJoinMessage <msg>\`__- *To set the player join message*.
-          **10** ~~»~~ __\`${prefix}set playerLeaveMessage <msg>\`__- *To set the player leave message*.
+          **09** ~~»~~ __\`${prefix}set defaultAppQuestions\`__- *To set the default application questions*.
+          **10** ~~»~~ __\`${prefix}set playerJoinMessage <msg>\`__- *To set the player join message*.
+          **11** ~~»~~ __\`${prefix}set playerLeaveMessage <msg>\`__- *To set the player leave message*.
           [For player join/leave messages, you can use the placeholders- \`{user}\` \`{username}\` \`{userid}\` \`{usertag}\` \`{guild}\` \`{guildid}\`]`);
       }
       else if(args[1] == "appQuestions"){
@@ -322,9 +324,31 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
       }
       else{
         if(!args[1]){
-          embed.setDescription("Invalid Syntax")
-            .setColor("RED");
-          await message.channel.send(embed).catch(error => {/*nothing*/});
+          if(args[0] == "defaultAppQuestions"){
+            await database.set(`appQuestion1`, defaultAppQuestions.q1);
+            await database.set(`appQuestion2`, defaultAppQuestions.q2);
+            await database.set(`appQuestion3`, defaultAppQuestions.q3);
+            await database.set(`appQuestion4`, defaultAppQuestions.q4);
+            await database.set(`appQuestion5`, defaultAppQuestions.q5);
+            await database.set(`appQuestion6`, defaultAppQuestions.q6);
+            await database.set(`appQuestion7`, defaultAppQuestions.q7);
+            await database.set(`appQuestion8`, defaultAppQuestions.q8);
+            await database.set(`appQuestion9`, defaultAppQuestions.q9);
+            await database.set(`appQuestion10`, defaultAppQuestions.q10);
+            await database.set(`appQuestion11`, defaultAppQuestions.q11);
+            await database.set(`appQuestion12`, defaultAppQuestions.q12);
+            await database.set(`appQuestion13`, defaultAppQuestions.q13);
+            await database.set(`appQuestion14`, defaultAppQuestions.q14);
+            await database.set(`appQuestion15`, defaultAppQuestions.q15);
+            await database.set(`appQuestion16`, defaultAppQuestions.q16);
+            embed.setDescription(`Successfully saved all the default application Questions.`)
+              .setColor("GREEN");
+            await message.channel.send(embed).catch(error => {/*nothing*/});
+          }else{
+            embed.setDescription("Invalid Syntax")
+              .setColor("RED");
+            await message.channel.send(embed).catch(error => {/*nothing*/});
+          }
         }
         else{
           if(args[0] == "IP" || args[0] == "numericIP" || args[0] == "port" || args[0] == "canApply" || args[0] == "welcomeImage" || args[0] == "leaveImage" || args[0] == "botPrefix" || args[0] == "botCoinName"){
