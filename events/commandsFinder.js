@@ -1,5 +1,3 @@
-const music = require("../music/index.js");
-
 module.exports = async(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, dbVerificationChannelID) => {
   let command = args.shift().toLowerCase();
   const dbMemeChannelID = await database.get('memeChannelID');
@@ -52,7 +50,5 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
   }
   if(client.commands.has(command)){
     await client.commands.get(command).run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder);
-  }else{
-    music(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, command);
   }
 }
