@@ -10,14 +10,6 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       return;
     }
-    if(!isAdmin(message.guild.me)){
-      await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
-      embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
-        .setColor("RED");
-      await message.channel.send(embed).catch(error => {/*nothing*/});
-      return;
-    }
     if(message.channel.name.startsWith("ticket") || message.channel.name.startsWith("bug") || message.channel.name.startsWith("report")){
       if(!args[0]){
         await message.channel.send('Please provide ID of the person you want to remove.').catch(error => {/*nothing*/});

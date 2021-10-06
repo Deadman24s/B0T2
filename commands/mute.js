@@ -12,14 +12,6 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       return;
     }
-    if(!isAdmin(message.guild.me)){
-      await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
-      embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
-        .setColor("RED");
-      await message.channel.send(embed).catch(error => {/*nothing*/});
-      return;
-    }
     if(!args[0]){
       embed.setDescription(`Command Usage-\n\`-mute <member> <time>\`\n(time formats- s, min, h, d, m)`)
         .setColor("RED");

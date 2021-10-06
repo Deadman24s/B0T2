@@ -11,14 +11,6 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       return;
     }
-    if(!isAdmin(message.guild.me)){
-      await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
-      embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
-        .setColor("RED");
-      await message.channel.send(embed).catch(error => {/*nothing*/});
-      return;
-    }
     let i, j;
     let guildsNamesMap = client.guilds.cache
       .sort((a, b) => b.position - a.position)

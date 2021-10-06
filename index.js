@@ -70,6 +70,14 @@ const commandsFinder = require('./events/commandsFinder.js');
 
 //=================================================================================
 client.on('message', async message => {
+  if(!isAdmin(message.guild.me)){
+    await message.reactions.removeAll();
+    await message.react('❌').catch(err => {/*nothing*/});
+    embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
+      .setColor("RED");
+    await message.channel.send(embed).catch(error => {/*nothing*/});
+    return;
+  }
   if(message.guild){
     database = databaseBuilder(Keyv, message.guild.id);
 

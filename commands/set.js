@@ -11,14 +11,6 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
     await message.react('❌').catch(err => {/*nothing*/});
     return;
   }
-  if(!isAdmin(message.guild.me)){
-    await message.reactions.removeAll();
-    await message.react('❌').catch(err => {/*nothing*/});
-    embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
-      .setColor("RED");
-    await message.channel.send(embed).catch(error => {/*nothing*/});
-    return;
-  }
   if((!args[0]) || args[0]=='help'){
     if(!args[1]){
       embed.setDescription(`

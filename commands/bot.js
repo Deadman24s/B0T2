@@ -20,14 +20,6 @@ module.exports = {
       .setThumbnail(client.user.displayAvatarURL())
       .setFooter(client.user.username)
       .setTimestamp();
-    if(!isAdmin(message.guild.me)){
-      await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
-      embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
-        .setColor("RED");
-      await message.channel.send(embed).catch(error => {/*nothing*/});
-      return;
-    }
     if(args[0] == "invite"){
       embed.setDescription("[**__B0T INVITE LINK__**](https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot)")
         .setColor("RANDOM");

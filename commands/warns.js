@@ -11,14 +11,6 @@ module.exports = {
       await message.react('❌').catch(err => {/*nothing*/});
       return;
     }
-    if(!isAdmin(message.guild.me)){
-      await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
-      embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
-        .setColor("RED");
-      await message.channel.send(embed).catch(error => {/*nothing*/});
-      return;
-    }
     let person, warnsCount, warnsText = "warning";
     person = personFinder(message, args[0], "user");
     if((person === "not found") || (!args[0])){

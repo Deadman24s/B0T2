@@ -12,12 +12,6 @@ module.exports = {
     if(!isAdmin(message.member)){
       return;
     }
-    if(!isAdmin(message.guild.me)){
-      embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
-        .setColor("RED");
-      await message.channel.send(embed).catch(error => {/*nothing*/});
-      return;
-    }
     let n = await database.get(`suggestion_number`);
     if(!n){
       n=0;

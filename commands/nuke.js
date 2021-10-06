@@ -11,14 +11,6 @@ module.exports = {
         await message.react('❌').catch(err => {/*nothing*/});
         return;
       }
-      if(!isAdmin(message.guild.me)){
-        await message.reactions.removeAll();
-        await message.react('❌').catch(err => {/*nothing*/});
-        embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
-          .setColor("RED");
-        await message.channel.send(embed).catch(error => {/*nothing*/});
-        return;
-      }
       embed.setDescription("Nuking the Channel in `5` seconds!");
       await message.channel.send(embed).then(async (msg) => setTimeout(async function(){
           embed.setDescription("Nuking the Channel in `4` seconds!");
