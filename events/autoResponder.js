@@ -31,32 +31,28 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
   else if(content == "hi" || content == "hello" || content == "helo" || content == "hemlo" || content == "hey"){
     await message.channel.send("Hemlo").catch(error => {/*nothing*/});
   }
-  if((!isAdmin(message.member)) && message.mentions.members.first()){
-    let staffRoleID = await database.get("staffRoleID");
-    let p = personFinder(message, args[0], "member");
-    if(p.bot){
-      return;
-    }
-    if(p && staffRoleID){
-      if(isAdmin(p) || p.roles.cache.has(staffRoleID)){
-        await message.react('🇧').then(
-          message.react('🇸'),
-          message.react('🇩'),
-          message.react('🇰')
-        ).catch(error => {/*mf blocked me*/});
-        if(message.content.length > 1500){
-          message.content.length = 1500;
-          message.content = message.content + '...';
-        }
-        embed.setTitle(`You Were Pinged`)
-          .setDescription(`By- ${message.author.tag} | ${message.author.id}
-          Guild- ${message.guild} | ${message.guild.id}
-          Channel- ${message.channel.name} | ${message.channel.id}
-          Content- ${message.content}`);
-        await p.send(embed).catch(error => {});
-        setTimeout(async () => {
+  let staffRoleID = await database.get("staffRoleID");
+  if(staffRoleID){
+    if((!isAdmin(message.member)) && message.mentions.members.first() && (!message.member.roles.cache.has(staffRoleID))){
+      let p = personFinder(message, args[0], "member");
+      if(p.bot){
+        return;
+      }
+      if(p){
+        if(isAdmin(p) || p.roles.cache.has(staffRoleID)){
+          if(message.content.length > 1500){
+            message.content.length = 1500;
+            message.content = message.content + '...';
+          }
+          await message.reply("Do not ping the STAFF.").then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
+          embed.setTitle(`You Were Pinged`)
+            .setDescription(`By- ${message.author.tag} | ${message.author.id}
+            Guild- ${message.guild} | ${message.guild.id}
+            Channel- ${message.channel.name} | ${message.channel.id}
+            Content- ${message.content}`);
+          await p.send(embed).catch(error => {});
           await message.delete().catch(error => {/*Message not present*/});
-        }, 15000);
+        }
       }
     }
   }

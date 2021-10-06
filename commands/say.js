@@ -34,6 +34,6 @@ module.exports = {
       return;
     }
     await textChannel.send(`${msg}`).catch(error => {/*nothing*/});
-    await message.delete();      
+    await message.delete().catch(error => {});      
   }
 }
