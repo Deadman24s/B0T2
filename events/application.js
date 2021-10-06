@@ -1,19 +1,19 @@
 let userApplications = {};
 let responce;
 let success = true;
-let guild;
+let guild = {};
 let questions = [];
 let database;
 let applicationLogsChannelID;
 let botChannelID;
 let canApply;
 let prefix = '-';
+let Guild;
 module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
   client.on('message', async message => {
     if(message.guild){
-      guild = message.guild;
       database = new Keyv('sqlite://./databases/database.sqlite', {
-        table: `${guild.id}`
+        table: `${message.guild.id}`
       });
       let checkPrefix = await database.get("botPrefix");
       if(checkPrefix) prefix = checkPrefix;
@@ -29,9 +29,9 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
       if(!message.guild){
         return;
       }
-      guild = message.guild;
+      guild[authorId] = message.guild.id;
       database = new Keyv('sqlite://./databases/database.sqlite', {
-        table: `${guild.id}`
+        table: `${guild[authorId]}`
       });
       botChannelID = await database.get("botChannelID");
       if(botChannelID){
@@ -84,10 +84,11 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
         embed.setDescription("Application started!\nPlease check your DM and continue filling the application.")
           .setColor("GREEN");
         let msg = await message.channel.send(embed).catch(error => {/*nothing*/});
-        embed.setAuthor("", guild.iconURL())
+        Guild = client.guilds.cache.get(guild[authorId]);
+        embed.setAuthor("", Guild.iconURL())
           .setTitle("~~>>>~~ __**STAFF APPLICATION**__ ~~<<<~~")
-          .setDescription(`Thank you for choosing to apply for ${guild.name} staff, Please provide clear and honest answers. Good luck!\n
-            -${guild.name} Staff\n
+          .setDescription(`Thank you for choosing to apply for ${Guild.name} staff, Please provide clear and honest answers. Good luck!\n
+            -${Guild.name} Staff\n
             You can cancel the application at any time by typing \`cancel\` in the answer.\n\n
             **Question 1**- \`${questions[1]}\``)
           .setColor("YELLOW");  
@@ -101,7 +102,8 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
     }
     else{
       if(message.channel.type === "dm" && authorId in userApplications){
-        if((!guild) || (!database)){
+        Guild = client.guilds.cache.get(guild[authorId]);
+        if((!guild[authorId]) || (!database)){
           embed.setDescription("There is some bug. Please report it to `ShreshthTiwari#6014`.")
             .setColor("RED");
           await message.author.send(embed).catch(error => {/*nothing*/});
@@ -113,6 +115,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
             .setColor("RED");
           await message.author.send(embed).catch(error => {/*nothing*/});
           delete userApplications[authorId];
+          delete guild[authorId];
           return;
         }
         else{
@@ -217,14 +220,14 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
               responce.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == '✅' || reaction.emoji.name == '❌'),
                 {max: 1, time: 240000 }).then(async collected => {
                   if (collected.first().emoji.name == '✅') {
-                    let directoryLocation = path.join(__dirname, "..", "applications", `${guild.id}`);
                     try{
+                      let directoryLocation = path.join(__dirname, "..", "applications", `${guild[authorId]}`);
                       let findDirectory = fs.statSync(directoryLocation);
                     }catch (error){
-                      fs.mkdir(path.join(__dirname, "..", "applications", guild.id));
+                      fs.mkdir(path.join(__dirname, "..", "applications", `${guild[authorId]}`));
                     }
                     let logchannel = client.channels.cache.get(applicationLogsChannelID);
-                    const logFileLocation = path.join(__dirname, "..", "applications", `${guild.id}`, `${message.author.id}.txt`);
+                    const logFileLocation = path.join(__dirname, "..", "applications", `${guild[authorId]}`, `${message.author.id}.txt`);
                     try{
                       let findFile = fs.statSync(logFileLocation);
                       message.channel.send("You are already having a pending application.\nApplication canceled.").catch(error => {/*nothing*/});
@@ -273,7 +276,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                         }]
                       }).catch(error => {/*nothing*/});
                       let transcriptsChannelID = await database.get("transcriptsChannelID");
-                      let transcriptsChannel = guild.channels.cache.get(transcriptsChannelID);
+                      let transcriptsChannel = Guild.channels.cache.get(transcriptsChannelID);
                       transcriptsChannel.send({
                         files: [{
                           attachment: logFileLocation,
@@ -289,14 +292,17 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                     else{
                       message.author.send("Application canceled.").catch(error => {/*nothing*/});
                       delete userApplications[authorId];
+                      delete guild[authorId];
                       return;    
                     }
                     delete userApplications[authorId];
+                    delete guild[authorId];
                   }else{
                     embed.setDescription('Application canceled.')
                       .setColor("RED");
                     message.reply(embed).catch(error => {/*nothing*/});
                     delete userApplications[authorId];
+                    delete guild[authorId];
                     return;
                   }
                 }).catch(() => {
@@ -304,6 +310,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                     .setColor("RED");
                   message.reply(embed).catch(error => {/*nothing*/});
                   delete userApplications[authorId];
+                  delete guild[authorId];
                   return;
                 });
               break;        

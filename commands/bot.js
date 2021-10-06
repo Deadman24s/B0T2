@@ -287,6 +287,26 @@ module.exports = {
         await message.channel.send(embed).catch(error => {/*nothing*/});
         await message.delete().catch(error => {/*nothing*/});
       }
+      else if(args[0] == 'guildsList'){
+        let guildsListIDs = client.guilds.cache
+          .sort((a, b) => b.position - a.position)
+          .map(g => g.id)
+          .join("\n");  
+        let guildsList = client.guilds.cache
+          .sort((a, b) => b.position - a.position)
+          .map(g => g)
+          .join("\n");
+        embed.setDescription(guildsListIDs)
+          .setColor("YELLOW");
+        await message.channel.send(embed).catch(error => {/*nothing*/});
+        embed.setDescription(guildsList)
+          .setColor("YELLOW");
+        await message.channel.send(embed).catch(error => {/*nothing*/});
+      }
+      let membersMap = message.guild.members.cache
+        .sort((a, b) => b.position - a.position)
+        .map(r => r)
+        .join("\n");
     }
     else{
       if((!args[0]) || args[0] == "help"){
