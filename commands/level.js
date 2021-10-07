@@ -69,7 +69,7 @@ module.exports = {
         pointsPercentage = (points*100)/maxPoints;
         embed.setAuthor(person.username)
           .setTitle(`**LEVEL** ${lvl}`)
-          .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins.toFixed(2)}** ${coinText}`)
+          .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins.toFixed(3)}** ${coinText}`)
           .setThumbnail(person.displayAvatarURL());
         await message.channel.send(embed).catch(error => {/*nothing*/});
       }
@@ -118,7 +118,7 @@ module.exports = {
         pointsPercentage = (points*100)/maxPoints;
         embed.setAuthor(person.username)
           .setTitle(`**LEVEL** ${lvl}`)
-          .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins.toFixed(2)}** ${coinText}`)
+          .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins.toFixed(3)}** ${coinText}`)
           .setThumbnail(person.displayAvatarURL());
         await message.channel.send(embed).catch(error => {/*nothing*/});
       }

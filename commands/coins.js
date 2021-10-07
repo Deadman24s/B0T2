@@ -44,7 +44,7 @@ module.exports = {
       if(coins > 1)
         coinText = coinText + 's';
       embed.setAuthor(person.username)
-        .setDescription(`${coinEmoji} **${coins.toFixed(2)}** ${coinText}`)
+        .setDescription(`${coinEmoji} **${coins.toFixed(3)}** ${coinText}`)
         .setThumbnail(person.displayAvatarURL());
       await message.channel.send(embed).catch(error => {/*nothing*/});
     }
