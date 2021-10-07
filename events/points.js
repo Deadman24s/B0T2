@@ -65,7 +65,7 @@ module.exports = async (Discord, message, args, client, prefix, database, levelB
       await message.author.send(`You just advanced to level **${lvl}**!`).catch(error => {/*nothing*/});
       embed.setAuthor(message.author.username)
         .setTitle(`**LEVEL** ${lvl}`)
-        .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins}** ${coinText}`)
+        .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins.toFixed(3)}** ${coinText}`)
         .setThumbnail(message.author.avatarURL());
     await message.author.send(embed).catch(error => {/*nothing lul*/});
     }
