@@ -34,6 +34,14 @@
     "start": "node index.js",
     "dev": "nodemon index.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShreshthTiwari/B0T.git"
+  },
   "author": "ShreshthTiwari#6014",
-  "license": "ISC"
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ShreshthTiwari/B0T-v13/issues"
+  },
+  "homepage": "https://github.com/ShreshthTiwari/B0T-v13#readme"
 }
