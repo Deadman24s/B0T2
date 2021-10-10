@@ -17,6 +17,7 @@ module.exports = {
       .setDescription(`
         **${prefix}apply** » __Apply for server staff__.
         **${prefix}avater** » __Get avatar of a member__.[*alias* - **pfp**.]
+        **${prefix}bot** » __Bot related command__.
         **${prefix}coins** » __To check your coins__.
         **${prefix}create** » __Create a new ticket__.[*alias* - **new**, **t**, **ticket**.]
         **${prefix}help** » __Get this commands help message__.

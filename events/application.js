@@ -5,6 +5,7 @@ let guild = {};
 let questions = [];
 let database;
 let applicationLogsChannelID;
+let transcriptsChannelID;
 let botChannelID;
 let canApply;
 let prefix = '-';
@@ -42,10 +43,15 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
         }
       }
       applicationLogsChannelID = await database.get("applicationLogsChannelID");
+      transcriptsChannelID = await database.get("transcriptsChannelID");
       canApply = await database.get("canApply");
       database.on('error', err => console.log('Connection Error', err));
       if(!applicationLogsChannelID){
         await message.channel.send("The application logs channel is not set. Knidly ask the staff to set it first.").catch(error => {/*nothing*/});
+        return;
+      }
+      if(!transcriptsChannelID){
+        await message.channel.send("The transcripts channel is not set. Knidly ask the staff to set it first.").catch(error => {/*nothing*/});
         return;
       }
       if(!canApply){
@@ -218,14 +224,9 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                 responce.react('❌')
               );
               responce.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == '✅' || reaction.emoji.name == '❌'),
-                {max: 1, time: 240000 }).then(async collected => {
-                  if (collected.first().emoji.name == '✅') {
-                    try{
-                      let directoryLocation = path.join(__dirname, "..", "applications", `${guild[authorId]}`);
-                      let findDirectory = fs.statSync(directoryLocation);
-                    }catch (error){
-                      fs.mkdir(path.join(__dirname, "..", "applications", `${guild[authorId]}`));
-                    }
+                {max: 1, time: 240000 }).then(collected => {
+                  if (collected.first().emoji.name === '✅') {
+                    fs.mkdir(path.join(__dirname, "..", "applications", `${guild[authorId]}`)).catch(error =>{});
                     let logchannel = client.channels.cache.get(applicationLogsChannelID);
                     const logFileLocation = path.join(__dirname, "..", "applications", `${guild[authorId]}`, `${message.author.id}.txt`);
                     try{
@@ -275,8 +276,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                           name: `${message.author.id}.txt`
                         }]
                       }).catch(error => {/*nothing*/});
-                      let transcriptsChannelID = await database.get("transcriptsChannelID");
-                      let transcriptsChannel = Guild.channels.cache.get(transcriptsChannelID);
+                      let transcriptsChannel = client.channels.cache.get(transcriptsChannelID);
                       transcriptsChannel.send({
                         files: [{
                           attachment: logFileLocation,
@@ -306,9 +306,10 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                     return;
                   }
                 }).catch(() => {
-                  embed.setDescription('No responce after 4 minutes, Application canceled.')
+                  embed.setDescription(`No responce after 4 minutes, Application canceled.\nIf you feel it's a bug, please ask the server staff to report it to the bot dev. \`${prefix}bot reportBug <message>\`.`)
                     .setColor("RED");
                   message.reply(embed).catch(error => {/*nothing*/});
+                  console.log(`--------------------\nPlease check if ${guild[authorId]} is in applications folder.\n--------------------`);
                   delete userApplications[authorId];
                   delete guild[authorId];
                   return;

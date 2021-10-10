@@ -25,6 +25,18 @@ module.exports = {
         .setColor("RANDOM");
       message.channel.send(embed).catch(error => {/*nothing*/});
     }
+    else if(args[0] == "reportBug"){
+      let msg = messageEmojiFinder(client, message, args.slice(1));
+      if(msg.length > 500){
+        msg.length = 500;
+        msg + "...";
+      }
+      embed.setDescription(`Guild- ${message.guild} | ${message.guild.id}
+      User- ${message.member.user.tag} | ${message.author.id}
+      Message- ${msg}`)
+      .setColor("RED");
+      await client.users.cache.get("564106279862140938").send(embed).catch(error => {});
+    }
 
     let divider = 1048576;
         
@@ -109,7 +121,9 @@ module.exports = {
             **05** ~~»~~ __\`-bot storage <location>\`__- *To find the storage usage*.
             **06** ~~»~~ __\`-bot rename <name>\`__- *To rename the bot*.
             **07** ~~»~~ __\`-bot avatar <url>\`__- *To change the bot's avatar*.
-            **08** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.`);
+            **08** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.
+            **09** ~~»~~ __\`-bot guildsList\`__- *To get the list of guilds where the bot is present*.
+            **10** ~~»~~ __\`-bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
         await message.channel.send(embed).catch(error => {/*nothing*/});    
       }
       else if(args[0] == "system" || args[0] == "mem"){
@@ -312,7 +326,8 @@ module.exports = {
       if((!args[0]) || args[0] == "help"){
         embed.setTitle("Bot Commands Help")
           .setDescription(`
-            **01** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.`);
+            **01** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.
+            **02** ~~»~~ __\`-bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
         await message.channel.send(embed).catch(error => {/*nothing*/});    
       }
     }
