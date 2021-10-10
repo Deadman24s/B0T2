@@ -70,9 +70,12 @@ const commandsFinder = require('./events/commandsFinder.js');
 
 //=================================================================================
 client.on('message', async message => {
+  let embed = new Discord.MessageEmbed()
+    .setTimestamp()
+    .setColor("YELLOW");
   if(message.guild){
     if(!isAdmin(message.guild.me)){
-      await message.reactions.removeAll();
+      await message.reactions.removeAll().catch(error =>{});
       await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
