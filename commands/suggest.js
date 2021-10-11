@@ -9,9 +9,6 @@ module.exports = {
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
-    if(!isAdmin(message.member)){
-      return;
-    }
     let n = await database.get(`suggestion_number`);
     if(!n){
       n=0;
