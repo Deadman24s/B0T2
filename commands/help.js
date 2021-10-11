@@ -15,6 +15,7 @@ module.exports = {
     
     embed.setTitle(`${client.user.username} Bot Member Help`)
       .setDescription(`
+        **${prefix}afk <message>** » __To set your AFK status__.
         **${prefix}apply** » __Apply for server staff__.
         **${prefix}avater** » __Get avatar of a member__.[*alias* - **pfp**.]
         **${prefix}bot** » __Bot related command__.

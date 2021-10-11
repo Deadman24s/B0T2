@@ -103,6 +103,8 @@ client.on('message', async message => {
       return;
     }
     //===============================================================================
+    autoResponder(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, message.content.toLowerCase());
+    //===========Tickets Logging====================================================
     if(message.content.startsWith(prefix)){
       let t = message.content.slice(prefix.length);
       t = t.replace("\n", " \n ").replace(":\n", ": \n").replace("\n:", "\n :").replace(":\n:", ": \n :");
@@ -125,8 +127,6 @@ client.on('message', async message => {
       //===========Chat Filter=======================================================
       chatFilter(Discord, message, message.content.toLowerCase(), database, isAdmin);
       //===========Auto Responder=====================================================
-      autoResponder(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, message.content.toLowerCase());
-      //===========Tickets Logging====================================================
       ticketLogging(message, database, fs, path, dateBuilder);
       //==============================================================================
     }
