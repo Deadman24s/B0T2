@@ -1,3 +1,5 @@
+let uptimeBuilder = require("../builders/uptimeBuilder.js");
+
 module.exports = async(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, content) =>{
   let embed = new Discord.MessageEmbed()
     .setTimestamp()
@@ -59,24 +61,27 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
       }
       let afkStatus = await database.get(`${p.id} afkStatus`);
       if(afkStatus && afkStatus == "true"){
-          let msg = await database.get(`${message.author.id} afkMessage`);
-          embed = new Discord.MessageEmbed()
-            .setDescription(`${p} is currently AFK: ${msg}`)
-            .setColor("RED")
-            .setTimestamp();
-          await message.reply(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {});}, 5000)).catch(error => {});
+        let afkSetTime = await database.get(`${p.id} afkSetTime`);
+        let presentTime = new Date();
+        let afkTime = Math.abs(presentTime) - afkSetTime;
+        afkTime = uptimeBuilder(afkTime);
+        let msg = await database.get(`${p.id} afkMessage`);
+        embed = new Discord.MessageEmbed()
+          .setDescription(`${p} is currently AFK: ${msg}`)
+          .setColor("RED")
+          .setFooter(`For ${afkTime}`);
+        await message.reply(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {});}, 5000)).catch(error => {});
       }
     }
   }
   let afkStatus = await database.get(`${message.author.id} afkStatus`);
   let lastDisplayName = await database.get(`${message.author.id} lastDisplayName`);
-  if(afkStatus && afkStatus == "true"){
+  if(afkStatus && afkStatus == "true" && message.content != `${prefix}afk`){
     embed = new Discord.MessageEmbed()
       .setDescription("Successfully Removed your AFK status.")
       .setColor("GREEN")
       .setTimestamp();
     await database.set(`${message.author.id} afkStatus`, "false");
-    await database.set(`${message.author.id} afkMessage`, null);
     await message.reply(embed).catch(error => {});
     await message.member.setNickname(lastDisplayName).catch(error => {});
   }

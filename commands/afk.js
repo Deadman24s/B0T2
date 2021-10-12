@@ -13,31 +13,31 @@ module.exports = {
       await database.set(`${message.author.id} afkStatus`, "false");
     }
     if(afkStatus == "true"){
+      await database.set(`${message.author.id} afkStatus`, "false");
+      await message.member.setNickname(lastDisplayName).catch(error => {});
       embed.setDescription("Successfully removed your AFK status.")
         .setColor("GREEN");
       await message.channel.send(embed).catch(error =>{});
-      await database.set(`${message.author.id} afkStatus`, "false");
-      await database.set(`${message.author.id} afkMessage`, null);
-      await message.member.setNickname(lastDisplayName).catch(error => {});
     }
     else{
-      let msg;
+      let date = new Date();
+      date = Math.abs(date);
+      let msg = "AFK";
       if(args[0]){
         msg = messageEmojiFinder(client, message, args); 
-      }else{
-        msg = "AFK";
+        if(msg.length > 500){
+          msg.length=500;
+          msg = msg + "...";
+        }
       }
-      if(msg.length > 500){
-        msg.length=500;
-        msg = msg + "...";
-      }
-      embed.setDescription(`Successfully set your AFK status: ${msg}`)
-        .setColor("GREEN");
-      await message.channel.send(embed).catch(error =>{});
       await database.set(`${message.author.id} afkStatus`, "true");
       await database.set(`${message.author.id} afkMessage`, msg);
       await database.set(`${message.author.id} lastDisplayName`, message.member.displayName);
+      await database.set(`${message.author.id} afkSetTime`, date);
       await message.member.setNickname(`[AFK] ${message.member.displayName}`).catch(error => {});
+      embed.setDescription(`Successfully set your AFK status: ${msg}`)
+        .setColor("GREEN");
+      await message.channel.send(embed).catch(error =>{});
     }      
   }
 }
