@@ -1,4 +1,4 @@
-let uptimeBuilder = require("../builders/uptimeBuilder.js");
+let ms = require("ms");
 
 module.exports = async(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, content) =>{
   let embed = new Discord.MessageEmbed()
@@ -43,8 +43,8 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
       if((!isAdmin(message.member)) && (!message.member.roles.cache.has(staffRoleID))){
         if(staffRoleID){
           if(isAdmin(p) || p.roles.cache.has(staffRoleID)){
-            if(message.content.length > 1500){
-              message.content.length = 1500;
+            if(message.content.length > 500){
+              message.content.length = 500;
               message.content = message.content + '...';
             }
             await message.reply("Do not ping the STAFF.").then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
@@ -63,13 +63,14 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
       if(afkStatus && afkStatus == "true"){
         let afkSetTime = await database.get(`${p.id} afkSetTime`);
         let presentTime = new Date();
-        let afkTime = Math.abs(presentTime) - afkSetTime;
-        afkTime = uptimeBuilder(afkTime);
+        presentTime = Math.abs(presentTime);
+        let afkTime = presentTime - afkSetTime;
+        afkTime = ms(afkTime);
         let msg = await database.get(`${p.id} afkMessage`);
         embed = new Discord.MessageEmbed()
           .setDescription(`${p} is currently AFK: ${msg}`)
           .setColor("RED")
-          .setFooter(`For ${afkTime}`);
+          .setFooter(`For ${afkTime}.`);
         await message.reply(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {});}, 5000)).catch(error => {});
       }
     }
