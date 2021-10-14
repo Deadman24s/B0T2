@@ -75,8 +75,6 @@ client.on('message', async message => {
     .setColor("YELLOW");
   if(message.guild){
     if(!isAdmin(message.guild.me)){
-      await message.reactions.removeAll().catch(error =>{});
-      await message.react('❌').catch(err => {/*nothing*/});
       embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
