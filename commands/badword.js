@@ -2,13 +2,13 @@ module.exports = {
   name: "badword",
   description: "to add or remove badwords",
 
-  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
     if(!isAdmin(message.member)){
       await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
+      react(message, '❌');
       return;
     }
     let badwords = await database.get("badwordsList");
@@ -57,6 +57,8 @@ module.exports = {
           embed.setDescription("Please provide a word to add in the badwords list")
             .setColor("RED");
           await message.channel.send(embed).catch(error => {/*nothing*/});
+          await message.reactions.removeAll();
+          react(message, '❌');
           return;
         }
       }
@@ -68,6 +70,8 @@ module.exports = {
               embed.setDescription("The word is already present in the database.")
                 .setColor("RED");
               await message.channel.send(embed).catch(error => {/*nothing*/});
+              await message.reactions.removeAll();
+              react(message, '❌');
               return;
             }
           }
@@ -90,6 +94,8 @@ module.exports = {
             embed.setDescription("That word is not present in the database.")
               .setColor("RED");
             await message.channel.send(embed).catch(error => {/*nothing*/});
+            await message.reactions.removeAll();
+            react(message, '❌');
             return;
           }
           for(let i = pos; i <= badwordsList.length-1; i++){

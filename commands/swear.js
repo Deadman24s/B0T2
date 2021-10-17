@@ -2,13 +2,13 @@ module.exports = {
   name: "swear",
   description: "to add or remove swears",
 
-  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder) {
+  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react) {
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
     if(!isAdmin(message.member)){
       await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
+      await message.react('❌');
       return;
     }
     var swears = await database.get("swearsList");
@@ -21,6 +21,8 @@ module.exports = {
       embed.setDescription(`What do you want to do?\nUse \`${prefix}swear help\`.`)
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      await message.react('❌');
       return;
     }
     else if(args[0] == "help"){
@@ -37,6 +39,8 @@ module.exports = {
         embed.setDescription("Please provide a word to add in the swear list")
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        await message.react('❌');
         return;
       }
       for(let i=0; i<=swearsList.length-1; i++){
@@ -61,6 +65,8 @@ module.exports = {
         embed.setDescription("Please provide a word to remove from the swear list")
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        await message.react('❌');
         return;
       }
       for(let i=0; i<=swearsList.length-1; i++){
@@ -74,6 +80,8 @@ module.exports = {
         embed.setDescription(`The word ||${args[1]}|| is not present in the database.`)
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        await message.react('❌');
         return;
       }
       for(let i = pos; i <= swearsList.length-1; i++){
@@ -89,6 +97,8 @@ module.exports = {
       if(swearsList.length <= 0){
         embed.setDescription("The swear list is empty.")
           .setColor("RED");
+        await message.reactions.removeAll();
+        await message.react('❌');
       }
       else{
         embed.setDescription(`Swear list-\n\`${swearsList}\``);
@@ -99,6 +109,8 @@ module.exports = {
       if(swearsList.length <= 0){
         embed.setDescription("The swear list is already empty.")
           .setColor("RED");
+        await message.reactions.removeAll();
+        await message.react('❌');
       }
       else{
         await database.set("swearsList", null);

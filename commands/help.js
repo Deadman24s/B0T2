@@ -2,7 +2,7 @@ module.exports = {
   name : 'help',
   description : 'commands list',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setAuthor(message.guild.name, message.guild.iconURL())
@@ -45,7 +45,7 @@ module.exports = {
         .setDescription("Either your DMs are off or I'm blocked.")
         .setColor("RED");
       message.reactions.removeAll();
-      message.react('❌').catch(err => {/*nothing*/});
+      react(message, '❌');
       me.edit(embed).catch(error => {/*nothing*/});
     }
     if(isAdmin(message.member)){

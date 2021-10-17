@@ -3,7 +3,7 @@ module.exports = {
   name : 'sping',
   description : 'to troll',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
@@ -17,6 +17,8 @@ module.exports = {
       embed.setDescription("Please provide a user ID or mention.")
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      await message.react('❌');
       return;
     }
     if(args[1]){
@@ -29,6 +31,8 @@ module.exports = {
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      await message.react('❌');
       return;
     } 
     let tempChannel = message.channel;

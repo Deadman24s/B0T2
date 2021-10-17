@@ -2,13 +2,13 @@ module.exports = {
   name: "clear",
   description: "Clears messages",
 
-  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder) {
+  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react) {
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
     if(!isAdmin(message.member)){
       await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
+      react(message, '❌');
       return;
     }
     let amount = args[0];
@@ -16,18 +16,25 @@ module.exports = {
       embed.setDescription('please provide an amount of messages for me to delete.')
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      react(message, '❌');
       return;
     } 
     if(amount < 1){
       embed.setDescription(`You need to delete at least one message.`)
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      react(message, '❌');
       return;
     } 
     if(amount > 100){
       embed.setDescription(`Cannot delete more than 100 messages at a time.`)
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      react(message, '❌');
+      return;
     } 
     embed.setDescription(`Removing ${amount} messages!`)
       .setColor("GREEN");

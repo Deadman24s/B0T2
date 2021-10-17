@@ -4,10 +4,12 @@ module.exports = {
   name : 'join',
   description : 'make the bot join the VC channel ur in',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     if(message.member.voice.channel) {
       if(!args[0]){
         await message.channel.send("Provide a link also.\n`-join <link>`").catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       let videoLink = args[0];
@@ -19,6 +21,8 @@ module.exports = {
     } 
     else{
       await message.reply('You need to join a voice channel first!').catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      react(message, '❌');
     }  
   }
 }

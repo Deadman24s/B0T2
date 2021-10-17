@@ -7,7 +7,7 @@ module.exports = {
   name: "create",
   description: "To create a ticket",
 
-  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, cmd) {
+  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react, cmd) {
     if(!cmd){
       cmd = "create";
     }

@@ -2,7 +2,7 @@ module.exports = {
   name : 'ping',
   description : 'ping command',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setTimestamp()
       .setColor("RANDOM")

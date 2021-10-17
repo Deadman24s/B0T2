@@ -2,13 +2,13 @@ module.exports = {
   name : 'emojis',
   description : 'member count of the server',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("GREEN")
       .setTimestamp();
     if(!isAdmin(message.member)){
       await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
+      react(message, '❌');
       return;
     }
     let i, j;
@@ -40,6 +40,8 @@ module.exports = {
         embed.setDescription("Either your DMs are off or I'm blocked.")  
           .setColor("RED");
         await message.reply(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return; 
       });
       for(j=1; j <= emojis.length-1; j++){

@@ -14,7 +14,7 @@ module.exports = {
   name : 'bot',
   description : 'for work on the bot',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setAuthor(message.guild.name, message.guild.iconURL())
       .setThumbnail(client.user.displayAvatarURL())
@@ -329,6 +329,10 @@ module.exports = {
             **01** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.
             **02** ~~»~~ __\`-bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
         await message.channel.send(embed).catch(error => {/*nothing*/});    
+      }
+      else{
+        await message.reactions.removeAll();
+        react(message, '❌');
       }
     }
   }    

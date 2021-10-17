@@ -2,13 +2,13 @@ module.exports = {
     name : 'nuke',
     description : 'to nuke a channel',
   
-    async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+    async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
       let embed = new Discord.MessageEmbed()
         .setColor("RED")
         .setTimestamp();
       if(!isAdmin(message.member)){
         await message.reactions.removeAll();
-        await message.react('❌').catch(err => {/*nothing*/});
+        react(message, '❌');
         return;
       }
       embed.setDescription("Nuking the Channel in `5` seconds!");

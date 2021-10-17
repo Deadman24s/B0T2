@@ -3,7 +3,7 @@ module.exports = {
   name : 'status',
   description : 'status of MC server.',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp(); 
@@ -31,12 +31,16 @@ module.exports = {
             .setTitle("OFFLINE")
            .setColor("RED");
           message.channel.send(embed).catch(error => {/*nothing*/});
+          message.reactions.removeAll();
+          message.react('❌');
         });
     }
     else{
       embed.setDescription("The server IP/port etc is not set. Kindly ask the server staff to set them first.")
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      await message.react('❌');
     }
   }
 }

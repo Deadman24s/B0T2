@@ -2,14 +2,14 @@ module.exports = {
   name : 'members',
   description : 'member count of the server',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setAuthor(message.guild.name, message.guild.iconURL())
       .setColor("YELLOW")
       .setTimestamp();
     if(!isAdmin(message.member)){
       await message.reactions.removeAll();
-      await message.react('❌');
+      react(message, '❌');
       return;
     }
     let membersMap = message.guild.members.cache

@@ -1,13 +1,13 @@
 module.exports = {
   name: "cc",
   description: "create custom commands",
-  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
     if(!isAdmin(message.member)){
       await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
+      react(message, '❌');
       return;
     }
     let key, msg;
@@ -31,12 +31,16 @@ module.exports = {
         embed.setDescription(`\`${prefix + args[1]}\` is already present in the dataabse.`)
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       if(!args[2]){
         embed.setDescription(`Kindly provide a message also, for the custom command \`${prefix + args[1]}\``)
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       msg = messageEmojiFinder(client, message, args.slice(2));
@@ -50,6 +54,8 @@ module.exports = {
         embed.setDescription("Please provide a custom command's name to edit.")
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       let key = await database.get(`customCommand_${args[1]}`);
@@ -57,12 +63,16 @@ module.exports = {
         embed.setDescription(`There is no custom command as \`${prefix + args[1]}\`.`)
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       if(!args[2]){
         embed.setDescription(`Kindly provide a new message for the custom command \`${prefix + args[1]}\``)
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       let msg = messageEmojiFinder(client, message, args.slice(2));
@@ -76,6 +86,8 @@ module.exports = {
         embed.setDescription("Please provide a custom command's name to edit.")
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       let key = await database.get(`customCommand_${args[1]}`);
@@ -83,6 +95,8 @@ module.exports = {
         embed.setDescription(`There is no custom command as \`${prefix + args[1]}\`.`)
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       await database.set(`customCommand_${args[1]}`, null);

@@ -2,7 +2,7 @@ module.exports = {
   name : 'embed',
   description : 'to make the bot say mesage as an embed',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setAuthor(message.author.username, message.author.displayAvatarURL())
       .setColor("RANDOM")
@@ -12,7 +12,7 @@ module.exports = {
       .setTimestamp(); 
     if(!isAdmin(message.member)){
       await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
+      react(message, '❌');
       return;
     }
     let msg;
@@ -22,6 +22,8 @@ module.exports = {
       if(!msg){
         errorEmbed.setDescription("Write something bruh.");
         await message.channel.send(errorEmbed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       embed.setDescription(`${msg}`);
@@ -32,6 +34,8 @@ module.exports = {
       if(!msg){
         errorEmbed.setDescription("Write something bruh.");
         await message.channel.send(errorEmbed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       embed.setDescription(`${msg}`);

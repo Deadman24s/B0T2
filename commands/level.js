@@ -4,7 +4,7 @@ module.exports = {
   name : 'level',
   description : 'to check your level',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, helpText){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react, helpText){
     if(!helpText){
       helpText = "level";
     }
@@ -45,6 +45,8 @@ module.exports = {
             embed.setDescription("Wrong user provided or user doesn't exists in this server.")
               .setColor("RED");
             await message.channel.send(embed).catch(error => {/*nothing*/});
+            await message.reactions.removeAll();
+            react(message, '❌');
             return;
           } 
         }
@@ -73,7 +75,12 @@ module.exports = {
           .setThumbnail(person.displayAvatarURL());
         await message.channel.send(embed).catch(error => {/*nothing*/});
       }
-      if(isAdmin(message.member) && args[0] == "set"){
+      if(args[0] == "set"){
+        if(!isAdmin(message.member)){
+          await message.reactions.removeAll();
+          react(message, '❌');
+          return;
+        }
         if(!args[1])
           person = message.author;
         else{
@@ -82,6 +89,8 @@ module.exports = {
             embed.setDescription("Wrong user provided or user doesn't exists in this server.")
               .setColor("RED");
             await message.channel.send(embed).catch(error => {/*nothing*/});
+            await message.reactions.removeAll();
+            react(message, '❌');
             return;
           }   
         }
@@ -100,12 +109,16 @@ module.exports = {
           embed.setDescription("please provide a value to add.")
             .setColor("RED");
           await message.channel.send(embed).catch(error => {/*nothing*/});
+          await message.reactions.removeAll();
+          react(message, '❌');
           return;
         }
         if(isNaN(args[2])){
           embed.setDescription("Please provide a numeric value.")
             .setColor("RED");
           await message.channel.send(embed).catch(error => {/*nothing*/});
+          await message.reactions.removeAll();
+          react(message, '❌');
           return;
         }
         args[2] *= 1;
@@ -121,10 +134,6 @@ module.exports = {
           .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins.toFixed(3)}** ${coinText}`)
           .setThumbnail(person.displayAvatarURL());
         await message.channel.send(embed).catch(error => {/*nothing*/});
-      }
-      else{
-        await message.reactions.removeAll();
-        await message.react('❌').catch(err => {/*nothing*/});
       }
     }
   }

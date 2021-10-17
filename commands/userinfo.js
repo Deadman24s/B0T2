@@ -3,7 +3,7 @@ module.exports = {
   name : 'userinfo',
   description : 'to get user info',
 
-  async run(client, message, args){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();

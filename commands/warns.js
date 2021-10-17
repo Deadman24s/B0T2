@@ -2,13 +2,13 @@ module.exports = {
   name : 'warns',
   description : "to check someone's warnings",
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, reacts){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
     if(!isAdmin(message.member)){
       await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
+      await message.react('❌');
       return;
     }
     let person, warnsCount, warnsText = "warning";

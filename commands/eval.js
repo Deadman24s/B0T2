@@ -11,7 +11,7 @@ module.exports = {
   name : 'eval',
   description : 'to run commands',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     if(!(message.author.id == "564106279862140938")) return;
     let embed = new Discord.MessageEmbed()
       .setTimestamp();
@@ -26,6 +26,8 @@ module.exports = {
       await message.channel.send(embed).catch(error => {/*nothing*/});
       } catch (err){
         embed.setDescription("**__ERROR__**\n```\n" + clean(err) + '\n```');
+        await message.reactions.removeAll();
+        react(message, '❌');
         await message.channel.send(embed).catch(error => {/*nothing*/});
       }
     }

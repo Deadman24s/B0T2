@@ -2,7 +2,7 @@ module.exports = {
   name : 'eid',
   description : 'to get of an emoji',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     if(!(message.author.id == "564106279862140938")){
       return;
     }
@@ -18,6 +18,8 @@ module.exports = {
       await message.channel.send('`' + emoji.id + '`').catch(error => {/*nothing*/});
     }
     else{ 
+      await message.reactions.removeAll();
+      react(message, '❌');
       return;
     }
   }

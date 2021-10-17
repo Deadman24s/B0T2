@@ -2,7 +2,7 @@ module.exports = {
   name : 'coins',
   description : 'to get coins info',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
@@ -34,6 +34,8 @@ module.exports = {
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }  
       coins = await database.get(`${person.id} coins`);

@@ -2,13 +2,13 @@ module.exports = {
   name : 'ban',
   description : 'to ban someone',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
     if(!isAdmin(message.member)){
       await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
+      react(message, '❌');
       return;
     }
     let person = personFinder(message, args[0], "user");
@@ -16,18 +16,24 @@ module.exports = {
       embed.setDescription("Wrong user provided or user doesn't exists in this server.")
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      react(message, '❌');
       return;
     } 
     if((person.id == message.author.id) || isAdmin(person)){
       embed.setDescription("You can't ban them lol.")
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      react(message, '❌');
       return;
     }
     if(person.bot){
       embed.setDescription("I can't ban my bot brother.")
         .setColor("RED");
       message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      react(message, '❌');
       return;
     }
     let banReason,banDays;

@@ -3,13 +3,13 @@ module.exports = {
   name : 'application',
   description : 'to accept/reject an application',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
     if(!isAdmin(message.member)){
       await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
+      react(message, '❌');
       return;
     }
     if((!args[0]) || args[0] == "help"){
@@ -27,6 +27,8 @@ module.exports = {
         embed.setDescription("Please provide a user")
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       let applicant = personFinder(message, args[1], "user");
@@ -34,6 +36,8 @@ module.exports = {
         embed.setDescription("Wrong user provided or user doesn't exist in this server.")
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;  
       }
       let reason = args.slice(2).join(" ");
@@ -52,7 +56,7 @@ module.exports = {
         });
         if(args[0] == "reject"){
           embed.setDescription(`Your application got rejected.\nReason- \`${reason}\``)
-            .setColor("RED")
+            .setColor("RED");
           await applicant.send(embed).catch(error => {/*nothing*/});
           embed.setDescription(`Sucessfully rejected the application of ${applicant.tag}[${applicant.id}]\nReason-${reason}`)
             .setColor("GREEN");
@@ -120,6 +124,8 @@ module.exports = {
               embed.setDescription(`ID (${args[2]}) is already blacklisted.`)
                 .setColor("RED");
               await message.channel.send(embed).catch(error => {/*nothing*/});
+              await message.reactions.removeAll();
+              react(message, '❌');
               return;
             }
           }

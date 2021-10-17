@@ -5,13 +5,13 @@ module.exports = {
   name: "close",
   description: "To close a ticket",
 
-  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder) {
+  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react) {
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
     if(!isAdmin(message.member)){
       await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
+      react(message, '❌');
       return;
     }
     if (message.channel.name.startsWith("ticket") || message.channel.name.startsWith("bug") || message.channel.name.startsWith("report")){

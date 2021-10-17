@@ -22,6 +22,7 @@ const levelBarBuilder = require('./builders/levelBarBuilder.js');
 const errorMessageBuilder = require ('./builders/errorMessageBuilder.js');
 const dateBuilder = require('./builders/dateBuilder.js');
 const databaseBuilder = require('./builders/databaseBuilder.js');
+const react = require('./editors/react.js');
 let database;
 
 const website = require('./website.js');
@@ -113,7 +114,7 @@ client.on('message', async message => {
       //==========Custom Commands====================================================
       customCommands(Discord, client, message, args, database, messageEmojiFinder);
       //==========Commands Finder====================================================
-      commandsFinder(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, dbVerificationChannelID);
+      commandsFinder(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, dbVerificationChannelID, react);
       //=============================================================================
     }
     else{

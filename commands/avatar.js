@@ -2,7 +2,7 @@ module.exports = {
   name : 'avatar',
   description : 'to get avatar of a user',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
@@ -17,6 +17,8 @@ module.exports = {
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       } 
       embed.setDescription(`Here is the PFP of ${person}`)

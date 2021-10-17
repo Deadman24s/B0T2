@@ -9,7 +9,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
     .setTimestamp();    
   if(!isAdmin(message.member)){
     await message.reactions.removeAll();
-    await message.react('❌').catch(err => {/*nothing*/});
+    react(message, '❌');
     return;
   }
   if((!args[0]) || args[0]=='help'){
@@ -88,6 +88,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
         embed.setDescription("There is no subcommand with that name.")
           embed.setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       embed.setColor("YELLOW")
@@ -112,6 +114,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
             embed.setDescription("Either the channel ID is incorrect or the channel with that ID no longer exists.")
               .setColor("RED");
             await message.channel.send(embed).catch(error => {/*nothing*/});
+            await message.reactions.removeAll();
+            react(message, '❌');
             return;
           }
         }
@@ -187,6 +191,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           embed.setDescription("There is no subcommand with that name.")
             embed.setColor("RED");
           await message.channel.send(embed).catch(error => {/*nothing*/});
+          await message.reactions.removeAll();
+          react(message, '❌');
           return;
         }
         embed.setDescription(`Successfully set "${channel}" as \`${text}\` channel.`);
@@ -210,10 +216,12 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
               roleID = null;
             }
           }
-          if(!(role && roleID)){
+          if((!role) || (!roleID)){
             embed.setDescription("Either the role is incorrect or the role does not exists.\nNote- `@everyone` is no longer a role so you have to provide the guild ID instead.")
               .setColor("RED");
             await message.channel.send(embed).catch(error => {/*nothing*/}); 
+            await message.reactions.removeAll();
+            react(message, '❌');
           }
           else{
             if(args[0] == "staffRole"){
@@ -242,6 +250,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
               embed.setDescription("There is no subcommand with that name.")
                 .setColor("RED");
               await message.channel.send(embed).catch(error => {/*nothing*/});
+              await message.reactions.removeAll();
+              react(message, '❌');
               return;
             }
             embed.setDescription(`Successfully set "${role}" as the \`${text}\` role.`);
@@ -255,6 +265,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           embed.setDescription("Invalid Syntax.")
             .setColor("RED");
           await message.channel.send(embed).catch(error => {/*nothing*/});
+          await message.reactions.removeAll();
+          react(message, '❌');
         }
         else{
           emojiID = args[1];
@@ -263,6 +275,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
             embed.setDescription("No emoji found with that ID or the ID is wrong.")
               .setDescription("RED");
             await message.channel.send(embed).catch(error => {/*nothing*/});  
+            await message.reactions.removeAll();
+            react(message, '❌');
           }
           else{
             if(args[0] == "botCoinEmojiID"){
@@ -289,6 +303,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
               embed.setDescription("There is no subcommand with that name.")
                 .setColor("RED");
               await message.channel.send(embed).catch(error => {/*nothing*/});
+              await message.reactions.removeAll();
+              react(message, '❌');
               return;
             }
             embed.setDescription(`Successfully set "${emoji}" as the bot's \`${text}\` emoji.`);
@@ -302,6 +318,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           embed.setDescription("Invalid Syntax.")
             .setColor("RED");
           await message.channel.send(embed).catch(error => {/*nothing*/});
+          await message.reactions.removeAll();
+          react(message, '❌');
         }
         else{
           question = args.slice(1).join(" ");
@@ -316,6 +334,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
             embed.setDescription("There is no subcommand with that name.")
               .setColor("RED");
             await message.channel.send(embed).catch(error => {/*nothing*/});
+            await message.reactions.removeAll();
+            react(message, '❌');
             return;
           }
           embed.setDescription(`Successfully updated the application question ${i}-\n\`\`\`${question}\`\`\``);
@@ -348,6 +368,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
             embed.setDescription("Invalid Syntax")
               .setColor("RED");
             await message.channel.send(embed).catch(error => {/*nothing*/});
+            await message.reactions.removeAll();
+            react(message, '❌');
           }
         }
         else{
@@ -356,12 +378,16 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
               embed.setDescription("You can se it as \`true\` or \`false\` only.")
                 .setColor("RED");
               await message.channel.send(embed).catch(error => {/*nothing*/});
+              await message.reactions.removeAll();
+              react(message, '❌');
               return;
             }
             else if(args[0] == "port" && isNaN(args[1])){
               embed.setDescription("Port can only be a numeric value.")
                 .setColor("RED");
               await message.channel.send(embed).catch(error => {/*nothing*/});
+              await message.reactions.removeAll();
+              react(message, '❌');
               return;  
             }
             else if(args[0] == "botCoinName"){
@@ -384,6 +410,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
             embed.setDescription("There is no subcommand with that name.")
               .setColor("RED");
             await message.channel.send(embed).catch(error => {/*nothing*/});
+            await message.reactions.removeAll();
+            react(message, '❌');
           }
         }
       }

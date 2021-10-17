@@ -2,13 +2,13 @@ module.exports = {
   name : 'announce',
   description : 'to make an announcement',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
     if(!isAdmin(message.member)){
       await message.reactions.removeAll();
-      await message.react('❌').catch(err => {/*nothing*/});
+      react(message, '❌');
       return;
     }
     let announcementChannelID = await database.get("announcementChannelID");
@@ -16,6 +16,8 @@ module.exports = {
       embed.setDescription("The announcement channel is not set.")
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      react(message, '❌');
       return;
     } 
     let announcementChannel = message.guild.channels.cache.get(announcementChannelID);
@@ -23,12 +25,16 @@ module.exports = {
       embed.setDescription("The announcement channel is not present.")
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      react(message, '❌');
       return;
     }
     if(!args[0]){
       embed.setDescription("Please provide a message to announce.")
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      react(message, '❌');
       return;
     }
     let pingRoleID = await database.get("pingRoleID");

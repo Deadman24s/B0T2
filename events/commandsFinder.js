@@ -1,4 +1,4 @@
-module.exports = async(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, dbVerificationChannelID) => {
+module.exports = async(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, dbVerificationChannelID, react) => {
   let command = args.shift().toLowerCase();
   const dbMemeChannelID = await database.get('memeChannelID');
   const dbBotChannelID = await database.get('botChannelID');
@@ -40,15 +40,15 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
   const customCommand = await database.get(`customCommand_${command}`);
   if((!client.commands.has(command)) && command != "apply" && (!customCommand) && command != "play" && command != "skip" && command != "stop"){
     if(message){
-      await message.react('❌');
+      react(message, '❌');
     }
     return;
   }else{
-    await message.react('✅').catch(err => {
+    react(message, '✅').catch(err => {
       //mf blocked the bot.
     });
   }
   if(client.commands.has(command)){
-    await client.commands.get(command).run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder);
+    await client.commands.get(command).run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react);
   }
 }

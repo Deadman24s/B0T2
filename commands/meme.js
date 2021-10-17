@@ -1,11 +1,16 @@
 const https = require('https');
-let url = 'https://www.reddit.com/r/savagememes/hot/.json?limit=100';
+let subReddits = ["savagememes", "OSHA", "BikiniBottomTwitter", "fakehistoryporn", "ScottishPeopleTwitter", "me_irl", "skyrimskills_irl", "wellthatsucks", "funny", "youdontsurf", "prequelmemes", "thatHappened", "ATBGE", "WeWantPlates", "thecanopener", "JustRolledIntoTheSea", "AnimatedStarWarsMemes", "MildlyVandalised", "misleadingthumbnails", "BlackPeopleTwitter", "notmyjob", "whatcouldgowrong", "crappydesign", "youtubehaiku", "BigBrother", "Archer"];
+let n = Math.floor(Math.random() * subReddits.length);
+let url = `https://www.reddit.com/r/memes/hot/.json?limit=100`;
+if(subReddits[n]){
+  url = `https://www.reddit.com/r/${subReddits[n]}/hot/.json?limit=100`;
+}
 
 module.exports = {
   name : 'meme',
   description : 'for memes xD',
   
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("RANDOM")
       .setTimestamp();
@@ -15,6 +20,8 @@ module.exports = {
       embed.setDescription('The meme channel is not setup. Kindly ask the staff to setup is first.')
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      react(message, '❌');
       return;
     }
     const memeChannel = message.guild.channels.cache.get(memeChannelID);
@@ -22,10 +29,9 @@ module.exports = {
       embed.setDescription('The meme channel is not setup. Kindly ask the staff to setup is first.')
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.reactions.removeAll();
+      react(message, '❌');
       return;
-    }
-    if(args[0]){
-      url = `https://www.reddit.com/r/${args[1]}/hot/.json?limit=100`;
     }
     https.get(url, (result) => {
       let body = '';
