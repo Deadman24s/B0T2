@@ -4,7 +4,7 @@ module.exports = {
   name : 'verify',
   description : 'for verification',
 
-  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder){
+  async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
       .setColor("RED")
       .setTimestamp();
@@ -14,15 +14,15 @@ module.exports = {
     let extraVerifiedRoleIDsList = await database.get("extraVerifiedRoleID");
     if((!verifiedRoleID) || (!verificationChannelID)){
       embed.setDescription('The verification system is not setup. Kindly ask the staff to setup is first.')
-      message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 20000)).catch(error => {/*nothing*/});
+      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 20000)).catch(error => {/*nothing*/});
       return;
     }
     const verifiedRole = message.guild.roles.cache.get(verifiedRoleID);
     const verificationChannel = message.guild.channels.cache.get(verificationChannelID);
     if((!verifiedRole) || (!verificationChannel)){
       embed.setDescription('The verification system is not setup. Kindly ask the server staff to setup it first.');
-      message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 20000)).catch(error => {/*nothing*/});
-      message.delete().catch(error => {/*nothing*/});
+      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 20000)).catch(error => {/*nothing*/});
+      await message.delete().catch(error => {/*nothing*/});
       return;
     }
     if(message.channel.id != verificationChannelID) return message.delete().catch(error => {/*nothing*/});

@@ -3,7 +3,7 @@ module.exports = {
   name: "set",
   description: "set values to variables",
 
-async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder) {
+async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react) {
   var embed = new Discord.MessageEmbed()
     .setColor("GREEN")
     .setTimestamp();    
