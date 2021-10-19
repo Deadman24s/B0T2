@@ -18,7 +18,7 @@ module.exports = {
     }
     let coinText = await database.get('botCoinName');
     let coins;
-    let lvl, points, person, maxPoints, pointsPercentage;
+    let lvl, points, rank, person, maxPoints, pointsPercentage;
     if(args[0] == "help"){
       if(isAdmin(message.member)){
         embed.setDescription(`**Level Help**
@@ -57,12 +57,17 @@ module.exports = {
           coinText = "Bot Coin";
         }
         lvl = await database.get(`${person.id} lvl`) * 1;
+        rank = await database.get(`${person.id} rank`) * 1;
         points = await database.get(`${person.id} points`) * 1.0;
         coins = await database.get(`${person.id} coins`) * 1;
         if((!coins) || coins <= 0)
           coins = 0;
         if((!lvl) || lvl <= 0)
           lvl = 1;
+        if((!rank) || rank <= 0){
+          rank = message.guild.members.cache.size;
+          await database.set(`${person.id} rank`, rank);
+        }  
         if((!points) || points < 0)  
           points = 0;
         if(coins >= 1)
@@ -72,7 +77,8 @@ module.exports = {
         embed.setAuthor(person.username)
           .setTitle(`**LEVEL** ${lvl}`)
           .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins.toFixed(3)}** ${coinText}`)
-          .setThumbnail(person.displayAvatarURL());
+          .setThumbnail(person.displayAvatarURL())
+          .setFooter(`Rank- #${rank}`);
         await message.channel.send(embed).catch(error => {/*nothing*/});
       }
       if(args[0] == "set"){
@@ -95,6 +101,7 @@ module.exports = {
           }   
         }
         lvl = await database.get(`${person.id} lvl`) * 1;
+        rank = await database.get(`${person.id} rank`) * 1;
         points = 0;
         if(coins > 1)
           coinText = coinText + 's';  
@@ -103,6 +110,10 @@ module.exports = {
           coins = 0;
         if((!lvl) || lvl <= 0)
           lvl = 1;
+        if((!rank) || rank <= 0){
+          rank = message.guild.members.cache.size;
+          await database.set(`${person.id} rank`, rank);
+        }  
         if((!points) || points < 0)  
           points = 0;  
         if(!args[2]){

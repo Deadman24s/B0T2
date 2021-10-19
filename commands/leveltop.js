@@ -1,5 +1,3 @@
-const level = require("./level");
-
 module.exports = {
   name : 'leveltop',
   description : 'to check level leaderboard',
@@ -9,13 +7,13 @@ module.exports = {
       .setTitle("Level Top List")
       .setColor("RANDOM")
       .setTimestamp();
-    let membersMap = message.guild.members.cache
+    let membersMapTemp = message.guild.members.cache
       .sort((a, b) => b.position - a.position)
       .map(r => r.user.tag);
-    let membersIDMap = message.guild.members.cache
+    let membersIDMapTemp = message.guild.members.cache
       .sort((a, b) => b.position - a.position)
       .map(r => r.id); 
-    if(membersMap.length <= 0){
+    if(membersMapTemp.length <= 0){
       embed.setDescription("No Members Preset.")
         .setColor("RED");
       await message.channel.send(embed).catch(error => {});
@@ -23,16 +21,24 @@ module.exports = {
       react(message, '❌');
       return;
     }
+    let membersMap = [];
+    for(let i=0; i<=membersMapTemp.length-1; i++){
+      membersMap[i] = membersMapTemp[i];
+    }
+    let membersIDMap = [];
+    for(let i=0; i<=membersIDMapTemp.length-1; i++){
+      membersIDMap[i] = membersIDMapTemp[i];
+    }
     let levelsMap = [];
     for(let i=0; i<=membersMap.length-1; i++){
-      levelsMap[i] = await database.get(`${membersIDMap[i].id} lvl`);
+      levelsMap[i] = await database.get(`${membersIDMap[i]} lvl`);
       if((!levelsMap[i]) || isNaN(levelsMap[i])){
         levelsMap[i] = 0;
-        await database.set(`${membersMap[i].id} lvl`, levelsMap[i]);
+        await database.set(`${membersIDMap[i]} lvl`, levelsMap[i]);
       }
       levelsMap[i] *= 1;
     }
-    let temp, temp1;
+    let temp, temp1, temp3;
     for(let i=0; i<=levelsMap.length-1; i++){
       for(let j=0; j<=levelsMap.length-1-i; j++){
         if(levelsMap[j] < levelsMap[j+1]){
@@ -42,6 +48,9 @@ module.exports = {
           temp1 = membersMap[j];
           membersMap[j] = membersMap[j+1];
           membersMap[j+1] = temp1;
+          temp3 = membersIDMap[j];
+          membersIDMap[j] = membersIDMap[j+1];
+          membersIDMap[j+1] = temp3;
         }
       }
     }
@@ -73,5 +82,8 @@ module.exports = {
     embed.setDescription(topLevelsList)
       .setFooter(`Page- ${page}/${Math.floor(membersMap.length/10)+1}`);
     await message.channel.send(embed).catch(error => {});
+    for(let i=0; i<=membersIDMap.length-1; i++){
+      await database.set(`${membersIDMap[i]} rank`, i+1);
+    }
   }
 }

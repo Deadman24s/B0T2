@@ -25,6 +25,7 @@ module.exports = {
         **${prefix}ip** » __Get minecraft server IP__.
         **${prefix}join** » __Make the bot join your VC__.
         **${prefix}level** » __To check your level__.[*alias* - **lvl**.]
+        **${prefix}leveltop** » __To check the leaderboard__.[*alias* - **lvltop**.]
         **${prefix}userinfo** » __Get info of a member__.
         **${prefix}meme** » __Funny memes__.
         **${prefix}ping** » __Get bot's ping__.
