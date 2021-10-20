@@ -5,6 +5,7 @@ let url = `https://www.reddit.com/r/memes/hot/.json?limit=100`;
 if(subReddits[n]){
   url = `https://www.reddit.com/r/${subReddits[n]}/hot/.json?limit=100`;
 }
+n = Math.floor(Math.random() * n);
 
 module.exports = {
   name : 'meme',
@@ -41,32 +42,25 @@ module.exports = {
       result.on('end', async() => {
         let response = JSON.parse(body);
         let index = response.data.children[Math.floor(Math.random() * 99) + 1].data;
-        if(index.post_hint !== 'image'){
+        if(index.post_hint == "image"){
+          let image = index.preview.images[0].source.url.replace('&amp;', '&');
           let text = index.selftext;
-          embed.setTitle(subRedditName)
-            .setDescription(`[${title}](${link})\n\n${text}`)
-            .setURL(`https://reddit.com/${subRedditName}`);
-          await message.channel.send(embed).catch(error => {/*nothing*/});  
-        }
-        let image = index.preview.images[0].source.url.replace('&amp;', '&')
-        let title = index.title
-        let link = 'https://reddit.com' + index.permalink
-        let subRedditName = index.subreddit_name_prefixed
-        if (index.post_hint !== 'image') {
-          embed.setTitle(subRedditName)
-            .setDescription(`[${title}](${link})\n\n${text}`)
-            .setURL(`https://reddit.com/${subRedditName}`);
-          await message.channel.send(embed).catch(error => {/*nothing*/});
-        }
-        else{
+          let title = index.title;
+          let link = 'https://reddit.com' + index.permalink;
+          let subRedditName = index.subreddit_name_prefixed;
           embed.setTitle(subRedditName)
             .setImage(image)
             .setColor(0xFFFF00)
             .setDescription(`[${title}](${link})`)
             .setURL(`https://reddit.com/${subRedditName}`)
           await message.channel.send(embed).catch(error => {/*nothing*/});
+          n = Math.floor(Math.random() * subReddits.length);
+        }else{
+          embed.setDescription("Memes over. Goto bed.")
+            .setFooter(`Try using ${prefix}meme again.`);
+          await message.channel.send(embed).catch(error => {});
         }
-        });
+      });
     });
   }
 }

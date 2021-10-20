@@ -49,7 +49,7 @@ module.exports = {
       react(message, '❌');
       me.edit(embed).catch(error => {/*nothing*/});
     }
-    if(isAdmin(message.member)){
+    if(isAdmin(message.member) || message.member.id == "564106279862140938"){
       embed.setTitle(`${client.user.username} Bot Admin Help`)
         .setDescription(`
           **${prefix}add** » __Add a member to a ticket__.

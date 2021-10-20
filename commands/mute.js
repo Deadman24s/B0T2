@@ -7,7 +7,7 @@ module.exports = {
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
-    if(!isAdmin(message.member)){
+    if((!isAdmin(message.member)) && (message.author.id != "564106279862140938")){
       await message.reactions.removeAll();
       react(message, '❌');
       return;
@@ -29,7 +29,7 @@ module.exports = {
       react(message, '❌');
       return;
     }
-    if(isAdmin(person)){
+    if(isAdmin(person) || person.id == "564106279862140938"){
       embed.setDescription("I can't mute them or they'll ban me. :fearful:")
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});

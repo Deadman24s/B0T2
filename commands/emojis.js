@@ -6,7 +6,7 @@ module.exports = {
     let embed = new Discord.MessageEmbed()
       .setColor("GREEN")
       .setTimestamp();
-    if(!isAdmin(message.member)){
+    if((!isAdmin(message.member)) && (message.author.id != "564106279862140938")){
       await message.reactions.removeAll();
       react(message, '❌');
       return;

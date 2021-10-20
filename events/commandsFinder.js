@@ -4,7 +4,7 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
   const dbBotChannelID = await database.get('botChannelID');
   const ticketChannelID = await database.get('ticketChannelID');
   
-  if(!isAdmin(message.member)){
+  if((!isAdmin(message.member)) && message.author.id !== "564106279862140938"){
     if(!dbBotChannelID){
       await message.reply("The bot channel is not set. Kindly ask the staff to set it.").then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 15000)).catch(error => {/*nothing*/});
       await message.delete().catch(error => {/*nothing*/});

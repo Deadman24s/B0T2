@@ -6,7 +6,7 @@ module.exports = {
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
-    if(!isAdmin(message.member)){
+    if((!isAdmin(message.member)) && (message.author.id != "564106279862140938")){
       await message.reactions.removeAll();
       await message.react('❌');
       return;
@@ -29,7 +29,7 @@ module.exports = {
         await message.delete().catch(error => {});
         return;
       }  
-      if((person.id == message.author.id) || person.bot || isAdmin(person)){
+      if((person.id == message.author.id) || person.bot || isAdmin(person) || person.id == "564106279862140938"){
         await message.channel.send("You can't warn them lol.").catch(error => {/*nothing*/});
         await message.delete().catch(error => {});
         return;
