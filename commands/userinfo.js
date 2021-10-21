@@ -9,7 +9,7 @@ module.exports = {
       .setTimestamp();
     let person;
     if(args[0]){
-      let person = personFinder(message, args[0]);
+      let person = personFinder(message, args[0], "user");
       if(person === "not found"){
         person = message.author;
       }
