@@ -4,9 +4,7 @@ module.exports = {
 
   async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
-      .setAuthor(message.author.username, message.author.displayAvatarURL())
-      .setColor("RANDOM")
-      .setTimestamp();
+      .setColor("RANDOM");
     let errorEmbed = new Discord.MessageEmbed()
       .setColor("RED")
       .setTimestamp(); 

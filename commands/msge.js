@@ -30,6 +30,7 @@ module.exports = {
       }
       const msg = messageEmojiFinder(client, message, args.slice(1));
       let msgembed = new Discord.MessageEmbed()
+        .setAuthor(message.guild.name, message.guild.iconURL())
         .setDescription(msg)
         .setColor("RANDOM")
         .setTimestamp();

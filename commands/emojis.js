@@ -11,43 +11,60 @@ module.exports = {
       react(message, '❌');
       return;
     }
-    let i, j;
-    let guildsNamesMap = client.guilds.cache
+    let guildIDsMap = client.guilds.cache
       .sort((a, b) => b.position - a.position)
-      .map(g => g)
-      .join(",");
-    let guildsIDsMap = client.guilds.cache
-      .sort((a, b) => b.position - a.position)
-      .map(g => g.id)
-      .join(" ");
-    let guildsNames = guildsNamesMap.split(",");
-    let guildsIDs = guildsIDsMap.split(/ +/);
-    for(i=0; i<guildsNames.length; i++){
-      let guild = client.guilds.cache.get(guildsIDs[i]);
-      let emojisMap = guild.emojis.cache
-        .sort((a, b) => b.position - a.position)
-        .map(e => e)
-        .join(",");
-      let emojisNamesMap = guild.emojis.cache
-        .sort((a, b) => b.position - a.position)
-        .map(e => e.name)
-        .join(","); 
-      let emojis = emojisMap.split(",");
-      let emojisNames = emojisNamesMap.split(",");  
-      embed.setDescription("Sending you the list of all emojis bot has access to.");
-      await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
-      await message.author.send(emojis[j] + " => " + emojisNames[j]).catch(async err =>{
-        embed.setDescription("Either your DMs are off or I'm blocked.")  
-          .setColor("RED");
-        await message.reply(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 5000)).catch(error => {/*nothing*/});
-        await message.reactions.removeAll();
-        react(message, '❌');
-        return; 
-      });
-      for(j=1; j <= emojis.length-1; j++){
-        await message.author.send(emojis[j] + " => " + emojisNames[j]).catch(error => {/*nothing DMS are off or blocked*/});
+      .map(g => g.id);
+    let emojis = [];
+    let emojiNames = [];
+    let indexEmojiNames = 0;
+    let indexEmojis = 0;
+    for(let i=0; i<=guildIDsMap.length-1; i++){
+      let guild = client.guilds.cache.get(guildIDsMap[i]);
+      if(guild){
+        let emojiNamesMap = guild.emojis.cache
+          .sort((a, b) => b.position - a.position)
+          .map(e => e.name);
+        let emojisMap = guild.emojis.cache
+          .sort((a, b) => b.position - a.position)
+          .map(e => e.id);
+        for(let j=0; j<=emojisMap.length-1; j++){
+          emojiNames[indexEmojiNames] = emojiNamesMap[j];
+          emojis[indexEmojis] = emojisMap[j];
+          ++indexEmojiNames;
+          ++indexEmojis;
+        }
       }
     }
-    await message.delete().catch(error => {/*nothing*/});
+    let page = 1;
+    let start = 0;
+    let stop = 9;
+    if(args[0] && (!isNaN(args[0]))){
+      page = args[0] * 1;
+      if(page < 1){
+        page = 1;
+      }
+      else if(page > 1){
+        if(((((page-1)*10)+1) > emojis.length)){
+          page = 1;
+        }else{
+          start += (page-1)*10;
+          stop += (page-1)*10;
+        }
+      }
+    }
+    if(stop > emojis.length-1){
+      stop = emojis.length-1;
+    }
+    let emojisMap = [];
+    let e;
+    for(let i=start; i<=stop; i++){
+      e = client.emojis.cache.get(emojis[i]);
+      emojisMap[i] = `${e} » :${emojiNames[i]}:`;
+    }
+    emojisList = emojisMap.join("\n");
+    embed.setTitle("Emojis List")
+      .setDescription(emojisList)
+      .setFooter(`Page- ${page}/${Math.floor(emojis.length/10)+1}`);
+    await message.channel.send(embed).catch(async error => {});
   }
 }
