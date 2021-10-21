@@ -59,7 +59,7 @@ module.exports = {
     let e;
     for(let i=start; i<=stop; i++){
       e = client.emojis.cache.get(emojis[i]);
-      emojisMap[i] = `${e} » :${emojiNames[i]}:`;
+      emojisMap[i] = `${e} » \`:${emojiNames[i]}:\``;
     }
     emojisList = emojisMap.join("\n");
     embed.setTitle("Emojis List")
