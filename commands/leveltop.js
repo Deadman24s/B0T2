@@ -8,6 +8,7 @@ module.exports = {
       .setColor("RANDOM")
       .setTimestamp();
     let membersIDMapTemp = message.guild.members.cache
+      .filter(m => !m.user.bot)
       .sort((a, b) => b.position - a.position)
       .map(r => r.id); 
     if(membersIDMapTemp.length <= 0){
