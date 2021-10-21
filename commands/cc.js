@@ -27,6 +27,8 @@ module.exports = {
         embed.setDescription("Please provide a word to make its command.")
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
       }
       key = await database.get(`customCommand_${args[1]}`);
