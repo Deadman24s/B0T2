@@ -11,6 +11,9 @@ module.exports = {
       return;
     }
     let key, msg;
+    if(args[1]){
+      args[1] = args[1].toLowerCase(); 
+    }
     if((!args[0]) || args[0] == 'help'){
       embed.setDescription(`**Custom Commands Help**-\n
         **01** ~~»~~ __\`${prefix}cc help\`__- *To open this help message*.
