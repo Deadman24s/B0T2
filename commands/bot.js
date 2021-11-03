@@ -1,14 +1,10 @@
 const os = require('os'),
   cpuStat = require('cpu-stat'),
-  fetch = require('node-fetch'),
   osu = require("os-utils"),
   checkDiskSpace = require('check-disk-space').default;
 const usageBarBuilder = require('../builders/usageBarBuilder.js');
 const levelBarBuilder = require('../builders/levelBarBuilder.js');
 const uptimeBuilder = require('../builders/uptimeBuilder.js');
-
-const Keyv = require('keyv');
-const databaseBuilder = require("../builders/databaseBuilder.js");
   
 module.exports = {
   name : 'bot',
@@ -302,25 +298,54 @@ module.exports = {
         await message.delete().catch(error => {/*nothing*/});
       }
       else if(args[0] == 'guildsList'){
-        let guildsListIDs = client.guilds.cache
+        let guildsListIDsMap = client.guilds.cache
           .sort((a, b) => b.position - a.position)
-          .map(g => g.id)
-          .join("\n");  
-        let guildsList = client.guilds.cache
+          .map(g => g.id);
+        let guildsListMap = client.guilds.cache
           .sort((a, b) => b.position - a.position)
-          .map(g => g)
-          .join("\n");
-        embed.setDescription(guildsListIDs)
-          .setColor("YELLOW");
-        await message.channel.send(embed).catch(error => {/*nothing*/});
+          .map(g => g);
+        let page = 1;
+        let start = 0;
+        let stop = 9;
+        if(args[1] && (!isNaN(args[1]))){
+          page = args[1] * 1;
+          if(page < 1){
+            page = 1;
+          }
+          else if(page > 1){
+            if(((((page-1)*10)+1) > guildsListMap.length)){
+              page = 1;
+            }else{
+              start += (page-1)*10;
+              stop += (page-1)*10;
+            }
+          }
+        }
+        if(stop > guildsListMap.length-1){
+          stop = guildsListMap.length-1;
+        }
+        let guildsList = [];
+        let guild, invite = "N/A";
+        for(let i=start; i<=stop; i++){
+          guild = client.guilds.cache.get(guildsListIDsMap[i]);
+          invite = await guild.channels.cache.first().createInvite({
+            maxAge: 86400,
+            maxUses: 1
+          }).catch(err => {invite = "N/A"});
+          guildsList[i] = `==========\n${i+1}. Name- ${guildsListMap[i]}\nID- ${guildsListIDsMap[i]}\nMembers- ${guild.members.cache.size}\nInvite Link- ${invite}\nOwner- ${guild.owner.user.tag}`;
+        }
+        let pages = Math.floor(guildsList.length/10)+1;
+        guildsList = guildsList.join("\n");
+        guildsList = guildsList + "\n=========="
         embed.setDescription(guildsList)
+          .setFooter(`Page- ${page}/${pages}`)
           .setColor("YELLOW");
         await message.channel.send(embed).catch(error => {/*nothing*/});
       }
-      let membersMap = message.guild.members.cache
-        .sort((a, b) => b.position - a.position)
-        .map(r => r)
-        .join("\n");
+      else{
+        await message.reactions.removeAll();
+        react(message, '❌');
+      }
     }
     else{
       if((!args[0]) || args[0] == "help"){
