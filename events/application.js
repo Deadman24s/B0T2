@@ -10,7 +10,7 @@ let botChannelID;
 let canApply;
 let prefix = '-';
 let Guild;
-module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
+module.exports = (Discord, client, isAdmin, Keyv, fs, path, react) =>{
   client.on('message', async message => {
     if(message.guild){
       database = new Keyv('sqlite://./databases/database.sqlite', {
@@ -36,9 +36,22 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
       });
       botChannelID = await database.get("botChannelID");
       if(botChannelID){
-        if((message.channel.id != botChannelID) && (!isAdmin(message.member))){
-          await message.reply(`Please use <#${botChannelID}>.`).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 15000)).catch(error => {/*nothing*/});
-          await message.delete().catch(error => {/*nothing*/});
+        let botChannel = message.guild.channels.cache.get(botChannelID);
+        if(botChannel){
+          if((message.channel.id != botChannelID) && (!isAdmin(message.member))){
+            embed.setDescription(`Please use <#${botChannelID}>.`)
+              .setColor("RED");
+            await message.reply(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 15000)).catch(error => {/*nothing*/});
+            await message.reactions.removeAll();
+            react(message, '❌');
+            return;
+          }
+        }else{
+          embed.setDescription("The bot channel is not set please set it up first.")
+            .setColor("RED");
+          await message.channel.send(embed).catch(error => {});
+          await message.reactions.removeAll();
+          react(message, '❌');
           return;
         }
       }
@@ -47,12 +60,40 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
       canApply = await database.get("canApply");
       database.on('error', err => console.log('Connection Error', err));
       if(!applicationLogsChannelID){
-        await message.channel.send("The application logs channel is not set. Knidly ask the staff to set it first.").catch(error => {/*nothing*/});
+        embed.setDescription("The application logs channel is not set. Knidly ask the staff to set it first.")
+          .setColor("RED");
+        await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
+      }else{
+        let applicationLogsChannel = message.guild.channels.cache.get(applicationLogsChannelID);
+        if(!applicationLogsChannel){
+          embed.setDescription("The application logs channel is not set. Knidly ask the staff to set it first.")
+            .setColor("RED");
+          await message.channel.send(embed).catch(error => {/*nothing*/});
+          await message.reactions.removeAll();
+          react(message, '❌');
+          return;
+        }
       }
       if(!transcriptsChannelID){
-        await message.channel.send("The transcripts channel is not set. Knidly ask the staff to set it first.").catch(error => {/*nothing*/});
+        embed.setDescription("The transcripts channel is not set. Knidly ask the staff to set it first.")
+          .setColor("RED");
+        await message.channel.send(embed).catch(error => {/*nothing*/});
+        await message.reactions.removeAll();
+        react(message, '❌');
         return;
+      }else{
+        let transcriptsChannel = message.guild.channels.cache.get(transcriptsChannelID);
+        if(!transcriptsChannel){
+          embed.setDescription("The transcripts channel is not set. Knidly ask the staff to set it first.")
+            .setColor("RED");
+          await message.channel.send(embed).catch(error => {/*nothing*/});
+          await message.reactions.removeAll();
+          react(message, '❌');
+          return;
+        }
       }
       if(!canApply){
         canApply = "false";
@@ -226,9 +267,8 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
               responce.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == '✅' || reaction.emoji.name == '❌'),
                 {max: 1, time: 240000 }).then(collected => {
                   if (collected.first().emoji.name === '✅') {
-                    fs.mkdir(path.join(__dirname, "..", "applications", `${guild[authorId]}`)).catch(error =>{});
                     let logchannel = client.channels.cache.get(applicationLogsChannelID);
-                    const logFileLocation = path.join(__dirname, "..", "applications", `${guild[authorId]}`, `${message.author.id}.txt`);
+                    const logFileLocation = path.join(__dirname, "..", "applications", `${Guild.id}`, `${message.author.id}.txt`);
                     try{
                       let findFile = fs.statSync(logFileLocation);
                       message.channel.send("You are already having a pending application.\nApplication canceled.").catch(error => {/*nothing*/});
@@ -261,13 +301,13 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                       "Question 15- " + questions[15] + '\nAnswer 15- ' + authorApplication.answer15 + '\n\n' + 
                       "Question 16- " + questions[16] + '\nAnswer 16- ' + authorApplication.answer16 + '\n\n', { flag: 'wx' }, function (err) {
                         if (err){
-                          message.author.send("Error while storing your application.\nPlease report it to #ShreshthTiwari#6014.").catch(error => {/*nothing*/});
+                          message.author.send(`Error while storing your application.\nPlease report it to the bt dev.\n\`${prefix}bot reportBug <message>\`.`).catch(error => {/*nothing*/});
                           success = false;
                           return;
                         }  
                       });
                     }catch(error){
-                      message.author.send(`Error while storing your application.\nPlease report it to #ShreshthTiwari#6014.`).catch(error => {/*nothing*/});
+                      message.author.send(`Error while storing your application.\nPlease report it to the bt dev.\n\`${prefix}bot reportBug <message>\`.`).catch(error => {/*nothing*/});
                     }
                     if(success){
                       logchannel.send({
@@ -306,7 +346,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path) =>{
                     return;
                   }
                 }).catch(() => {
-                  embed.setDescription(`No responce after 4 minutes, Application canceled.\nIf you feel it's a bug, please ask the server staff to report it to the bot dev. \`${prefix}bot reportBug <message>\`.`)
+                  embed.setDescription(`No responce after 4 minutes, Application canceled.\nIf you feel it's a bug, please report it to the bot dev. \`${prefix}bot reportBug <message>\`.`)
                     .setColor("RED");
                   message.reply(embed).catch(error => {/*nothing*/});
                   console.log(`--------------------\nPlease check if ${guild[authorId]} is in applications folder.\n--------------------`);
