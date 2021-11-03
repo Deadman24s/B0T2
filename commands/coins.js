@@ -10,7 +10,7 @@ module.exports = {
     let coinEmoji = client.emojis.cache.get(coinEmojiID);
     let coinText = await database.get('botCoinName');
     if(!coinEmoji){
-      coinEmoji = "🪙";
+      coinEmoji = client.emojis.cache.get("860047308607062036");
     }
     if(!coinText){
       coinText = "Bot Coin";

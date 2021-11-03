@@ -76,9 +76,10 @@ client.on('message', async message => {
     .setColor("YELLOW");
   if(message.guild){
     if(!isAdmin(message.guild.me)){
-      embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.")
+      embed.setDescription("I don't have the **__`ADMINISTRATOR`__** permission.\nPlease invite me again with my default role.")
         .setColor("RED");
       await message.channel.send(embed).catch(error => {/*nothing*/});
+      await message.guild.leave().catch(error => {/*kek*/});
       return;
     }
     database = databaseBuilder(Keyv, message.guild.id);
