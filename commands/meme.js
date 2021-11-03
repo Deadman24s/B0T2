@@ -1,11 +1,6 @@
 const https = require('https');
 let subReddits = ["savagememes", "OSHA", "BikiniBottomTwitter", "fakehistoryporn", "ScottishPeopleTwitter", "me_irl", "skyrimskills_irl", "wellthatsucks", "funny", "youdontsurf", "prequelmemes", "thatHappened", "ATBGE", "WeWantPlates", "thecanopener", "JustRolledIntoTheSea", "AnimatedStarWarsMemes", "MildlyVandalised", "misleadingthumbnails", "BlackPeopleTwitter", "notmyjob", "whatcouldgowrong", "crappydesign", "youtubehaiku", "BigBrother", "Archer"];
-let n = Math.floor(Math.random() * subReddits.length);
 let url = `https://www.reddit.com/r/memes/hot/.json?limit=100`;
-if(subReddits[n]){
-  url = `https://www.reddit.com/r/${subReddits[n]}/hot/.json?limit=100`;
-}
-n = Math.floor(Math.random() * n);
 
 module.exports = {
   name : 'meme',
@@ -17,6 +12,11 @@ module.exports = {
       .setTimestamp();
     const memeChannelID = await database.get("memeChannelID");
     const botChannelID = await database.get("botChannelID");
+    if(args[0] && (!isNaN(args[0]))){
+      if(args[0] >=1 && args[0] <= subReddits.length){
+        url = `https://www.reddit.com/r/${subReddits[args[0]-1]}/hot/.json?limit=100`;
+      }
+    }
     if(!memeChannelID){
       embed.setDescription('The meme channel is not setup. Kindly ask the staff to setup is first.')
         .setColor("RED");
@@ -54,7 +54,6 @@ module.exports = {
             .setDescription(`[${title}](${link})`)
             .setURL(`https://reddit.com/${subRedditName}`)
           await message.channel.send(embed).catch(error => {/*nothing*/});
-          n = Math.floor(Math.random() * subReddits.length);
         }else{
           embed.setDescription("Memes over. Goto bed.")
             .setFooter(`Try using ${prefix}meme again.`);

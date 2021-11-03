@@ -4,6 +4,9 @@ module.exports = async(Discord, client, message, args, database, messageEmojiFin
     .setAuthor(message.guild.name, message.guild.iconURL())
     .setColor("YELLOW")
     .setTimestamp();
+  if(args[0]){
+    args[0] = args[0].toLowerCase();
+  }
   const key =  await database.get(`customCommand_${args[0]}`);
   if(key){
     let parts = key.replace("\n", " \n ").split(" ");

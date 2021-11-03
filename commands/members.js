@@ -19,8 +19,8 @@ module.exports = {
     if (membersMap.length > 1024) membersMap = "Too many members to display";
     if (!membersMap) membersMap = "No members";
     embed.setDescription(`
-      **Total Users**: __${message.guild.memberCount}__\n
-      **Members**: __${message.guild.members.cache.filter(m => !m.user.bot).size}__\n
+      **Total Users**: __${message.guild.memberCount}__
+      **Members**: __${message.guild.members.cache.filter(m => !m.user.bot).size}__
       **Bots**: __${message.guild.members.cache.filter(m => m.user.bot).size}__`);
     await message.channel.send(embed).catch(error => {/*nothing*/});       
     embed.setDescription(membersMap);     
