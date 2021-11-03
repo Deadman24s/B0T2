@@ -28,7 +28,7 @@ module.exports = {
       react(message, '❌');
       return;
     }
-    const msg = messageEmojiFinder(client, message, args.slice(1));
+    let msg = messageEmojiFinder(client, message, args.slice(1));
     msg = msg + `\n-${message.guild}`;
     embed.setDescription(`Successfully messaged ${reciever}`)
       .setColor("GREEN");
