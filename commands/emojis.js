@@ -62,7 +62,8 @@ module.exports = {
       emojisMap[i] = `${i+1}. ${e} » \`:${emojiNames[i]}:\``;
     }
     emojisList = emojisMap.join("\n");
-    embed.setTitle("Emojis List")
+    embed.setAuthor(`${emojis.length} Emojis`)
+      .setTitle("Emojis List")
       .setDescription(emojisList)
       .setFooter(`Page- ${page}/${Math.floor(emojis.length/10)+1}`);
     await message.channel.send(embed).catch(async error => {});

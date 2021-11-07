@@ -337,7 +337,8 @@ module.exports = {
         let pages = Math.floor(guildsList.length/10)+1;
         guildsList = guildsList.join("\n");
         guildsList = guildsList + "\n=========="
-        embed.setDescription(guildsList)
+        embed.setAuthor(`${guildsListMap.length} Guilds`)
+          .setDescription(guildsList)
           .setFooter(`Page- ${page}/${pages}`)
           .setColor("YELLOW");
         await message.channel.send(embed).catch(error => {/*nothing*/});

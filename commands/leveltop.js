@@ -85,7 +85,8 @@ module.exports = {
       topLevelsMap[i] = `${i+1}. <@${membersIDMap[i]}> » Level ${levelsMap[i]}. [${coinsMap[i].toFixed(3)} ${coinText}]`;
     }
     topLevelsList = topLevelsMap.join("\n");
-    embed.setDescription(topLevelsList)
+    embed.setAuthor(`${membersIDMap.length} Members`)
+      .setDescription(topLevelsList)
       .setFooter(`Page- ${page}/${Math.floor(membersIDMap.length/10)+1}`);
     await message.channel.send(embed).catch(error => {});
     for(let i=0; i<=membersIDMap.length-1; i++){
