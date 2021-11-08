@@ -22,7 +22,7 @@ module.exports = {
         **06** ~~»~~ __\`${prefix}application blacklist remove <userID>\`__- *To remove a user's ID from the blacklist*`);
       await message.channel.send(embed).catch(error => {/*nothing*/});
     }
-    if(args[0] == "reject" || args[0] == "accept" || args[0] == "ignore"){
+    if(args[0].toLowerCase() == "reject" || args[0].toLowerCase() == "accept" || args[0].toLowerCase() == "ignore"){
       if(!args[1]){
         embed.setDescription("Please provide a user")
           .setColor("RED");
@@ -54,7 +54,7 @@ module.exports = {
         fs.unlink(`./applications/${message.guild.id}/${applicant.id}.txt`, (err) => {
           if (err) throw err;
         });
-        if(args[0] == "reject"){
+        if(args[0].toLowerCase() == "reject"){
           embed.setDescription(`Your application got rejected.\nReason- \`${reason}\``)
             .setColor("RED");
           await applicant.send(embed).catch(error => {/*nothing*/});
@@ -62,7 +62,7 @@ module.exports = {
             .setColor("GREEN");
           await message.channel.send(embed).catch(error => {/*nothing*/}); 
         }
-        else if(args[0] == "accept"){
+        else if(args[0].toLowerCase() == "accept"){
           embed.setDescription(`Your application was accepted.🥳\nMessage from staff- \`${reason}\``)
             .setColor("GREEN")
           await applicant.send(embed).catch(error => {/*nothing*/});
@@ -70,7 +70,7 @@ module.exports = {
             .setColor("GREEN");
           await message.channel.send(embed).catch(error => {/*nothing*/});
         }
-        else if(args[0] == "ignore"){
+        else if(args[0].toLowerCase() == "ignore"){
           embed.setDescription(`Sucessfully ignored the application of ${applicant.tag}[${applicant.id}]\nReason-${reason}`)
             .setColor("GREEN");
           await message.channel.send(embed).catch(error => {/*nothing*/});
@@ -82,7 +82,7 @@ module.exports = {
         await message.channel.send(embed).catch(error => {/*nothing*/});
       }
     }
-    else if(args[0] == "blacklist"){
+    else if(args[0].toLowerCase() == "blacklist"){
       let blackList = await database.get("applicationBlackList");
       let blackListIDs;
       if(!blackList){
@@ -97,7 +97,7 @@ module.exports = {
         await message.channel.send(embed).catch(error => {/*nothing*/});
       }
       else{
-        if(args[1] == "remove"){
+        if(args[1].toLowerCase() == "remove"){
           for(let i=0; i<=blackListIDs.length-1; i++){
             if(args[2] == blackListIDs[i]){
               if(blackListIDs.length > 1){
@@ -118,7 +118,7 @@ module.exports = {
             .setColor("RED");
           await message.channel.send(embed).catch(error => {/*nothing*/});
         }
-        else if(args[1] == "add"){
+        else if(args[1].toLowerCase() == "add"){
           for(let i=0; i<=blackListIDs.length-1; i++){
             if(args[2] == blackListIDs[i]){
               embed.setDescription(`ID (${args[2]}) is already blacklisted.`)

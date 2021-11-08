@@ -15,23 +15,17 @@ module.exports = {
     let badwordsList = [];
     if(badwords)
       badwordsList = await badwords.split(" ");
-    if(!args[0]){
-      embed.setDescription(`What do you want to do?\nUse \`${prefix}badword help\`.`)
-        .setColor("RED");
-      await message.channel.send(embed).catch(error => {/*nothing*/});
-      return;
+    if(!args[0] || args[0].toLowerCase() == "help"){
+      embed.setDescription(`
+        **Badword Help**\n
+        **01** ~~»~~ __\`${prefix}badword add <word>\`__- *To add a word in badwords list*.
+        **02** ~~»~~ __\`${prefix}badword remove <word>\`__- *To remove a word from badwords list*.
+        **03** ~~»~~ __\`${prefix}badword view\`__- *To view the badwords list*.
+        **04** ~~»~~ __\`${prefix}badword clear\`__- *To clear the badwords list*.`);
+      await message.channel.send(embed).catch(error => {/*nothing*/}); 
     }else{
       if(!args[1]){
-        if(args[0] == "help"){
-          embed.setDescription(`
-            **Badword Help**\n
-            **01** ~~»~~ __\`${prefix}badword add <word>\`__- *To add a word in badwords list*.
-            **02** ~~»~~ __\`${prefix}badword remove <word>\`__- *To remove a word from badwords list*.
-            **03** ~~»~~ __\`${prefix}badword view\`__- *To view the badwords list*.
-            **04** ~~»~~ __\`${prefix}badword clear\`__- *To clear the badwords list*.`);
-          await message.channel.send(embed).catch(error => {/*nothing*/});  
-        }
-        else if(args[0] == 'view' || args[0] == 'list'){
+        if(args[0].toLowerCase() == 'view' || args[0].toLowerCase() == 'list'){
           if(badwordsList.length <= 0){
             embed.setDescription("The badwords list is empty.")
               .setColor("RED");
@@ -41,7 +35,7 @@ module.exports = {
           }
           await message.channel.send(embed).catch(error => {/*nothing*/});
         }
-        else if(args[0] == 'clear'){
+        else if(args[0].toLowerCase() == 'clear'){
           if(badwordsList.length <= 0){
             embed.setDescription("The badwords list is already empty.")
               .setColor("RED");
@@ -64,7 +58,7 @@ module.exports = {
       }
       else{
         args[1] = args[1].toLowerCase();
-        if(args[0] == 'add'){
+        if(args[0].toLowerCase() == 'add'){
           for(let i=0; i<=badwordsList.length-1; i++){
             if(args[1] == badwordsList[i]){
               embed.setDescription("The word is already present in the database.")
@@ -81,7 +75,7 @@ module.exports = {
             .setColor("GREEN");
           await message.channel.send(embed).catch(error => {/*nothing*/});
         }
-        else if(args[0] == 'remove'){
+        else if(args[0].toLowerCase() == 'remove'){
           let pos = -1, word;
           for(let i=0; i<=badwordsList.length-1; i++){
             if(args[1] == badwordsList[i]){

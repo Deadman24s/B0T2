@@ -1,7 +1,10 @@
 module.exports = {
   name: "cc",
   description: "create custom commands",
-  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
+  async run (Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react, helptext){
+    if(!helptext){
+      helptext = "cc";
+    }
     let embed = new Discord.MessageEmbed()
       .setColor("YELLOW")
       .setTimestamp();
@@ -14,15 +17,15 @@ module.exports = {
     if(args[1]){
       args[1] = args[1].toLowerCase(); 
     }
-    if((!args[0]) || args[0] == 'help'){
+    if((!args[0]) || args[0].toLowerCase() == 'help'){
       embed.setDescription(`**Custom Commands Help**-\n
-        **01** ~~»~~ __\`${prefix}cc help\`__- *To open this help message*.
-        **02** ~~»~~ __\`${prefix}cc create <command> <message>\`__- *To create a custom command*.
-        **03** ~~»~~ __\`${prefix}cc update <command> <message>\`__- *To update a custom command*.
-        **04** ~~»~~ __\`${prefix}cc remove <command>\`__- *To remove a custom command*.`);
+        **01** ~~»~~ __\`${prefix}${helptext} help\`__- *To open this help message*.
+        **02** ~~»~~ __\`${prefix}${helptext} create <command> <message>\`__- *To create a custom command*.
+        **03** ~~»~~ __\`${prefix}${helptext} update <command> <message>\`__- *To update a custom command*.
+        **04** ~~»~~ __\`${prefix}${helptext} remove <command>\`__- *To remove a custom command*.`);
       await message.channel.send(embed).catch(error => {/*nothing*/});
     }
-    else if(args[0] == 'create' || args[0] == 'new' || args[0] == 'make'){
+    else if(args[0].toLowerCase() == 'create' || args[0].toLowerCase() == 'new' || args[0].toLowerCase() == 'make'){
       if(!args[1]){
         embed.setDescription("Please provide a word to make its command.")
           .setColor("RED");
@@ -54,7 +57,7 @@ module.exports = {
         .setColor("GREEN");
       await message.channel.send(embed).catch(error => {/*nothing*/});
     }
-    else if(args[0] == 'edit' || args[0] == 'update'){
+    else if(args[0].toLowerCase() == 'edit' || args[0].toLowerCase() == 'update'){
       if(!args[1]){
         embed.setDescription("Please provide a custom command's name to edit.")
           .setColor("RED");
@@ -86,7 +89,7 @@ module.exports = {
         .setColor("GREEN");
       await message.channel.send(embed).catch(error => {/*nothing*/});
     }
-    else if(args[0] == 'remove' || args[0] == 'reset' || args[0] == 'clear' || args[0] == 'delete'){
+    else if(args[0].toLowerCase() == 'remove' || args[0].toLowerCase() == 'reset' || args[0].toLowerCase() == 'clear' || args[0].toLowerCase() == 'delete'){
       if(!args[1]){
         embed.setDescription("Please provide a custom command's name to edit.")
           .setColor("RED");

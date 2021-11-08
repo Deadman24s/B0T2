@@ -1,5 +1,3 @@
-const levelBarBuilder = require('../builders/levelBarBuilder.js');
-
 module.exports = {
   name : 'lvl',
   description : 'to check your level',

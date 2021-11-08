@@ -26,7 +26,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path, react) =>{
       return;
     }
     let authorId = message.author.id;
-    if(message.content === `${prefix}apply`){
+    if(message.content.toLowerCase() === `${prefix}apply`){
       if(!message.guild){
         return;
       }

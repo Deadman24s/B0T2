@@ -16,12 +16,12 @@ module.exports = {
       .setThumbnail(client.user.displayAvatarURL())
       .setFooter(client.user.username)
       .setTimestamp();
-    if(args[0] == "invite"){
+    if(args[0].toLowerCase() == "invite"){
       embed.setDescription("[**__B0T INVITE LINK__**](https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot)")
         .setColor("RANDOM");
       message.channel.send(embed).catch(error => {/*nothing*/});
     }
-    else if(args[0] == "reportBug"){
+    else if(args[0].toLowerCase() == "reportBug"){
       let msg = messageEmojiFinder(client, message, args.slice(1));
       if(msg.length > 500){
         msg.length = 500;
@@ -107,7 +107,7 @@ module.exports = {
     const osType = os.type();
 
     if(message.author.id == "564106279862140938"){
-      if((!args[0]) || args[0] == "help"){
+      if((!args[0]) || args[0].toLowerCase() == "help"){
         embed.setTitle("Bot Commands Help")
           .setDescription(`
             **01** ~~»~~ __\`-bot help\`__- *To get this command help message*.
@@ -122,8 +122,8 @@ module.exports = {
             **10** ~~»~~ __\`-bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
         await message.channel.send(embed).catch(error => {/*nothing*/});    
       }
-      else if(args[0] == "system" || args[0] == "mem"){
-        if(args[0] == "system"){
+      else if(args[0].toLowerCase() == "system" || args[0].toLowerCase() == "mem"){
+        if(args[0].toLowerCase() == "system"){
           embed.setTitle("Bot System")
           .addFields(
             {
@@ -187,7 +187,7 @@ module.exports = {
         }
         await message.channel.send(embed).catch(error => {/*nothing*/});
       }
-      else if(args[0] == "cpu"){
+      else if(args[0].toLowerCase() == "cpu"){
         cpuStat.usagePercent(async function (error, percent, seconds) {
           if (error) {
             return console.error(error)
@@ -220,7 +220,7 @@ module.exports = {
           await message.channel.send(embed).catch(error => {/*nothing*/});
         });
       }
-      else if(args[0] == 'disk' || args[0] == 'storage'){
+      else if(args[0].toLowerCase() == 'disk' || args[0].toLowerCase() == 'storage'){
         let location = '/';
         if(osType.toLowerCase().includes('windows')){
           location = 'C:/';
@@ -279,7 +279,7 @@ module.exports = {
           message.channel.send(embed).catch(error => {/*nothing*/});            
         });
       }
-      else if(args[0] == 'rename'){
+      else if(args[0].toLowerCase() == 'rename'){
         let newname;
         newname=args.slice(1).join(" ");
         client.user.setUsername(`${newname}`);
@@ -287,7 +287,7 @@ module.exports = {
           .setDescription(`Successfully renamed the bot to **${newname}**`);
         message.channel.send(embed).catch(error => {/*nothing*/});
       }
-      else if(args[0] == 'avatar'){
+      else if(args[0].toLowerCase() == 'avatar'){
         let avatarlink;
         avatarlink=args[1];
         client.user.setAvatar(`${avatarlink}`);
@@ -297,7 +297,7 @@ module.exports = {
         await message.channel.send(embed).catch(error => {/*nothing*/});
         await message.delete().catch(error => {/*nothing*/});
       }
-      else if(args[0] == 'guildsList'){
+      else if(args[0].toLowerCase() == 'guildsList'){
         let guildsListIDsMap = client.guilds.cache
           .sort((a, b) => b.position - a.position)
           .map(g => g.id);
@@ -349,7 +349,7 @@ module.exports = {
       }
     }
     else{
-      if((!args[0]) || args[0] == "help"){
+      if((!args[0]) || args[0].toLowerCase() == "help"){
         embed.setTitle("Bot Commands Help")
           .setDescription(`
             **01** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.

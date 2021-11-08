@@ -1,5 +1,4 @@
 module.exports = (message, id, type) => {
-  let person;
   if(type == "member"){
     person = message.mentions.members.first();
     if(!person){
@@ -12,7 +11,10 @@ module.exports = (message, id, type) => {
   else if(type == "user"){
     person = message.mentions.users.first();
     if(!person){
-      person = message.guild.members.cache.get(id).user;
+      person = message.guild.members.cache.get(id);
+      if(person){
+        person = person.user;
+      }
     }
     if(!person){
       return "not found";

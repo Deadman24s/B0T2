@@ -48,7 +48,7 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
     }
   }
   const customCommand = await database.get(`customCommand_${command}`);
-  if((!client.commands.has(command)) && command != "apply" && (!customCommand) && command != "play" && command != "skip" && command != "stop"){
+  if((!client.commands.has(command)) && command.toLowerCase() != "apply" && (!customCommand) && command.toLowerCase() != "play" && command.toLowerCase() != "skip" && command.toLowerCase() != "stop"){
     if(message){
       react(message, '❌');
     }
