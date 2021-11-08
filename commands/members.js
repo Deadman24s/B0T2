@@ -12,18 +12,33 @@ module.exports = {
       react(message, '❌');
       return;
     }
-    let membersMap = message.guild.members.cache
+    let membersmap = message.guild.members.cache
       .sort((a, b) => b.position - a.position)
-      .map(r => r)
-      .join("\n");
-    if (membersMap.length > 1024) membersMap = "Too many members to display";
-    if (!membersMap) membersMap = "No members";
+      .map(r => r);
+    let membersMap = [];
+    let extraText = ".";
+    let n;
+    if(!membersmap){ 
+      roleMap = "No members";
+    }else{
+      n = membersmap.length;
+      if(n>50){
+        extraText = ` **+ __${n-50}__ members**.`
+        n = 50;
+      }
+      for(let i=0; i<=n-1; i++){
+        membersMap[i] = membersmap[i];
+      }
+      membersMap = membersMap.join(", ");
+      membersMap = membersMap + extraText;
+    }
     embed.setDescription(`
       **Total Users**: __${message.guild.memberCount}__
       **Members**: __${message.guild.members.cache.filter(m => !m.user.bot).size}__
       **Bots**: __${message.guild.members.cache.filter(m => m.user.bot).size}__`);
     await message.channel.send(embed).catch(error => {/*nothing*/});       
-    embed.setDescription(membersMap);     
+    embed.setTitle(`${membersmap.length} Members`)
+    .setDescription(membersMap);     
     await message.channel.send(embed).catch(error => {/*nothing*/});
     }
 }

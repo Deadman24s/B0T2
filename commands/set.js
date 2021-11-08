@@ -12,7 +12,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
     react(message, '❌');
     return;
   }
-  if((!args[0]) || args[0]=='help'){
+  if((!args[0]) || args[0].toLowerCase() =='help'){
     if(!args[1]){
       embed.setDescription(`
         **Set Help**\n
@@ -22,7 +22,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
         **04** ~~»~~ __\`${prefix}set help misc\`__- *To set all the misc variables*.
         **05** ~~»~~ __\`${prefix}set help appQuestions\`__- *To set all the 16 application questions*.`);
       }
-      else if(args[1] == "channels"){
+      else if(args[1].toLowerCase() == "channels"){
       embed.setDescription(`
         **Set Help Channels**\n
         **01** ~~»~~ __\`${prefix}set chatLogsChannel <channel>\`__- *To set the chat logs channel*.
@@ -43,7 +43,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
         **16** ~~»~~ __\`${prefix}set transcriptsChannel <channel>\`__- *To set the transcripts channel*.
         **17** ~~»~~ __\`${prefix}set playingStatusChannel <channel>\`__- *To set the minecraft server's playing status channel*.`);
       }
-      else if(args[1] == "roles"){
+      else if(args[1].toLowerCase() == "roles"){
         embed.setDescription(`
           **Set Help Roles**\n
           **01** ~~»~~ __\`${prefix}set pingRole <role>\`__- *To set the ping role*.
@@ -52,7 +52,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           **04** ~~»~~ __\`${prefix}set extraVerifiedRole <role>\`__- *To add extra verified roles*.
           **05** ~~»~~ __\`${prefix}set mutedRole <role>\`__- *To set the muted role*.`);  
       }
-      else if(args[1] == "emojis"){
+      else if(args[1].toLowerCase() == "emojis"){
         embed.setDescription(`
           **Set Help Emojis**\n
           **01** ~~»~~ __\`${prefix}set botCoinEmojiID <ID>\`__- *To set the coin emoji*.
@@ -61,7 +61,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           **04** ~~»~~ __\`${prefix}set downEmojiID <ID>\`__- *To set the down emoji*.
           **05** ~~»~~ __\`${prefix}set fEmojiID <ID>\`__- *To set the f emoji*.`);
       }
-      else if(args[1] == "misc"){
+      else if(args[1].toLowerCase() == "misc"){
         embed.setDescription(`
           **Set Help Misc**\n
           **01** ~~»~~ __\`${prefix}set canApply <true/false>\`__- *To turn on or off the ${prefix}apply command*.
@@ -77,7 +77,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           **11** ~~»~~ __\`${prefix}set playerLeaveMessage <msg>\`__- *To set the player leave message*.
           [For player join/leave messages, you can use the placeholders- \`{user}\` \`{username}\` \`{userid}\` \`{usertag}\` \`{guild}\` \`{guildid}\`]`);
       }
-      else if(args[1] == "appQuestions"){
+      else if(args[1].toLowerCase() == "appQuestions"){
         embed.setDescription(`
           **Set Help appQuestions**\n
           **01** ~~»~~ __\`${prefix}set appQuestion<number> <question>\`__- *To set the application question*.

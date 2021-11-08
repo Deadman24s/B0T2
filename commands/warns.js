@@ -23,8 +23,8 @@ module.exports = {
     }
     if(warnsCount > 1)
       warnsText = warnsText + 's';
-    if(args[0] == "help"){
-      embed.setTitle("Warn Help")
+    if((!args[0]) || args[0].toLowerCase() == "help"){
+      embed.setTitle("Warns Help")
         .setDescription(`
           **01** ~~»~~ __\`${prefix}warns help\`__- *To get this help message*.
           **02** ~~»~~ __\`${prefix}warns <user>\`__- *To check warns of a user*.
@@ -33,7 +33,7 @@ module.exports = {
         `);
       await message.channel.send(embed).catch(error => {/*nothing*/});
     }
-    else if(args[0] == "clear"){
+    else if(args[0].toLowerCase() == "clear"){
       person = personFinder(message, args[0], "user");
       if((person === "not found") || (!args[0])){
         person = message.author;
@@ -47,7 +47,7 @@ module.exports = {
         .setColor("GREEN");
       await message.channel.send(embed).catch(error => {/*nothing*/});
     }
-    else if(args[0] == "set"){
+    else if(args[0].toLowerCase() == "set"){
       person = personFinder(message, args[0], "user");
       if((person === "not found") || (!args[0])){
         person = message.author;

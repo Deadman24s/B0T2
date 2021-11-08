@@ -1,7 +1,6 @@
 const https = require('https');
 let subReddits = ["savagememes", "OSHA", "BikiniBottomTwitter", "fakehistoryporn", "ScottishPeopleTwitter", "me_irl", "skyrimskills_irl", "wellthatsucks", "funny", "youdontsurf", "prequelmemes", "thatHappened", "ATBGE", "WeWantPlates", "thecanopener", "JustRolledIntoTheSea", "AnimatedStarWarsMemes", "MildlyVandalised", "misleadingthumbnails", "BlackPeopleTwitter", "notmyjob", "whatcouldgowrong", "crappydesign", "youtubehaiku", "BigBrother", "Archer"];
 let url = `https://www.reddit.com/r/memes/hot/.json?limit=100`;
-
 module.exports = {
   name : 'meme',
   description : 'for memes xD',
@@ -44,7 +43,6 @@ module.exports = {
         let index = response.data.children[Math.floor(Math.random() * 99) + 1].data;
         if(index.post_hint == "image"){
           let image = index.preview.images[0].source.url.replace('&amp;', '&');
-          let text = index.selftext;
           let title = index.title;
           let link = 'https://reddit.com' + index.permalink;
           let subRedditName = index.subreddit_name_prefixed;
@@ -52,12 +50,11 @@ module.exports = {
             .setImage(image)
             .setColor(0xFFFF00)
             .setDescription(`[${title}](${link})`)
-            .setURL(`https://reddit.com/${subRedditName}`)
+            .setURL(`https://reddit.com/${subRedditName}`);
           await message.channel.send(embed).catch(error => {/*nothing*/});
         }else{
-          embed.setDescription("Memes over. Goto bed.")
-            .setFooter(`Try using ${prefix}meme again.`);
-          await message.channel.send(embed).catch(error => {});
+          let memeFile = require("./meme.js");
+          memeFile.run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react);
         }
       });
     });

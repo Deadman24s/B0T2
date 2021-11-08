@@ -34,7 +34,7 @@ module.exports = {
         **04** ~~»~~ __\`${prefix}swear clear\`__- *To clear the swearlist*.`);
       await message.channel.send(embed).catch(error => {/*nothing*/});  
     }
-    else if(args[0] == 'add'){
+    else if(args[0].toLowerCase() == 'add'){
       if(!args[1]){
         embed.setDescription("Please provide a word to add in the swear list")
           .setColor("RED");
@@ -59,7 +59,7 @@ module.exports = {
       await message.channel.send(embed).catch(error => {/*nothing*/});
       await message.delete().catch(error => {/*nothing*/});
     }
-    else if(args[0] == 'remove'){
+    else if(args[0].toLowerCase() == 'remove'){
       let pos = -1, word;
       if(!args[1]){
         embed.setDescription("Please provide a word to remove from the swear list")
@@ -93,7 +93,7 @@ module.exports = {
         .setColor("GREEN");
       await message.channel.send(embed).catch(error => {/*nothing*/});
     }
-    else if(args[0] == 'view' || args[0] == 'list'){
+    else if(args[0].toLowerCase() == 'view' || args[0].toLowerCase() == 'list'){
       if(swearsList.length <= 0){
         embed.setDescription("The swear list is empty.")
           .setColor("RED");
@@ -105,7 +105,7 @@ module.exports = {
       }
       await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 10000)).catch(error => {/*nothing*/});
     }
-    else if(args[0] == 'clear'){
+    else if(args[0].toLowerCase() == 'clear'){
       if(swearsList.length <= 0){
         embed.setDescription("The swear list is already empty.")
           .setColor("RED");

@@ -12,7 +12,7 @@ module.exports = {
       return;
     }
     let person, warnReason = "Not Defined", muteTime = 120000, warnsCount, warnsText = "warning";
-    if((!args[0]) || args[0] == "help"){
+    if((!args[0]) || args[0].toLowerCase() == "help"){
       embed.setTitle("Warn Help")
         .setDescription(`
           **01** ~~»~~ __\`${prefix}warn\`__- *To get this help message*.
