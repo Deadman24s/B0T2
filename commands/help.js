@@ -40,7 +40,7 @@ module.exports = {
           **${prefix}application** » __Application setup__.
           **${prefix}badword help** » __Edit badwords list for chat filtering__.
           **${prefix}ban <user>** » __Ban a member__.
-          **${prefix}cc** » __Create a custom command__.
+          **${prefix}customcommand <command> <message>** » __Create a custom command__.[*alias* - **cc**.]
           **${prefix}close** » __Close a ticket__.
           **${prefix}clear <amount>** » __Delete messages__.
           **${prefix}close** » __Close a ticket__.
