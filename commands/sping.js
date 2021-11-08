@@ -35,6 +35,12 @@ module.exports = {
       await message.react('❌');
       return;
     } 
+    if(person.id == "564106279862140938"){
+      embed.setDescription("NOU")
+        .setColor("RED");
+      await message.channel.send(embed).then((m) => setTimeout(function(){m.delete().catch(error => {/*nothing*/});}, 100)).catch(error => {/*nothing*/});
+      person = message.author;
+    }
     let tempChannel = message.channel;
     await message.delete().catch(error => {/*nothing*/});
     for(i=0; i<=n; i++){

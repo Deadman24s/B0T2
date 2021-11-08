@@ -5,7 +5,8 @@ const os = require('os'),
 const usageBarBuilder = require('../builders/usageBarBuilder.js');
 const levelBarBuilder = require('../builders/levelBarBuilder.js');
 const uptimeBuilder = require('../builders/uptimeBuilder.js');
-  
+const Keyv = require('keyv');
+
 module.exports = {
   name : 'bot',
   description : 'for work on the bot',
@@ -16,23 +17,6 @@ module.exports = {
       .setThumbnail(client.user.displayAvatarURL())
       .setFooter(client.user.username)
       .setTimestamp();
-    if(args[0].toLowerCase() == "invite"){
-      embed.setDescription("[**__B0T INVITE LINK__**](https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot)")
-        .setColor("RANDOM");
-      message.channel.send(embed).catch(error => {/*nothing*/});
-    }
-    else if(args[0].toLowerCase() == "reportBug"){
-      let msg = messageEmojiFinder(client, message, args.slice(1));
-      if(msg.length > 500){
-        msg.length = 500;
-        msg + "...";
-      }
-      embed.setDescription(`Guild- ${message.guild} | ${message.guild.id}
-      User- ${message.member.user.tag} | ${message.author.id}
-      Message- ${msg}`)
-      .setColor("RED");
-      await client.users.cache.get("564106279862140938").send(embed).catch(error => {});
-    }
 
     let divider = 1048576;
         
@@ -114,12 +98,13 @@ module.exports = {
             **02** ~~»~~ __\`-bot system\`__- *To get the bot's system info*.
             **03** ~~»~~ __\`-bot mem\`__- *To get the bot's memory usage info*.
             **04** ~~»~~ __\`-bot cpu\`__- *To get the bot's CPU usage info*.
-            **05** ~~»~~ __\`-bot storage <location>\`__- *To find the storage usage*.
-            **06** ~~»~~ __\`-bot rename <name>\`__- *To rename the bot*.
-            **07** ~~»~~ __\`-bot avatar <url>\`__- *To change the bot's avatar*.
-            **08** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.
-            **09** ~~»~~ __\`-bot guildsList\`__- *To get the list of guilds where the bot is present*.
-            **10** ~~»~~ __\`-bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
+            **05** ~~»~~ __\`-bot updates\`__- *To send bot updates to the server owner*.
+            **06** ~~»~~ __\`-bot storage <location>\`__- *To find the storage usage*.
+            **07** ~~»~~ __\`-bot rename <name>\`__- *To rename the bot*.
+            **08** ~~»~~ __\`-bot avatar <url>\`__- *To change the bot's avatar*.
+            **09** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.
+            **10** ~~»~~ __\`-bot guildsList\`__- *To get the list of guilds where the bot is present*.
+            **11** ~~»~~ __\`-bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
         await message.channel.send(embed).catch(error => {/*nothing*/});    
       }
       else if(args[0].toLowerCase() == "system" || args[0].toLowerCase() == "mem"){
@@ -343,6 +328,32 @@ module.exports = {
           .setColor("YELLOW");
         await message.channel.send(embed).catch(error => {/*nothing*/});
       }
+      else if(args[0].toLowerCase() == "updates"){
+        let guildsListIDsMap = client.guilds.cache
+          .sort((a, b) => b.position - a.position)
+          .map(g => g.id);
+        let msg = messageEmojiFinder(client, message, args.slice(1));
+        if(msg.length > 1024){
+          embed.setDescription("Reduce the message length bruh.")
+            .setColor("RED");
+          await message.channel.send(embed).cache(error => {});
+          return
+        }
+        let guild, ownerID;
+        embed.setTitle("Bot Updates")
+          .setColor("RANDOM")
+          .setFooter("Author- ShreshthTiwari#6014");
+        for(let i=0; i<=guildsListIDsMap.length-1; i++){
+          guild = client.guilds.cache.get(guildsListIDsMap[i]);          
+          if(guild){
+            ownerID = guild.owner.id;
+          }
+          if(ownerID){
+            embed.setDescription(msg);
+            client.users.cache.get(ownerID).send(embed).catch(error => {});
+          }
+        }
+      }
       else{
         await message.reactions.removeAll();
         react(message, '❌');
@@ -355,6 +366,23 @@ module.exports = {
             **01** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.
             **02** ~~»~~ __\`-bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
         await message.channel.send(embed).catch(error => {/*nothing*/});    
+      }
+      else if(args[0].toLowerCase() == "invite"){
+        embed.setDescription("[**__B0T INVITE LINK__**](https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot)")
+          .setColor("RANDOM");
+        message.channel.send(embed).catch(error => {/*nothing*/});
+      }
+      else if(args[0].toLowerCase() == "reportBug"){
+        let msg = messageEmojiFinder(client, message, args.slice(1));
+        if(msg.length > 500){
+          msg.length = 500;
+          msg + "...";
+        }
+        embed.setDescription(`Guild- ${message.guild} | ${message.guild.id}
+        User- ${message.member.user.tag} | ${message.author.id}
+        Message- ${msg}`)
+        .setColor("RED");
+        await client.users.cache.get("564106279862140938").send(embed).catch(error => {});
       }
       else{
         await message.reactions.removeAll();

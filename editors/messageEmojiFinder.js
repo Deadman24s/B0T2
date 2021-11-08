@@ -10,7 +10,7 @@ module.exports = (client, message, args) => {
       }
     }
   }
-  let t = args.join("");
+  let t = args.join(" ");
   t = t.replace(" \n ", "\n");
   t = t.replace(": \n", ":\n");
   t = t.replace("\n :", "\n:");
