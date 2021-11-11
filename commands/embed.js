@@ -14,7 +14,7 @@ module.exports = {
       return;
     }
     let msg;
-    let textChannel = message.mentions.channels.first()
+    let textChannel = message.mentions.channels.first();
     if(textChannel){
       msg = messageEmojiFinder(client, message, args.slice(1));
       if(!msg){

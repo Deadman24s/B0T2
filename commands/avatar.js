@@ -8,7 +8,7 @@ module.exports = {
       .setTimestamp();
     if(!args[0]){
       embed.setDescription(`Here is the avatar of ${message.author}`)
-        .setImage(`${message.author.displayAvatarURL({size: 4096})}`);
+        .setImage(`${message.author.displayAvatarURL({size: 4096, dynamic: true})}`);
       await message.channel.send(embed).catch(error => {/*nothing*/});    
     }
     else{
@@ -23,7 +23,7 @@ module.exports = {
       } 
       embed.setDescription(`Here is the PFP of ${person}`)
         .setColor("YELLOW")
-        .setImage(`${person.displayAvatarURL({size: 4096})}`)
+        .setImage(`${person.displayAvatarURL({size: 4096, dynamic: true})}`)
         .setTimestamp();
       await message.channel.send(embed).catch(error => {/*nothing*/});
     }
