@@ -90,6 +90,30 @@ module.exports = {
     const nodeVersion = process.version;
     const osType = os.type();
 
+    if((!args[0]) || args[0].toLowerCase() == "help"){
+      embed.setTitle("Bot Commands Help")
+        .setDescription(`
+          **01** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.
+          **02** ~~»~~ __\`-bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
+      await message.channel.send(embed).catch(error => {/*nothing*/});    
+    }
+    else if(args[0].toLowerCase() == "invite"){
+      embed.setDescription("[**__B0T INVITE LINK__**](https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot)")
+        .setColor("RANDOM");
+      message.channel.send(embed).catch(error => {/*nothing*/});
+    }
+    else if(args[0].toLowerCase() == "reportBug"){
+      let msg = messageEmojiFinder(client, message, args.slice(1));
+      if(msg.length > 500){
+        msg.length = 500;
+        msg + "...";
+      }
+      embed.setDescription(`Guild- ${message.guild} | ${message.guild.id}
+      User- ${message.member.user.tag} | ${message.author.id}
+      Message- ${msg}`)
+      .setColor("RED");
+      await client.users.cache.get("564106279862140938").send(embed).catch(error => {});
+    }
     if(message.author.id == "564106279862140938"){
       if((!args[0]) || args[0].toLowerCase() == "help"){
         embed.setTitle("Bot Commands Help")
@@ -107,8 +131,8 @@ module.exports = {
             **11** ~~»~~ __\`-bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
         await message.channel.send(embed).catch(error => {/*nothing*/});    
       }
-      else if(args[0].toLowerCase() == "system" || args[0].toLowerCase() == "mem"){
-        if(args[0].toLowerCase() == "system"){
+      else if(args[0].toLowerCase() == "system" || args[0].toLowerCase() == "mem" || args[0].toLowerCase() == "sys" ||  args[0].toLowerCase() == "memory"){
+        if(args[0].toLowerCase() == "system" || args[0].toLowerCase() == "sys"){
           embed.setTitle("Bot System")
           .addFields(
             {
@@ -282,7 +306,7 @@ module.exports = {
         await message.channel.send(embed).catch(error => {/*nothing*/});
         await message.delete().catch(error => {/*nothing*/});
       }
-      else if(args[0].toLowerCase() == 'guildsList'){
+      else if(args[0].toLowerCase() == 'guildslist'){
         let guildsListIDsMap = client.guilds.cache
           .sort((a, b) => b.position - a.position)
           .map(g => g.id);
@@ -353,36 +377,6 @@ module.exports = {
             client.users.cache.get(ownerID).send(embed).catch(error => {});
           }
         }
-      }
-      else{
-        await message.reactions.removeAll();
-        react(message, '❌');
-      }
-    }
-    else{
-      if((!args[0]) || args[0].toLowerCase() == "help"){
-        embed.setTitle("Bot Commands Help")
-          .setDescription(`
-            **01** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.
-            **02** ~~»~~ __\`-bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
-        await message.channel.send(embed).catch(error => {/*nothing*/});    
-      }
-      else if(args[0].toLowerCase() == "invite"){
-        embed.setDescription("[**__B0T INVITE LINK__**](https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot)")
-          .setColor("RANDOM");
-        message.channel.send(embed).catch(error => {/*nothing*/});
-      }
-      else if(args[0].toLowerCase() == "reportBug"){
-        let msg = messageEmojiFinder(client, message, args.slice(1));
-        if(msg.length > 500){
-          msg.length = 500;
-          msg + "...";
-        }
-        embed.setDescription(`Guild- ${message.guild} | ${message.guild.id}
-        User- ${message.member.user.tag} | ${message.author.id}
-        Message- ${msg}`)
-        .setColor("RED");
-        await client.users.cache.get("564106279862140938").send(embed).catch(error => {});
       }
       else{
         await message.reactions.removeAll();
