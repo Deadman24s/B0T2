@@ -15,8 +15,6 @@ const { readdirSync } = require('fs');
 const { join } = require ('path');
 const path = require('path');
 
-const chatBot = require('djs-chatbot');
-
 const isAdmin = require('./checker/isAdmin.js');
 const personFinder = require('./finder/personFinder.js');
 
@@ -25,6 +23,7 @@ const errorMessageBuilder = require ('./builders/errorMessageBuilder.js');
 const dateBuilder = require('./builders/dateBuilder.js');
 const databaseBuilder = require('./builders/databaseBuilder.js');
 const react = require('./editors/react.js');
+const chatBot = require('./events/chatBot.js');
 let database;
 
 const website = require('./website.js');
@@ -130,14 +129,8 @@ client.on('message', async message => {
       //===========Auto Responder=====================================================
       ticketLogging(message, database, fs, path, dateBuilder);
       //==============================================================================
-    }
-    if(message.channel.id == "908578014953082901"){
-      let input = message.content;
-      if(input.length > 500){
-        input.length= 500;
-      }
-      let reply = await chatBot.chat({ Message: input });
-      await message.reply(reply).catch(error => {});
+      chatBot(Discord, client, message, args, database, messageEmojiFinder);
+      //=============================================================================
     }
   }
 });

@@ -41,7 +41,8 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
         **14** ~~»~~ __\`${prefix}set chatFilterLogsChannel <channel>\`__- *To set the chat filter logs channel*.
         **15** ~~»~~ __\`${prefix}set ticketChannel <channel>\`__- *To set the ticket channel*.
         **16** ~~»~~ __\`${prefix}set transcriptsChannel <channel>\`__- *To set the transcripts channel*.
-        **17** ~~»~~ __\`${prefix}set playingStatusChannel <channel>\`__- *To set the minecraft server's playing status channel*.`);
+        **17** ~~»~~ __\`${prefix}set playingStatusChannel <channel>\`__- *To set the minecraft server's playing status channel*.
+        **18** ~~»~~ __\`${prefix}set chatBotChannel <channel>\`__- *To set the chat bot channel*.`);
       }
       else if(args[1].toLowerCase() == "roles"){
         embed.setDescription(`
@@ -186,6 +187,10 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
         else if(args[0] == "playingStatusChannel"){
           await database.set(`${args[0]}ID`, channelID);
           text = "minecraft server playing status";
+        }
+        else if(args[0] == "chatBotChannel"){
+          await database.set(`${args[0]}ID`, channelID);
+          text = "chat bot";
         }
         else{
           embed.setDescription("There is no subcommand with that name.")
