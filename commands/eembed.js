@@ -231,10 +231,8 @@ module.exports = {
       }
       if(author || authorimage){
         if(author && authorimage){
-          author = replaceEmojis(author);
           embed.setAuthor(author,authorimage);
         }else if(author){
-          author = replaceEmojis(author);
           embed.setAuthor(author);
         }else if(authorimage){
           embed.setAuthor('',authorimage);
@@ -262,10 +260,8 @@ module.exports = {
       }
       if(footer || footerimage){
         if(footer && footerimage){
-          footer = replaceEmojis(footer);
           embed.setFooter(footer, footerimage);
         }else if(footer){
-          footer = replaceEmojis(footer);
           embed.setFooter(footer);
         }else if(footerimage){
           embed.setFooter('', footerimage);
