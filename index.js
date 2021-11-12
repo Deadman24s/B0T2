@@ -108,12 +108,11 @@ client.on('message', async message => {
     autoResponder(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, message.content.toLowerCase());
     //===========Tickets Logging====================================================
     if(message.content.startsWith(prefix)){
-      let t = message.content.slice(prefix.length);
-      t = t.replace("\n", " \n ").replace(":\n", ": \n").replace("\n:", "\n :").replace(":\n:", ": \n :");
-      t = t.replace("\n", " \n ").replace(":\n", ": \n").replace("\n:", "\n :").replace(":\n:", ": \n :");
-      t = t.replace("\n", " \n ").replace(":\n", ": \n").replace("\n:", "\n :").replace(":\n:", ": \n :");
-      t = t.replace("\n", " \n ").replace(":\n", ": \n").replace("\n:", "\n :").replace(":\n:", ": \n :");
-      args = t.split(/ +/);
+      let t = await message.content.slice(prefix.length);
+      for(let i=1; i<=args.length; i++){
+        t = await t.replace("\n", " \n ").replace(":\n", ": \n").replace("\n:", "\n :").replace(":\n:", ": \n :");
+      }
+      args = await t.split(/ +/);
       //==========Custom Commands====================================================
       customCommands(Discord, client, message, args, database, messageEmojiFinder);
       //==========Commands Finder====================================================

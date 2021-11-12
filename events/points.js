@@ -63,7 +63,7 @@ module.exports = async (Discord, message, args, client, prefix, database, levelB
       maxPoints = lvl * 55;
       pointsPercentage = (points * 100)/maxPoints;
       await message.author.send(`You just advanced to level **${lvl}**!`).catch(error => {/*nothing*/});
-      embed.setAuthor(message.author.username)
+      embed.setAuthor(message.guild.name, message.guild.iconURL())
         .setTitle(`**LEVEL** ${lvl}`)
         .setDescription(`**${points.toFixed(3)}**  ${levelBarBuilder(client, pointsPercentage)}  **${maxPoints.toFixed(3)}**\n\n${coinEmoji} **${coins.toFixed(3)}** ${coinText}`)
         .setThumbnail(message.author.avatarURL());

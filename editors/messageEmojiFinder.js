@@ -11,9 +11,8 @@ module.exports = (client, message, args) => {
     }
   }
   let t = args.join(" ");
-  t = t.replace(" \n ", "\n");
-  t = t.replace(": \n", ":\n");
-  t = t.replace("\n :", "\n:");
-  t = t.replace(": \n :", ":\n:");
+  for(let i=1; i<=args.length; i++){
+    t = t.replace(" \n ", "\n").replace(": \n", ":\n").replace("\n :", "\n:").replace(": \n :", ":\n:");
+  }
   return t; 
 }

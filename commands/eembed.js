@@ -50,6 +50,7 @@ module.exports = {
       **02** ~~»~~ __\`${prefix}eembed load <channel>\`__- *To load the embed in <channel>*.\n
       **Cleaning**
       **01** ~~»~~ __\`${prefix}eembed clean\`__- *To clean the embed variables*.
+      [You can use this invisible character to make spaces UwU- \`ㅤ\`.]
       `)
         .setColor("YELLOW");
       await message.channel.send(embed).catch(error => {});
@@ -222,22 +223,32 @@ module.exports = {
       let timestamp = await database.get(`eembedtimestamp`);
       let footer = await database.get(`eembedfooter`);
       let footerimage = await database.get(`eembedfooterimage`);
+      function replaceEmojis(text){
+        text = text.replace("\n", " \n ").replace(":\n", ": \n").replace("\n:", "\n :").replace(":\n:", ": \n :");
+        let tempArgs = text.split(" ");
+        text = messageEmojiFinder(client, message, tempArgs);
+        return text;
+      }
       if(author || authorimage){
         if(author && authorimage){
+          author = replaceEmojis(author);
           embed.setAuthor(author,authorimage);
         }else if(author){
+          author = replaceEmojis(author);
           embed.setAuthor(author);
         }else if(authorimage){
           embed.setAuthor('',authorimage);
         }
       }
       if(title){
+        title = replaceEmojis(title);
         embed.setTitle(title);
       }
       if(thumbnail){
         embed.setThumbnail(thumbnail);
       }
       if(description){
+        description = replaceEmojis(description);
         embed.setDescription(description);
       }
       if(image){
@@ -251,8 +262,10 @@ module.exports = {
       }
       if(footer || footerimage){
         if(footer && footerimage){
+          footer = replaceEmojis(footer);
           embed.setFooter(footer, footerimage);
         }else if(footer){
+          footer = replaceEmojis(footer);
           embed.setFooter(footer);
         }else if(footerimage){
           embed.setFooter('', footerimage);

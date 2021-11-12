@@ -45,6 +45,7 @@ module.exports = {
           **${prefix}clear <amount>** » __Delete messages__.
           **${prefix}close** » __Close a ticket__.
           **${prefix}delete** » __Delete a channel__.
+          **${prefix}eembed <help>** » __Create extensive embed__.
           **${prefix}embed <message>** » __Send an embed message__.
           **${prefix}emojis <page>** » __Get list of emojis bot has access to__.
           **${prefix}kick <user>** » __Kick a member from the server__.
