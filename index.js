@@ -15,6 +15,8 @@ const { readdirSync } = require('fs');
 const { join } = require ('path');
 const path = require('path');
 
+const chatBot = require('djs-chatbot');
+
 const isAdmin = require('./checker/isAdmin.js');
 const personFinder = require('./finder/personFinder.js');
 
@@ -129,6 +131,14 @@ client.on('message', async message => {
       //===========Auto Responder=====================================================
       ticketLogging(message, database, fs, path, dateBuilder);
       //==============================================================================
+    }
+    if(message.channel.id == "908578014953082901"){
+      let input = message.content;
+      if(input.length > 500){
+        input.length= 500;
+      }
+      let reply = await chatBot.chat({ Message: input });
+      await message.reply(reply).catch(error => {});
     }
   }
 });
