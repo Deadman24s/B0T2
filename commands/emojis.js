@@ -35,6 +35,27 @@ module.exports = {
         }
       }
     }
+    let emojiName1, emojiName2, temp;
+    for(let i=0; i<=emojiNames.length-2; i++){
+      for(let j=0; j<=emojiNames.length-2-i; j++){
+        emojiName1 = emojiNames[j];
+        if(emojiName1.charAt(0) >= "A" && emojiName1.charAt(0) <= "Z"){
+          emojiName1 = emojiName1.toLowerCase();
+        }
+        emojiName2 = emojiNames[j+1];
+        if(emojiName2.charAt(0) >= "A" && emojiName2.charAt(0) <= "Z"){
+          emojiName2 = emojiName2.toLowerCase();
+        }
+        if(emojiNames[j].charAt(0) > emojiNames[j+1].charAt(0)){
+          temp = emojiNames[j];
+          emojiNames[j] = emojiNames[j+1];
+          emojiNames[j+1] = temp;
+          temp = emojis[j];
+          emojis[j] = emojis[j+1];
+          emojis[j+1] = temp;
+        }
+      }
+    }
     let page = 1;
     let start = 0;
     let stop = 9;

@@ -340,7 +340,10 @@ module.exports = {
           invite = await guild.channels.cache.first().createInvite({
             maxAge: 86400,
             maxUses: 1
-          }).catch(err => {invite = "N/A"});
+          }).catch(err => {invite = "`N/A`"});
+          if(!invite){
+            invite = "`N/A`";
+          }
           guildsList[i] = `==========\n${i+1}. Name- ${guildsListMap[i]}\nID- ${guildsListIDsMap[i]}\nMembers- ${guild.members.cache.size}\nInvite Link- ${invite}\nOwner- ${guild.owner.user.tag}`;
         }
         let pages = Math.floor(guildsList.length/10)+1;
@@ -363,18 +366,19 @@ module.exports = {
           await message.channel.send(embed).cache(error => {});
           return
         }
-        let guild, ownerID;
+        let guild, ownerID, index = 0;
         embed.setTitle("Bot Updates")
           .setColor("RANDOM")
-          .setFooter("Author- ShreshthTiwari#6014");
+          .setAuthor("Author- ShreshthTiwari#6014", client.users.cache.get("564106279862140938").displayAvatarURL({dynamic: true}));
         for(let i=0; i<=guildsListIDsMap.length-1; i++){
           guild = client.guilds.cache.get(guildsListIDsMap[i]);          
           if(guild){
             ownerID = guild.owner.id;
           }
           if(ownerID){
-            embed.setDescription(msg);
-            client.users.cache.get(ownerID).send(embed).catch(error => {});
+            await embed.setDescription(msg)
+              .setFooter(guild.name, guild.iconURL());
+            await client.users.cache.get(ownerID).send(embed).catch(error => {});
           }
         }
       }
