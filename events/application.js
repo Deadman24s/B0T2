@@ -157,7 +157,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path, react) =>{
           return;  
         }
         let authorApplication = userApplications[authorId];
-        if(message.content == "cancel"){
+        if(message.content.toLowerCase() == "cancel"){
           embed.setDescription("Application canceled.")
             .setColor("RED");
           await message.author.send(embed).catch(error => {/*nothing*/});
