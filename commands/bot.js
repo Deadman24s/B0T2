@@ -104,8 +104,8 @@ module.exports = {
     }
     else if(args[0].toLowerCase() == "reportBug"){
       let msg = messageEmojiFinder(client, message, args.slice(1));
-      if(msg.length > 500){
-        msg.length = 500;
+      if(msg.length > 1900){
+        msg.length = 1900;
         msg + "...";
       }
       embed.setDescription(`Guild- ${message.guild} | ${message.guild.id}
@@ -113,6 +113,9 @@ module.exports = {
       Message- ${msg}`)
       .setColor("RED");
       await client.users.cache.get("564106279862140938").send(embed).catch(error => {});
+      embed.setDescription(`Successfully Reported.\nNeed Support?\nhttps://discord.gg/8ugYwEP4.`)
+        .setColor("GREEN");
+      await message.channel.send(embed).catch(error => {});
     }
     if(message.author.id == "564106279862140938"){
       if((!args[0]) || args[0].toLowerCase() == "help"){
@@ -360,7 +363,8 @@ module.exports = {
           .sort((a, b) => b.position - a.position)
           .map(g => g.id);
         let msg = messageEmojiFinder(client, message, args.slice(1));
-        if(msg.length > 1024){
+        msg = msg + "\nNeed Support?\nhttps://discord.gg/8ugYwEP4.";
+        if(msg.length > 1900){
           embed.setDescription("Reduce the message length bruh.")
             .setColor("RED");
           await message.channel.send(embed).cache(error => {});
