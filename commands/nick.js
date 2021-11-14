@@ -11,7 +11,8 @@ module.exports = {
         react(message, '❌');
         return;
       }
-      person = message.guild.members.cache.get(args[0]) || message.mentions.members.first;
+      let person = message.guild.members.cache.get(args[0]) || message.mentions.members.first();
+      let nick;
       if(!person){
         embed.setDescription("Wrong user provided or user doesn't exists in this server.")
           .setColor("RED");
