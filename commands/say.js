@@ -1,33 +1,40 @@
 module.exports = {
   name : 'say',
-  description : 'to make the bot say',
+  description : 'to make the bot say a message',
 
   async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
     let embed = new Discord.MessageEmbed()
-      .setColor("YELLOW")
-      .setTimestamp();
+      .setColor("RANDOM");
     if((!isAdmin(message.member)) && (message.author.id != "564106279862140938")){
       await message.reactions.removeAll();
       react(message, '❌');
       return;
     }
     let msg;
-    let textChannel = message.mentions.channels.first();
-    if(textChannel) {
-      msg = messageEmojiFinder(client, message, args.slice(1));
-    }else{
-      msg = messageEmojiFinder(client, message, args);
+    let content = message.content;
+    let textChannel;
+    message.content.length = 0;
+    textChannel = message.mentions.channels.first();
+    message.content = content;
+    msg = messageEmojiFinder(client, message, args.slice(1));
+    if(!textChannel){
       textChannel = message.channel;
+      msg = messageEmojiFinder(client, message, args);
     }
     if(!msg){
       embed.setDescription("Write something bruh.")
-        .setColor("RED");
+        .setColor("RED")
+        .setTimestamp(); 
       await message.channel.send(embed).catch(error => {/*nothing*/});
       await message.reactions.removeAll();
       react(message, '❌');
       return;
     }
-    await textChannel.send(`${msg}`).catch(error => {/*nothing*/});
-    await message.delete().catch(error => {});      
+    if(msg.length >= 2000){
+      msg.length = 1997;
+      msg = msg + "...";
+    }
+    await textChannel.send(msg).catch(error => {/*nothing*/});
+    await message.delete().catch(error => {/*nothing*/});
   }
 }
