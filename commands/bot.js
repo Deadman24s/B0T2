@@ -378,8 +378,7 @@ module.exports = {
           }
           if(ownerID){
             if(!sentList[ownerID]){
-              await embed.setDescription(msg)
-                .setFooter(guild.name, guild.iconURL());
+              await embed.setDescription(msg);
               await client.users.cache.get(ownerID).send(embed).catch(error => {});
               sentList[ownerID] = true;
             }
