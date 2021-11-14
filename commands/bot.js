@@ -366,7 +366,8 @@ module.exports = {
           await message.channel.send(embed).cache(error => {});
           return
         }
-        let guild, ownerID, index = 0;
+        let guild, ownerID;
+        let sentList = {};
         embed.setTitle("Bot Updates")
           .setColor("RANDOM")
           .setAuthor("Author- ShreshthTiwari#6014", client.users.cache.get("564106279862140938").displayAvatarURL({dynamic: true}));
@@ -376,9 +377,12 @@ module.exports = {
             ownerID = guild.owner.id;
           }
           if(ownerID){
-            await embed.setDescription(msg)
-              .setFooter(guild.name, guild.iconURL());
-            await client.users.cache.get(ownerID).send(embed).catch(error => {});
+            if(!sentList[ownerID]){
+              await embed.setDescription(msg)
+                .setFooter(guild.name, guild.iconURL());
+              await client.users.cache.get(ownerID).send(embed).catch(error => {});
+              sentList[ownerID] = true;
+            }
           }
         }
       }
