@@ -15,6 +15,7 @@ module.exports = {
     if((!verifiedRoleID) || (!verificationChannelID)){
       embed.setDescription('The verification system is not setup. Kindly ask the staff to setup is first.')
       await message.channel.send(embed).then((msg) => setTimeout(function(){msg.delete().catch(error => {/*nothing*/});}, 20000)).catch(error => {/*nothing*/});
+      await message.delete().catch(error => {});
       return;
     }
     const verifiedRole = message.guild.roles.cache.get(verifiedRoleID);

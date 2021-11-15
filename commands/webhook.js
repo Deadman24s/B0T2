@@ -3,6 +3,7 @@ module.exports = {
     description : 'webhook messages',
   
     async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react, helpText){
+      messageEmojiFinder = require("../editors/messageEmojiFinder.js");
       if(!helpText){
         helpText = "webhook";
       }
@@ -36,7 +37,7 @@ module.exports = {
         else{
           let text;
           if(args[0].toLowerCase() == "name"){
-            let name = args.slice(1).join();
+            let name = args.slice(1).join(" ");
             await database.set("whName", name);
             embed.setDescription(`Successfully set the webhook name as- ${name}`)
               .setColor("GREEN");
@@ -65,10 +66,11 @@ module.exports = {
           else if(args[0].toLowerCase() == "say" || args[0].toLowerCase() == "embed"){
             let channel;
             channel = message.mentions.channels.first();
-            msg = messageEmojiFinder(client, message, args.slice(2));
             if(!channel){
               channel = message.channel;
               msg = messageEmojiFinder(client, message, args.slice(1));
+            }else{
+              msg = messageEmojiFinder(client, message, args.slice(2));
             }
             if(!msg){
               embed.setDescription("Write something bruh.")
