@@ -337,7 +337,7 @@ module.exports = {
         let guildsList = [];
         let guild, invite = "N/A";
         for(let i=start; i<=stop; i++){
-          guild = client.guilds.cache.get(guildsListIDsMap[i]);
+          guild = await client.guilds.cache.get(guildsListIDsMap[i]);
           invite = await guild.channels.cache.first().createInvite({
             maxAge: 86400,
             maxUses: 1
