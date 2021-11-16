@@ -35,7 +35,6 @@ module.exports = {
           return;
         }
         else{
-          let text;
           if(args[0].toLowerCase() == "name"){
             let name = args.slice(1).join(" ");
             await database.set("whName", name);
@@ -65,13 +64,15 @@ module.exports = {
           }
           else if(args[0].toLowerCase() == "say" || args[0].toLowerCase() == "embed"){
             let channel;
+            let arg;
             channel = message.mentions.channels.first();
             if(!channel){
               channel = message.channel;
-              msg = messageEmojiFinder(client, message, args.slice(1));
+              arg = args.slice(1);
             }else{
-              msg = messageEmojiFinder(client, message, args.slice(2));
+              arg.slice(2);
             }
+            msg = messageEmojiFinder(client, message, arg);
             if(!msg){
               embed.setDescription("Write something bruh.")
                 .setColor("RED")
@@ -103,7 +104,7 @@ module.exports = {
             }
             const webhooks = await channel.fetchWebhooks();
             const webhook = webhooks.first();
-            if(args[0].toLowerCase() == "say"){
+            if(args[0].toLowerCase() == "say") {
               try {
                 await webhook.send(msg, {
                   username: webhookName,
@@ -112,7 +113,7 @@ module.exports = {
               }catch (error) {
                 embed.setDescription("Please provide a message.")
                   .setColor("RED")
-                  .setFooter(`${prefix}eembed help`);
+                  .setFooter(`${prefix}${helpText} help`);
                 await message.channel.send(embed);
                 return;
               }
@@ -129,7 +130,7 @@ module.exports = {
               }catch (error) {
                 embed.setDescription("The embed is empty.")
                   .setColor("RED")
-                  .setFooter(`${prefix}eembed help`);
+                  .setFooter(`${prefix}${helpText} help`);
                 await message.channel.send(embed);
                 return;
               }
