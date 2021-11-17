@@ -1,6 +1,12 @@
 let ms = require("ms");
 
 module.exports = async(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, content) =>{
+  const dbVerificationChannelID = await database.get("verificationChannelID");
+  const ticketChannelID = await database.get('ticketChannelID');
+  if(message.channel.id == dbVerificationChannelID || message.channel.id == ticketChannelID){
+    await message.delete().catch(error => {});
+    return;
+  }
   let embed = new Discord.MessageEmbed()
     .setTimestamp()
     .setColor("YELLOW")

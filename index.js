@@ -97,6 +97,7 @@ client.on('message', async message => {
     points(Discord, message, args, client, prefix, database, levelBarBuilder, isAdmin);
     //==========Keeping the verification Channel Clean From Bots' Messages=========
     const dbVerificationChannelID = await database.get("verificationChannelID");
+    const ticketChannelID = await database.get('ticketChannelID');
     if(message.author.bot){
       if(message.channel.id == dbVerificationChannelID && message.author.id != client.user.id){
         await message.delete();
@@ -119,10 +120,16 @@ client.on('message', async message => {
       //=============================================================================
     }
     else{
-      if(message.channel.id == dbVerificationChannelID){
-        await message.reply(`You are only allowed to use \`${prefix}verify\` command here.`).then((msg) => setTimeout(function(){msg.delete();}, 15000));
-        await message.delete();
-        return;
+      if(!isAdmin(message.member)){
+        if(message.channel.id == dbVerificationChannelID){
+          await message.reply(`You are only allowed to use \`${prefix}verify\` command here.`).then((msg) => setTimeout(function(){msg.delete();}, 15000));
+          await message.delete().catch(error => {});
+          return;
+        }
+        if(message.channel.id == ticketChannelID){
+          await message.delete().catch(error => {});
+          return;
+        }
       }
       //===========Chat Filter=======================================================
       chatFilter(Discord, message, message.content.toLowerCase(), database, isAdmin);
