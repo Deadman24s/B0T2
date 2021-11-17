@@ -93,8 +93,8 @@ module.exports = {
     if((!args[0]) || args[0].toLowerCase() == "help"){
       embed.setTitle("Bot Commands Help")
         .setDescription(`
-          **01** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.
-          **02** ~~»~~ __\`-bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
+          **01** ~~»~~ __\`${prefix}bot invite\`__- *To get the B0T's invite link*.
+          **02** ~~»~~ __\`${prefix}bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
       await message.channel.send(embed).catch(error => {/*nothing*/});    
     }
     else if(args[0].toLowerCase() == "invite"){
@@ -113,7 +113,7 @@ module.exports = {
       Message- ${msg}`)
       .setColor("RED");
       await client.users.cache.get("564106279862140938").send(embed).catch(error => {});
-      embed.setDescription(`Successfully Reported.\n\n----------\nNeed Support?\nhttps://discord.gg/8ugYwEP4.`)
+      embed.setDescription(`Successfully Reported.\n\n----------\nNeed Support?\nhttps://discord.gg/NYx2g5W5sb.`)
         .setColor("GREEN");
       await message.channel.send(embed).catch(error => {});
     }
@@ -121,17 +121,15 @@ module.exports = {
       if((!args[0]) || args[0].toLowerCase() == "help"){
         embed.setTitle("Bot Commands Help")
           .setDescription(`
-            **01** ~~»~~ __\`-bot help\`__- *To get this command help message*.
-            **02** ~~»~~ __\`-bot system\`__- *To get the bot's system info*.
-            **03** ~~»~~ __\`-bot mem\`__- *To get the bot's memory usage info*.
-            **04** ~~»~~ __\`-bot cpu\`__- *To get the bot's CPU usage info*.
-            **05** ~~»~~ __\`-bot updates\`__- *To send bot updates to the server owner*.
-            **06** ~~»~~ __\`-bot storage <location>\`__- *To find the storage usage*.
-            **07** ~~»~~ __\`-bot rename <name>\`__- *To rename the bot*.
-            **08** ~~»~~ __\`-bot avatar <url>\`__- *To change the bot's avatar*.
-            **09** ~~»~~ __\`-bot invite\`__- *To get the B0T's invite link*.
-            **10** ~~»~~ __\`-bot guildsList\`__- *To get the list of guilds where the bot is present*.
-            **11** ~~»~~ __\`-bot reportBug\`__- *To report a bug to ShreshthTiwari#6014*.`);
+            **01** ~~»~~ __\`${prefix}bot help\`__- *To get this command help message*.
+            **02** ~~»~~ __\`${prefix}bot system\`__- *To get the bot's system info*.
+            **03** ~~»~~ __\`${prefix}bot mem\`__- *To get the bot's memory usage info*.
+            **04** ~~»~~ __\`${prefix}bot cpu\`__- *To get the bot's CPU usage info*.
+            **05** ~~»~~ __\`${prefix}bot updates\`__- *To send bot updates to the server owner*.
+            **06** ~~»~~ __\`${prefix}bot storage <location>\`__- *To find the storage usage*.
+            **07** ~~»~~ __\`${prefix}bot rename <name>\`__- *To rename the bot*.
+            **08** ~~»~~ __\`${prefix}bot avatar <url>\`__- *To change the bot's avatar*.
+            **10** ~~»~~ __\`${prefix}bot guildsList\`__- *To get the list of guilds where the bot is present*.`);
         await message.channel.send(embed).catch(error => {/*nothing*/});    
       }
       else if(args[0].toLowerCase() == "system" || args[0].toLowerCase() == "mem" || args[0].toLowerCase() == "sys" ||  args[0].toLowerCase() == "memory"){
@@ -339,7 +337,7 @@ module.exports = {
         let guildsList = [];
         let guild, invite = "N/A";
         for(let i=start; i<=stop; i++){
-          guild = client.guilds.cache.get(guildsListIDsMap[i]);
+          guild = await client.guilds.cache.get(guildsListIDsMap[i]);
           invite = await guild.channels.cache.first().createInvite({
             maxAge: 86400,
             maxUses: 1
@@ -363,7 +361,7 @@ module.exports = {
           .sort((a, b) => b.position - a.position)
           .map(g => g.id);
         let msg = messageEmojiFinder(client, message, args.slice(1));
-        msg = msg + "\n\n----------\nNeed Support?\nhttps://discord.gg/8ugYwEP4.";
+        msg = msg + "\n\n----------\nNeed Support?\nhttps://discord.gg/NYx2g5W5sb.";
         if(msg.length > 1900){
           embed.setDescription("Reduce the message length bruh.")
             .setColor("RED");

@@ -92,6 +92,8 @@ module.exports = {
           return;
         }
         await database.set(`eembed${args[1]}`, value);
+        embed.setImage(value);
+        value = "";
       }
       else if(args[1] == "author"){
         value = args.slice(2).join(" ");
@@ -110,6 +112,8 @@ module.exports = {
           return;
         }
         await database.set(`eembed${args[1]}`, value);
+        embed.setImage(value);
+        value = "";
       }
       else if(args[1] == "title"){
         value = args.slice(2).join(" ");
@@ -128,6 +132,8 @@ module.exports = {
           return;
         }
         await database.set(`eembed${args[1]}`, value);
+        embed.setImage(value);
+        value = "";
       }
       else if(args[1] == "description"){
         value = args.slice(2).join(" ");
@@ -146,6 +152,8 @@ module.exports = {
           return;
         }
         await database.set(`eembed${args[1]}`, value);
+        embed.setImage(value);
+        value = "";
       }
       else if(args[1] == "color"){
         value = args.slice(2).join(" ");
@@ -186,6 +194,8 @@ module.exports = {
           return;
         }
         await database.set(`eembed${args[1]}`, value);
+        embed.setImage(value);
+        value = "";
       }
       else{
         embed.setDescription("There is no subcommand with that name.")
@@ -295,6 +305,7 @@ module.exports = {
             .setColor("RED")
             .setFooter(`${prefix}eembed help`);
           await message.channel.send(embed);
+          return;
         }
       }else{
         await channel.send(embed).catch(async error => {

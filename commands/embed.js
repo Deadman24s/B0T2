@@ -10,12 +10,8 @@ module.exports = {
       react(message, '❌');
       return;
     }
-    let msg;
-    let content = message.content;
     let textChannel;
-    message.content.length = 0;
     textChannel = message.mentions.channels.first();
-    message.content = content;
     msg = messageEmojiFinder(client, message, args.slice(1));
     if(!textChannel){
       textChannel = message.channel;

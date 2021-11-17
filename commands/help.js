@@ -63,6 +63,7 @@ module.exports = {
           **${prefix}unmute <user>** » __Unmute a member__.
           **${prefix}warn <user>** » __To warn a member__.
           **${prefix}warns <user>** » __Check warns of a member__.
+          **${prefix}webhook <message>** » __Send message as a webhook__.[*alias* - **wh**, **wb**.]
         `)
         .setColor("RANDOM");
         await message.channel.send(embed).catch( error =>{});
