@@ -39,7 +39,8 @@ module.exports = {
     if(reason){
       reason = "Unspecified";
     }
-    embed.setDescription(`You were kicked from **${message.guild.name}**.\nReason- \`${reason}\``)
+    embed.setAuthor(message.guild.name, message.guild.iconURL())
+      .setDescription(`You were kicked from **${message.guild.name}**.\nReason- \`${reason}\``)
       .setColor("RED");
     await person.send(embed).catch(error => {/*nothing DMS are off or blocked*/});
     await message.guild.members.cache.get(person.id).kick(reason).catch(console.error());

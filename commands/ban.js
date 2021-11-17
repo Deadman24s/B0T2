@@ -48,7 +48,8 @@ module.exports = {
     if(!banReason){
       banReason = "Unspecified";
     }
-    embed.setDescription(`You were banned from **${message.guild.name}**.\nReason- \`${banReason}\``)
+    embed.setAuthor(message.guild.name, message.guild.iconURL())
+      .setDescription(`You were banned from **${message.guild.name}**.\nReason- \`${banReason}\``)
       .setColor("RED");
     await person.send(embed).catch(error => {/*nothing DMS are off or blocked*/});
     if(isNaN(banDays)){

@@ -50,7 +50,8 @@ module.exports = {
         .setDescription(`Reason- ${warnReason}.`)
         .setFooter(`${warnsCount} ${warnsText}`);
       await message.channel.send(embed).catch(error => {/*nothing*/});
-      embed.setTitle(`You were warned`)
+      embed.setAuthor(message.guild.name, message.guild.iconURL())
+        .setTitle(`You were warned`)
         .setDescription(`Reason- ${warnReason}.`)
         .setFooter(`${warnsCount} ${warnsText}`);
       await person.send(embed).catch(error => {/*nothing*/});

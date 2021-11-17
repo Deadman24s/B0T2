@@ -3,6 +3,10 @@ module.exports = {
     description : 'to delete a channel',
   
     async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
+      let channel = message.mentions.channels.first();
+      if(!channel){
+        channel = message.channel;
+      }
       let embed = new Discord.MessageEmbed()
         .setColor("RED")
         .setTimestamp();
@@ -26,7 +30,7 @@ module.exports = {
                     embed.setDescription("**CHANNEL DELETED**")
                       .setImage("https://i.ibb.co/R49Kjf3/wasted.jpg");
                     await msg.edit(embed).then(async (msg) => setTimeout(async function(){
-                      await msg.channel.delete().catch(error => {/*nothing*/});
+                      await channel.delete().catch(error => {/*nothing*/});
                     },1000)).catch(error => {/*nothing*/});
                   },1000)).catch(error => {/*nothing*/});
                 },1000)).catch(error => {/*nothing*/});

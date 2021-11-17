@@ -99,7 +99,7 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path, react) =>{
         canApply = "false";
         await database.set("canapply", canApply);
       }
-      if(canApply == "false"){
+      if(canApply.toLowerCase() == "false"){
         embed.setDescription("Sorry, we are not accepting any applications.")
           .setColor("RED");
         await message.channel.send(embed).catch(error => {/*nothing*/});

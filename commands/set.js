@@ -78,7 +78,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
           **11** ~~»~~ __\`${prefix}set playerLeaveMessage <msg>\`__- *To set the player leave message*.
           [For player join/leave messages, you can use the placeholders- \`{user}\` \`{username}\` \`{userid}\` \`{usertag}\` \`{guild}\` \`{guildid}\`]`);
       }
-      else if(args[1].toLowerCase() == "appQuestions"){
+      else if(args[1].toLowerCase() == "appquestions"){
         embed.setDescription(`
           **Set Help appQuestions**\n
           **01** ~~»~~ __\`${prefix}set appQuestion<number> <question>\`__- *To set the application question*.
@@ -379,7 +379,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
         }
         else{
           if(args[0] == "IP" || args[0] == "numericIP" || args[0] == "port" || args[0] == "canApply" || args[0] == "welcomeImage" || args[0] == "leaveImage" || args[0] == "botPrefix" || args[0] == "botCoinName"){
-            if(args[0] == "canApply" && (!(args[1] === "true" || args[1] === "false"))){
+            if(args[0] == "canApply" && (!(args[1].toLowerCase() === "true" || args[1].toLowerCase() === "false"))){
               embed.setDescription("You can se it as \`true\` or \`false\` only.")
                 .setColor("RED");
               await message.channel.send(embed).catch(error => {/*nothing*/});

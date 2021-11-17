@@ -3,6 +3,10 @@ module.exports = {
     description : 'to nuke a channel',
   
     async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
+      let channel = message.mentions.channels.first();
+      if(!channel){
+        channel = message.channel;
+      }
       let embed = new Discord.MessageEmbed()
         .setColor("RED")
         .setTimestamp();
@@ -26,8 +30,8 @@ module.exports = {
                     embed.setDescription("**CHANNEL NUKED**")
                       .setImage("https://i.ibb.co/Bcskp4q/nuked.gif");
                     await msg.edit(embed).then(async (msg) => setTimeout(async function(){
-                      await msg.channel.clone().then(async (msg) => setTimeout(async function(){
-                        await message.channel.delete().catch(error => {/*nothing*/});
+                      await channel.clone().then(async (msg) => setTimeout(async function(){
+                        await channel.delete().catch(error => {/*nothing*/});
                       },1000)).catch(error => {/*nothing*/});
                     },1000)).catch(error => {/*nothing*/});
                   },1000)).catch(error => {/*nothing*/});
