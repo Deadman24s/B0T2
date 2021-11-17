@@ -56,6 +56,7 @@ module.exports = {
         });
         if(args[0].toLowerCase() == "reject"){
           embed.setDescription(`Your application got rejected.\nReason- \`${reason}\``)
+            .setAuthor(message.guild.name, message.guild.iconURL())
             .setColor("RED");
           await applicant.send(embed).catch(error => {/*nothing*/});
           embed.setDescription(`Sucessfully rejected the application of ${applicant.tag}[${applicant.id}]\nReason-${reason}`)
@@ -64,6 +65,7 @@ module.exports = {
         }
         else if(args[0].toLowerCase() == "accept"){
           embed.setDescription(`Your application was accepted.🥳\nMessage from staff- \`${reason}\``)
+            .setAuthor(message.guild.name, message.guild.iconURL())
             .setColor("GREEN")
           await applicant.send(embed).catch(error => {/*nothing*/});
           embed.setDescription(`Sucessfully accepted the application of ${applicant.tag}[${applicant.id}]\nMessage from staff-${reason}`)

@@ -265,8 +265,10 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path, react) =>{
                 responce.react('❌')
               );
               responce.awaitReactions((reaction, user) => user.id == message.author.id && (reaction.emoji.name == '✅' || reaction.emoji.name == '❌'),
-                {max: 1, time: 240000 }).then(collected => {
+                {max: 1, time: 240000 }).then(async collected => {
                   if (collected.first().emoji.name === '✅') {
+                    let directoryLocation = path.join(__dirname, "..", "applications", `${Guild.id}`);
+                    await fs.mkdir(directoryLocation, { recursive: true }, (err) => {});
                     let logchannel = client.channels.cache.get(applicationLogsChannelID);
                     const logFileLocation = path.join(__dirname, "..", "applications", `${Guild.id}`, `${message.author.id}.txt`);
                     try{

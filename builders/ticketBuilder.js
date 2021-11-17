@@ -38,7 +38,7 @@ module.exports = async(Discord, message, fs, path, date, ticketReason, person, s
           Tag- ${message.author.tag}
           Reason- ${ticketReason}`);
       let directoryLocation = path.join(__dirname, "..", "transcripts", `${message.guild.id}`);
-      fs.mkdir(directoryLocation, (err) => {});
+      await fs.mkdir(directoryLocation, { recursive: true }, (err) => {});
       logFileLocation = path.join(__dirname, "..", "transcripts", `${message.guild.id}`, `${ticketType}-${message.author.id}.txt`);  
       await fs.appendFileSync(logFileLocation, `-------------------------------------------\nUser -> ${message.author.tag + ' || ' + message.author.id}.\nType -> ${ticketTypeText}.\nReason -> ${ticketReason}.\nDate Opened -> ${date}.\n-------------------------------------------\n`);    
       await ticketchannel.send(embed).catch(error => {/*nothing*/});
