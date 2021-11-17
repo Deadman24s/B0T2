@@ -6,7 +6,13 @@ module.exports = (client, message, args) => {
       if(!emoji)
         emoji = client.emojis.cache.find(e => e.name == emojiName);
       if(emoji){
-        args[i] = emoji;    
+        if(emoji.animated){
+          args[i] = `<a:${emoji.name}:${emoji.id}>`;
+        }else{
+          args[i] = `<:${emoji.name}:${emoji.id}>`;
+        }    
+      }else{
+        args[i] = ":" + emoji + ":";
       }
     }
   }

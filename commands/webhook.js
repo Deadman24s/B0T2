@@ -21,6 +21,8 @@ module.exports = {
             **02** ~~»~~ __\`${prefix}${helpText} avatar <url>\`__- *To set the avatar of the webhook*.
             **03** ~~»~~ __\`${prefix}${helpText} say <text>\`__- *To send a text message via webhook*.
             **04** ~~»~~ __\`${prefix}${helpText} embed <text>\`__- *To send an embed message via webhook*.
+            \n**Note-**
+            You can't use external emojis in a webhook.
           `)
           .setColor("YELLOW");
         await message.channel.send(embed).catch(error => {});
