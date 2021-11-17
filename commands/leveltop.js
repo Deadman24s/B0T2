@@ -26,8 +26,8 @@ module.exports = {
     let levelsMap = [];
     for(let i=0; i<=membersIDMap.length-1; i++){
       levelsMap[i] = await database.get(`${membersIDMap[i]} lvl`);
-      if((!levelsMap[i]) || isNaN(levelsMap[i])){
-        levelsMap[i] = 0;
+      if((!levelsMap[i]) || isNaN(levelsMap[i]) || (levelsMap[i] < 1)){
+        levelsMap[i] = 1;
         await database.set(`${membersIDMap[i]} lvl`, levelsMap[i]);
       }
       levelsMap[i] *= 1;

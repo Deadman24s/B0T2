@@ -126,6 +126,16 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path, react) =>{
           return;
         }
       }
+      const logFileLocation = path.join(__dirname, "..", "applications", `${message.guild.id}`, `${message.author.id}.txt`);
+      try{
+        let findFile = fs.statSync(logFileLocation);
+        embed.setDescription("You are already having a pending application.\nApplication canceled.")
+          .setColor("RED");
+        await message.channel.send(embed).catch(error => {/*nothing*/});
+        return;
+      }catch (error){
+        //This error is good. It means file is not present so we will continue creating the file.
+      }
       if(!(authorId in userApplications)) {
         userApplications[authorId] = { "step" : 1}
         embed.setDescription("Application started!\nPlease check your DM and continue filling the application.")
