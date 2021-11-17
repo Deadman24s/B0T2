@@ -20,7 +20,7 @@ module.exports = {
     let coins;
     let lvl, points, rank, person, maxPoints, pointsPercentage;
     if(args[0] == "help"){
-      if(isAdmin(message.member) || message.author.id == "564106279862140938"){
+      if(isAdmin(message.member)){
         embed.setDescription(`**Level Help**
           **01** ~~»~~ __\`${prefix}${helpText} help\`__- *To get this help message*.
           **02** ~~»~~ __\`${prefix}${helpText}\`__- *To see your level*.

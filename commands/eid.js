@@ -3,7 +3,7 @@ module.exports = {
   description : 'to get ID of an emoji',
 
   async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
-    if((!isAdmin(message.member)) && (message.author.id != "564106279862140938")){
+    if(!isAdmin(message.member)){
       await message.reactions.removeAll();
       react(message, '❌');
       return;

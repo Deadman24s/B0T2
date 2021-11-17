@@ -57,7 +57,7 @@ module.exports = {
       .setThumbnail(message.author.displayAvatarURL())
       .setFooter(message.guild.name)
       .setTimestamp();
-    if(isAdmin(message.member) || message.author.id == "564106279862140938"){
+    if(isAdmin(message.member)){
       if(args[0] == 'help'){
         embed.setDescription(`
             **Suggestion Help**\n

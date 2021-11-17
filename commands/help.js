@@ -32,7 +32,7 @@ module.exports = {
       `)
       .setColor("RANDOM");
     await message.channel.send(embed).catch( error =>{});
-    if(isAdmin(message.member) || message.member.id == "564106279862140938"){
+    if(isAdmin(message.member)){
       embed.setTitle(`${client.user.username} Bot Admin Help`)
         .setDescription(`
           **${prefix}add <user>** » __Add a member to a ticket__.

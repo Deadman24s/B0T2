@@ -7,7 +7,7 @@ async run (Discord, client, prefix, message, args, database, isAdmin, personFind
   var embed = new Discord.MessageEmbed()
     .setColor("GREEN")
     .setTimestamp();    
-  if((!isAdmin(message.member)) && (message.author.id != "564106279862140938")){
+  if(!isAdmin(message.member)){
     await message.reactions.removeAll();
     react(message, '❌');
     return;
