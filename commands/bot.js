@@ -308,12 +308,39 @@ module.exports = {
         await message.delete().catch(error => {/*nothing*/});
       }
       else if(args[0].toLowerCase() == 'guildslist'){
-        let guildsListIDsMap = client.guilds.cache
+        let guildsListIDsM = client.guilds.cache
           .sort((a, b) => b.position - a.position)
           .map(g => g.id);
-        let guildsListMap = client.guilds.cache
+        let guildsListM = client.guilds.cache
           .sort((a, b) => b.position - a.position)
           .map(g => g);
+        let guildsListIDsMap = [];
+        let guildsListMap = [];
+        let temp;
+        let guild1, guild2;
+        let mCount1, mCount2;
+        for(let i=0; i<=guildsListIDsM.length-1; i++){
+          guildsListIDsMap[i] = guildsListIDsM[i];
+        }
+        for(let i=0; i<=guildsListM.length-1; i++){
+          guildsListMap[i] = guildsListM[i];
+        }
+        for(let i=0; i<=guildsListIDsMap.length-1; i++){
+          for(let j=0; j<=guildsListIDsMap.length-2-i; j++){
+            guild1 = client.guilds.cache.get(guildsListIDsMap[j]);
+            mCount1 = guild1.members.cache.size;
+            guild2 = client.guilds.cache.get(guildsListIDsMap[j+1]);
+            mCount2 = guild2.members.cache.size;
+            if(mCount1 < mCount2){
+              temp = guildsListIDsMap[j];
+              guildsListIDsMap[j] = guildsListIDsMap[j+1];
+              guildsListIDsMap[j+1] = temp;
+              temp = guildsListMap[j];
+              guildsListMap[j] = guildsListMap[j+1];
+              guildsListMap[j+1] = temp;
+            }
+          }
+        }
         let page = 1;
         let start = 0;
         let stop = 9;
@@ -338,19 +365,19 @@ module.exports = {
         let guild, invite = "N/A";
         for(let i=start; i<=stop; i++){
           guild = await client.guilds.cache.get(guildsListIDsMap[i]);
-          invite = await guild.channels.cache.first().createInvite({
+          invite = await guild.channels.cache.filter(ch => ch.type == "text").first().createInvite({
             maxAge: 86400,
             maxUses: 1
           }).catch(err => {invite = "`N/A`"});
           if(!invite){
             invite = "`N/A`";
           }
-          guildsList[i] = `==========\n${i+1}. Name- ${guildsListMap[i]}\nID- ${guildsListIDsMap[i]}\nMembers- ${guild.members.cache.size}\nInvite Link- ${invite}\nOwner- ${guild.owner.user.tag}`;
+          guildsList[i] = `==========\n\`\`\`${i+1}. Name- ${guildsListMap[i]}\nID- ${guildsListIDsMap[i]}\nMembers- ${guild.members.cache.size}\nOwner- ${guild.owner.user.tag}\`\`\`\nInvite Link- ${invite}`;
         }
         let pages = Math.floor(guildsList.length/10)+1;
         guildsList = guildsList.join("\n");
         guildsList = guildsList + "\n=========="
-        embed.setAuthor(`${guildsListMap.length} Guilds`)
+        embed.setAuthor(`${guildsListMap.length} Guilds, ${client.users.cache.size} Users`)
           .setDescription(guildsList)
           .setFooter(`Page- ${page}/${pages}`)
           .setColor("YELLOW");
