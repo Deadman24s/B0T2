@@ -5,7 +5,7 @@ module.exports = (message, id, type) => {
       person = message.guild.members.cache.get(id);
     }
     if(!person){
-      return "not found";
+      return false;
     }
   }
   else if(type == "user"){
@@ -17,11 +17,11 @@ module.exports = (message, id, type) => {
       }
     }
     if(!person){
-      return "not found";
+      return false;
     }
   }
   else{
-    return "not found";
+    return false;
   }
   return person;
 }

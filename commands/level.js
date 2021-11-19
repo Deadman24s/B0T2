@@ -41,7 +41,7 @@ module.exports = {
       if(!args[1]){
         if(args[0]){
           person = personFinder(message, args[0], "user");
-          if(person === "not found"){
+          if(!person){
             embed.setDescription("Wrong user provided or user doesn't exists in this server.")
               .setColor("RED");
             await message.channel.send(embed).catch(error => {/*nothing*/});
@@ -91,7 +91,7 @@ module.exports = {
           person = message.author;
         else{
           person = personFinder(message, args[0], "user");
-          if(person === "not found"){
+          if(!person){
             embed.setDescription("Wrong user provided or user doesn't exists in this server.")
               .setColor("RED");
             await message.channel.send(embed).catch(error => {/*nothing*/});

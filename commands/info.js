@@ -12,7 +12,7 @@ module.exports = {
     if(args[0]){
       person = personFinder(message, args[0], "user");
       member = personFinder(message, args[0], "member");
-      if(person === "not found"){
+      if(!person){
         person = message.author;
         member = message.member;
       }

@@ -13,7 +13,7 @@ module.exports = {
     }
     let person, warnsCount, warnsText = "warning";
     person = personFinder(message, args[0], "user");
-    if((person === "not found") || (!args[0])){
+    if((!person) || (!args[0])){
       person = message.author;
     }
     warnsCount = await database.get(`${person.id} warns`);
@@ -35,7 +35,7 @@ module.exports = {
     }
     else if(args[0].toLowerCase() == "clear"){
       person = personFinder(message, args[0], "user");
-      if((person === "not found") || (!args[0])){
+      if((!person) || (!args[0])){
         person = message.author;
       }
       warnsCount = 0;
@@ -49,7 +49,7 @@ module.exports = {
     }
     else if(args[0].toLowerCase() == "set"){
       person = personFinder(message, args[0], "user");
-      if((person === "not found") || (!args[0])){
+      if((!person) || (!args[0])){
         person = message.author;
       }
       if((!args[2]) || (isNaN(args[2]))){
