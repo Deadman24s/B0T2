@@ -50,7 +50,9 @@ module.exports = {
       **02** ~~»~~ __\`${prefix}eembed load <channel>\`__- *To load the embed in <channel>*.\n
       **Cleaning**
       **01** ~~»~~ __\`${prefix}eembed clean\`__- *To clean the embed variables*.
-      [You can use this invisible character to make spaces UwU- \`ㅤ\`.]
+      \n[You can use this invisible character to make spaces UwU- \`ㅤ\`.]
+      \n**Note-**
+      You can't use external emojis in a webhook.
       `)
         .setColor("YELLOW");
       await message.channel.send(embed).catch(error => {});
