@@ -1,3 +1,5 @@
+const e = require("../emojiIDs.json");
+
 module.exports = {
   name : 'ping',
   description : 'ping command',
@@ -9,7 +11,7 @@ module.exports = {
       .setAuthor(client.user.username, message.guild.iconURL());
     let latency = Math.round(Date.now() - message.createdTimestamp);
     let apiLatency = Math.round(client.ws.ping);
-    let loadingEmoji = client.emojis.cache.get("862559956380680213");
+    let loadingEmoji = client.emojis.cache.get(e.loadingEmoji);
     let time;
     time = Date.now();
     let dbLatency;

@@ -1,4 +1,5 @@
 const levelBarBuilder = require('../builders/levelBarBuilder.js');
+const e = require("../emojiIDs.json");
 
 module.exports = {
   name : 'level',
@@ -14,7 +15,7 @@ module.exports = {
     const coinEmojiID =  await database.get('botCoinEmojiID');
     let coinEmoji = client.emojis.cache.get(coinEmojiID);
     if(!coinEmoji){
-      coinEmoji = client.emojis.cache.get("860047308607062036");
+      coinEmoji = client.emojis.cache.get(e.coinEmoji);
     }
     let coinText = await database.get('botCoinName');
     let coins;

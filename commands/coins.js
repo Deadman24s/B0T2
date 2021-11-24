@@ -1,3 +1,5 @@
+const e = require("../emojiIDs.json");
+
 module.exports = {
   name : 'coins',
   description : 'to get coins info',
@@ -10,7 +12,7 @@ module.exports = {
     let coinEmoji = client.emojis.cache.get(coinEmojiID);
     let coinText = await database.get('botCoinName');
     if(!coinEmoji){
-      coinEmoji = client.emojis.cache.get("860047308607062036");
+      coinEmoji = client.emojis.cache.get(e.coinEmoji);
     }
     if(!coinText){
       coinText = "Bot Coin";

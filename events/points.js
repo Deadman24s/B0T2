@@ -1,3 +1,5 @@
+const e = require("../emojiIDs.json");
+
 module.exports = async (Discord, message, args, client, prefix, database, levelBarBuilder, isAdmin) =>{
   let embed = new Discord.MessageEmbed()
     .setTimestamp();
@@ -51,7 +53,7 @@ module.exports = async (Discord, message, args, client, prefix, database, levelB
       coinEmojiID =  await database.get('botCoinEmojiID');
       coinEmoji = client.emojis.cache.get(coinEmojiID);
       if(!coinEmoji){
-        coinEmoji = client.emojis.cache.get("860047308607062036");
+        coinEmoji = client.emojis.cache.get(e.coinEmoji);
       }
       coinText = await database.get('botCoinName');
       if(!coinText){

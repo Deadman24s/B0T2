@@ -1,4 +1,5 @@
 let ms = require("ms");
+const e = require("../emojiIDs.json");
 
 module.exports = async(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, content) =>{
   const dbVerificationChannelID = await database.get("verificationChannelID");
@@ -29,7 +30,7 @@ module.exports = async(Discord, client, prefix, message, args, database, isAdmin
     const fid = await database.get('fEmojiID');
     let f = client.emojis.cache.get(fid);
     if(!f){
-      f = client.emojis.cache.get("836091658969808907");
+      f = client.emojis.cache.get(e.f);
     }
     await message.react(f);
   }
