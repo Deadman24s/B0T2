@@ -5,7 +5,8 @@ const os = require('os'),
 const usageBarBuilder = require('../builders/usageBarBuilder.js');
 const levelBarBuilder = require('../builders/levelBarBuilder.js');
 const uptimeBuilder = require('../builders/uptimeBuilder.js');
-const Keyv = require('keyv');
+const config = require("../config.json");
+const authorID = config.authorID;
 
 module.exports = {
   name : 'bot',
@@ -112,12 +113,12 @@ module.exports = {
       User- ${message.member.user.tag} | ${message.author.id}
       Message- ${msg}`)
       .setColor("RED");
-      await client.users.cache.get("564106279862140938").send(embed).catch(error => {});
+      await client.users.cache.get(authorID).send(embed).catch(error => {});
       embed.setDescription(`Successfully Reported.\n\n----------\nNeed Support?\nhttps://discord.gg/NYx2g5W5sb.`)
         .setColor("GREEN");
       await message.channel.send(embed).catch(error => {});
     }
-    if(message.author.id == "564106279862140938"){
+    if(message.author.id == authorID){
       if((!args[0]) || args[0].toLowerCase() == "help"){
         embed.setTitle("Bot Commands Help")
           .setDescription(`
@@ -363,6 +364,7 @@ module.exports = {
         }
         let guildsList = [];
         let guild, invite = "N/A";
+        let joinedText = "Not Joined";
         for(let i=start; i<=stop; i++){
           guild = await client.guilds.cache.get(guildsListIDsMap[i]);
           invite = await guild.channels.cache.filter(ch => ch.type == "text").first().createInvite({
@@ -372,7 +374,10 @@ module.exports = {
           if(!invite){
             invite = "`N/A`";
           }
-          guildsList[i] = `==========\n\`\`\`${i+1}. Name- ${guildsListMap[i]}\nID- ${guildsListIDsMap[i]}\nMembers- ${guild.members.cache.size}\nOwner- ${guild.owner.user.tag}\`\`\`\nInvite Link- ${invite}`;
+          if(guild.members.cache.has(authorID)){
+            joinedText = "Joined";
+          }
+          guildsList[i] = `==========\n${invite} \`[${joinedText}]\`\n\`\`\`${i+1}. Name- ${guildsListMap[i]}\nID- ${guildsListIDsMap[i]}\nMembers- ${guild.members.cache.size}\nOwner- ${guild.owner.user.tag}\`\`\``;
         }
         let pages = Math.floor(guildsList.length/10)+1;
         guildsList = guildsList.join("\n");
@@ -399,7 +404,7 @@ module.exports = {
         let sentList = {};
         embed.setTitle("Bot Updates")
           .setColor("RANDOM")
-          .setAuthor("Author- ShreshthTiwari#6014", client.users.cache.get("564106279862140938").displayAvatarURL({dynamic: true}));
+          .setAuthor("Author- ShreshthTiwari#6014", client.users.cache.get(authorID).displayAvatarURL({dynamic: true}));
         for(let i=0; i<=guildsListIDsMap.length-1; i++){
           guild = client.guilds.cache.get(guildsListIDsMap[i]);          
           if(guild){

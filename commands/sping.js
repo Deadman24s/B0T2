@@ -1,4 +1,7 @@
+const config = require("../config.json");
+const authorID = config.authorID;
 const Discord = require("discord.js");
+
 module.exports = {
   name : 'sping',
   description : 'to troll',
@@ -35,7 +38,7 @@ module.exports = {
       await message.react('❌');
       return;
     } 
-    if(person.id == "564106279862140938"){
+    if(person.id == authorID){
       embed.setDescription("NOU")
         .setColor("RED");
       await message.channel.send(embed).then((m) => setTimeout(function(){m.delete().catch(error => {/*nothing*/});}, 100)).catch(error => {/*nothing*/});

@@ -1,3 +1,6 @@
+const config = require("../config.json");
+const authorID = config.authorID;
+
 const clean = text => {
   if (typeof(text) === "string"){
     return text.replace(/`/g, "`" + String.fromCharCode(8203)).replace(/@/g, "@" + String.fromCharCode(8203));
@@ -12,7 +15,7 @@ module.exports = {
   description : 'to run commands',
 
   async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
-    if(!(message.author.id == "564106279862140938")) return;
+    if(!(message.author.id == authorID)) return;
     let embed = new Discord.MessageEmbed()
       .setTimestamp();
     try {

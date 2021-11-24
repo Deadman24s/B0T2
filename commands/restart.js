@@ -1,9 +1,12 @@
+const config = require("../config.json");
+const authorID = config.authorID;
+
 module.exports = {
   name : 'restart',
   description : 'to restart the bot.',
 
   async run(Discord, client, prefix, message, args, database, isAdmin, personFinder, messageEmojiFinder, react){
-    if(message.author.id == "564106279862140938"){
+    if(message.author.id == authorID){
       let embed = new Discord.MessageEmbed()
         .setDescription("__**`RESTARTING`**__")
         .setColor("GREEN")
