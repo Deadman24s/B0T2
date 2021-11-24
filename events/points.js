@@ -49,7 +49,7 @@ module.exports = async (Discord, message, args, client, prefix, database, levelB
     if(points >= maxPoints){
       lvl += 1;
       points = points - maxPoints;
-      coins = coins + (bonusCoins*lvl)/100 + 0.2;
+      coins = coins + (bonusCoins*lvl)/100 + 15;
       coinEmojiID =  await database.get('botCoinEmojiID');
       coinEmoji = client.emojis.cache.get(coinEmojiID);
       if(!coinEmoji){

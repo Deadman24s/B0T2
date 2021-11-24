@@ -68,7 +68,7 @@ module.exports = async(message, args, database, prefix, isAdmin, errorMessageBui
     }
     let coins = await database.get(`${message.author.id} coins`) * 1;
     if((checknum % 2 != 0) && (checknum % 3 != 0) && (checknum % 5 != 0) && (checknum % 2 != 0)){
-      coins += 0.02;
+      coins += 20;
       await database.set(`${message.author.id} coins`, coins);
     }
     await message.delete().catch(error => {/*nothing*/});
