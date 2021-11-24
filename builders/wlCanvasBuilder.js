@@ -23,7 +23,9 @@ module.exports = async(Discord, member, Canvas, path, database, type) => {
   if(!msg){
     msg = `**${member.user.username} ${jl}**!\n||**[**${member.user.tag}**]** **[**${member.id}**]**||`;
   }
-  msg = msg.replace("{user}", member).replace("{userid}", member.id).replace("{usertag}", member.user.tag).replace("{username}", member.user.username).replace("{guild}", member.guild).replace("{guildid}", member.guild.id);
+  while(msg.includes("{user}") || msg.includes("{userid}") || msg.includes("{usertag}") || msg.includes("{username}") || msg.includes("{guild}") || msg.includes("{guildid}")){
+    msg = msg.replace("{user}", member).replace("{userid}", member.id).replace("{usertag}", member.user.tag).replace("{username}", member.user.username).replace("{guild}", member.guild).replace("{guildid}", member.guild.id);
+  }
   embed.setDescription(`${msg}`);
   if(sendingChannelID){
     sendingChannel = await member.guild.channels.cache.get(sendingChannelID);

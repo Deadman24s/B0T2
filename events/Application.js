@@ -31,6 +31,10 @@ module.exports = (Discord, client, isAdmin, Keyv, fs, path, react) =>{
         return;
       }
       guild[authorId] = message.guild.id;
+      let directoryLocation = path.join(__dirname, "..", "applications", `${message.guild.id}`);
+      await fs.mkdir(directoryLocation, { recursive: true }, (err) => {});
+      directoryLocation = path.join(__dirname, "..", "transcripts", `${message.guild.id}`);
+      await fs.mkdir(directoryLocation, { recursive: true }, (err) => {});
       database = new Keyv('sqlite://./databases/database.sqlite', {
         table: `${guild[authorId]}`
       });

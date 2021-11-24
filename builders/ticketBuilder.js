@@ -3,6 +3,8 @@ module.exports = async(Discord, message, fs, path, date, ticketReason, person, s
     .setColor("YELLOW")
     .setTimestamp();
   async function ticketCreator(ticketTypeSelector, ticketType, ticketTitle, ticketTypeText){
+    let directoryLocation = path.join(__dirname, "..", "transcripts", `${message.guild.id}`);
+    await fs.mkdir(directoryLocation, { recursive: true }, (err) => {});
     let tempChannel, logFileLocation;
     tempChannel = message.guild.channels.cache.find(ch => ch.name === `${ticketType}-${message.author.id}`);
     if(tempChannel){
