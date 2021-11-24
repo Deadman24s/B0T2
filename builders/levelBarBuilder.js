@@ -1,22 +1,24 @@
+const e = require("../emojiIDs.json");
+
 module.exports = (client, percentage) =>{
   var bar = [], mainBar;
-  const whitebar = client.emojis.cache.get("821938099163758653");
-  const greenwhiterbar = client.emojis.cache.get("821937902992228394");
-  const greenwhitebar = client.emojis.cache.get("821937885775134761");
-  const greenerwhitebar = client.emojis.cache.get("821937866690789437"); 
-  const greenbar = client.emojis.cache.get("821937851788558350");
-  const yellowwhiterbar = client.emojis.cache.get("821938170815053865");
-  const yellowwhitebar = client.emojis.cache.get("821938117052334110");
-  const yellowerwhitebar = client.emojis.cache.get("821938152415559691");
-  const yellowbar = client.emojis.cache.get("821938134497230868");
-  const orangewhiterbar = client.emojis.cache.get("821937972734722069");
-  const orangewhitebar = client.emojis.cache.get("821937957245419582");
-  const orangerwhitebar = client.emojis.cache.get("821937939369951282");
-  const orangebar = client.emojis.cache.get("821937926555697162");
-  const redwhiterbar = client.emojis.cache.get("821938078876303390");
-  const redwhitebar = client.emojis.cache.get("821938060735938591");
-  const rederwhitebar = client.emojis.cache.get("821938038229303326");
-  const redbar =  client.emojis.cache.get("821938003424706611");
+  const whitebar = client.emojis.cache.get(e.whitebar);
+  const greenwhiterbar = client.emojis.cache.get(e.greenwhiterbar);
+  const greenwhitebar = client.emojis.cache.get(e.greenwhitebar);
+  const greenerwhitebar = client.emojis.cache.get(e.greenerwhitebar); 
+  const greenbar = client.emojis.cache.get(e.greenbar);
+  const yellowwhiterbar = client.emojis.cache.get(e.yellowwhiterbar);
+  const yellowwhitebar = client.emojis.cache.get(e.yellowwhitebar);
+  const yellowerwhitebar = client.emojis.cache.get(e.yellowerwhitebar);
+  const yellowbar = client.emojis.cache.get(e.yellowbar);
+  const orangewhiterbar = client.emojis.cache.get(e.orangewhiterbar);
+  const orangewhitebar = client.emojis.cache.get(e.orangewhitebar);
+  const orangerwhitebar = client.emojis.cache.get(e.orangerwhitebar);
+  const orangebar = client.emojis.cache.get(e.orangebar);
+  const redwhiterbar = client.emojis.cache.get(e.redwhiterbar);
+  const redwhitebar = client.emojis.cache.get(e.redwhitebar);
+  const rederwhitebar = client.emojis.cache.get(e.rederwhitebar);
+  const redbar = client.emojis.cache.get(e.redbar);
   
   bar[0] = bar[1] = bar[2] = bar[3] = bar[4] = whitebar; 
   
