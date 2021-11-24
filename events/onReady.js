@@ -1,17 +1,19 @@
 //response.host, response.port, response.version
-
 module.exports = async (client, Keyv, util, prefix, errorMessageBuilder) =>{
   const guildsCount = client.guilds.cache.size;
   const usersCount = client.users.cache.size;
   const channelsCount = client.channels.cache.size;
+  const ticketsCount = client.channels.cache.filter(ch => ch.name.startsWith("ticket")).size;
 
   let guildText = "server";
   let userText = "user";
   let channelText = "channel";
+  let ticketText = "ticket";
 
   if(guildsCount > 1) guildText = guildText + 's';
   if(usersCount > 1) userText = userText + 's';
   if(channelsCount > 1) channelText = channelText + 's';
+  if(ticketsCount > 1) ticketText = ticketText + 's';
 
   let index = 0;
   
@@ -27,6 +29,7 @@ module.exports = async (client, Keyv, util, prefix, errorMessageBuilder) =>{
     `Over ${guildsCount} ${guildText}`,
     `Over ${usersCount} ${userText}`,
     `Over ${channelsCount} ${channelText}`,
+    `Over ${ticketsCount} ${ticketText}`,
     `For ${prefix}help`,
     "Shreshth Tiwari",
     "Some Memes.",
@@ -46,7 +49,7 @@ module.exports = async (client, Keyv, util, prefix, errorMessageBuilder) =>{
   console.log(`-------------------------------------\n${client.user.tag} is online!\n-------------------------------------`);
   
   setInterval(async () => {
-    if(index>=11)
+    if(index>=12)
       await client.user.setActivity(activitiesList[index], {type: "PLAYING"})
         .catch(console.error);
     else
