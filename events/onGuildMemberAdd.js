@@ -20,9 +20,7 @@ module.exports = async(Discord, member, Canvas, path, database) =>{
     await member.setNickname(`moderated-name-${++count}`);
     let newName = member.displayName;
     await database.set("illegalNamesCount", count);
-    embed.setDescription(`Your name [${oldName}] contains illegal characters.
-      So i have changed it to [${newName}].
-      Kindly ask a server staff to change it.`);
+    embed.setDescription(`Your name [${oldName}] contains illegal characters.\nSo i have changed it to [${newName}].\nKindly ask a server staff to change it now.`);
     await member.send(embed).catch(error => {});
   }
   const type = "Welcome";
