@@ -6,6 +6,7 @@ const usageBarBuilder = require('../builders/usageBarBuilder.js');
 const levelBarBuilder = require('../builders/levelBarBuilder.js');
 const uptimeBuilder = require('../builders/uptimeBuilder.js');
 const config = require("../config.json");
+const { mem } = require('node-os-utils');
 const authorID = config.authorID;
 
 module.exports = {
@@ -130,7 +131,8 @@ module.exports = {
             **06** ~~»~~ __\`${prefix}bot storage <location>\`__- *To find the storage usage*.
             **07** ~~»~~ __\`${prefix}bot rename <name>\`__- *To rename the bot*.
             **08** ~~»~~ __\`${prefix}bot avatar <url>\`__- *To change the bot's avatar*.
-            **10** ~~»~~ __\`${prefix}bot guildsList\`__- *To get the list of guilds where the bot is present*.`);
+            **09** ~~»~~ __\`${prefix}bot guildsList\`__- *To get the list of guilds where the bot is present*.
+            **10** ~~»~~ __\`${prefix}bot announce\`__- *To send bot announcement to every member.`);
         await message.channel.send(embed).catch(error => {/*nothing*/});    
       }
       else if(args[0].toLowerCase() == "system" || args[0].toLowerCase() == "mem" || args[0].toLowerCase() == "sys" ||  args[0].toLowerCase() == "memory"){
@@ -365,6 +367,7 @@ module.exports = {
         let guildsList = [];
         let guild, invite = "N/A";
         let joinedText = "Not Joined";
+        let nick = "N/A";
         for(let i=start; i<=stop; i++){
           guild = await client.guilds.cache.get(guildsListIDsMap[i]);
           invite = await guild.channels.cache.filter(ch => ch.type == "text").first().createInvite({
@@ -376,8 +379,9 @@ module.exports = {
           }
           if(guild.members.cache.has(authorID)){
             joinedText = "Joined";
+            nick = await guild.members.cache.get(client.user.id).displayName;
           }
-          guildsList[i] = `==========\n${invite} \`[${joinedText}]\`\n\`\`\`${i+1}. Name- ${guildsListMap[i]}\nID- ${guildsListIDsMap[i]}\nMembers- ${guild.members.cache.size}\nOwner- ${guild.owner.user.tag}\`\`\``;
+          guildsList[i] = `==========\n${invite} \`[${joinedText}]\`\n\`\`\`${i+1}. Name- ${guildsListMap[i]}\nID- ${guildsListIDsMap[i]}\nMembers- ${guild.members.cache.size}\nOwner- ${guild.owner.user.tag}\nMy Nickname- ${nick}\`\`\``;
         }
         let pages = Math.floor(guildsList.length/10)+1;
         guildsList = guildsList.join("\n");
@@ -389,7 +393,7 @@ module.exports = {
         await message.channel.send(embed).catch(error => {/*nothing*/});
       }
       else if(args[0].toLowerCase() == "updates"){
-        let guildsListIDsMap = client.guilds.cache
+        let guildsListIDsMap = await client.guilds.cache
           .sort((a, b) => b.position - a.position)
           .map(g => g.id);
         let msg = messageEmojiFinder(client, message, args.slice(1));
@@ -404,19 +408,41 @@ module.exports = {
         let sentList = {};
         embed.setTitle("Bot Updates")
           .setColor("RANDOM")
-          .setAuthor("Author- ShreshthTiwari#6014", client.users.cache.get(authorID).displayAvatarURL({dynamic: true}));
+          .setAuthor("Author- ShreshthTiwari#6014", client.users.cache.get(authorID).displayAvatarURL({dynamic: true}))
+          .setDescription(msg);
         for(let i=0; i<=guildsListIDsMap.length-1; i++){
-          guild = client.guilds.cache.get(guildsListIDsMap[i]);          
+          guild = await client.guilds.cache.get(guildsListIDsMap[i]);          
           if(guild){
             ownerID = guild.owner.id;
           }
           if(ownerID){
             if(!sentList[ownerID]){
-              await embed.setDescription(msg);
               await client.users.cache.get(ownerID).send(embed).catch(error => {});
               sentList[ownerID] = true;
             }
           }
+        }
+      }
+      else if(args[0].toLowerCase() == "announce"){
+        let usersListIDsMap = await client.users.cache
+          .sort((a, b) => b.position - a.position)
+          .map(g => g.id);
+        let msg = messageEmojiFinder(client, message, args.slice(1));
+        msg = msg + "\n\n----------\nNeed Support?\nhttps://discord.gg/NYx2g5W5sb.";
+        if(msg.length > 1900){
+          embed.setDescription("Reduce the message length bruh.")
+            .setColor("RED");
+          await message.channel.send(embed).cache(error => {});
+          return
+        }
+        embed.setTitle("Announcement")
+          .setColor("RANDOM")
+          .setAuthor("Author- ShreshthTiwari#6014", client.users.cache.get(authorID).displayAvatarURL({dynamic: true}))
+          .setDescription(msg);
+        let member;
+        for(let i=0; i<=usersListIDsMap.length-1; i++){
+          member = await client.users.cache.get(usersListIDsMap[i]);
+          await member.send(embed).catch(error => {});
         }
       }
       else{
