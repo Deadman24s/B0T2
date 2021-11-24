@@ -82,7 +82,7 @@ module.exports = {
           .setFooter(`Rank- #${rank}`);
         await message.channel.send(embed).catch(error => {/*nothing*/});
       }
-      if(args[0].toLowerCase() == "set"){
+      if(args[0] && args[0].toLowerCase() == "set"){
         if(!isAdmin(message.member)){
           await message.reactions.removeAll();
           react(message, '❌');
