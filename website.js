@@ -1,7 +1,8 @@
 const http = require("http");
 const fs = require("fs");
+const config = require("./config.json");
 
-const PORT = 25575;
+const PORT = config.webPort;
 
 module.exports = () =>{
   fs.readFile('./website/index.html', function (err, html) {
