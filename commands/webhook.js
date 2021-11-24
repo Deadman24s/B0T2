@@ -72,7 +72,7 @@ module.exports = {
               channel = message.channel;
               arg = args.slice(1);
             }else{
-              arg.slice(2);
+              arg = args.slice(2);
             }
             msg = messageEmojiFinder(client, message, arg);
             if(!msg){
