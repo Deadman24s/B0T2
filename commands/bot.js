@@ -100,7 +100,7 @@ module.exports = {
       await message.channel.send(embed).catch(error => {/*nothing*/});    
     }
     else if(args[0].toLowerCase() == "invite"){
-      embed.setDescription("[**__B0T INVITE LINK__**](https://discord.com/api/oauth2/authorize?client_id=883351440700080139&permissions=8&scope=bot)")
+      embed.setDescription(config.inviteLink)
         .setColor("RANDOM");
       message.channel.send(embed).catch(error => {/*nothing*/});
     }
