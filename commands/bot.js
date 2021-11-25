@@ -119,7 +119,7 @@ module.exports = {
         .setColor("GREEN");
       await message.channel.send(embed).catch(error => {});
     }
-    if(message.author.id == authorID){
+    else if(message.author.id == authorID){
       if((!args[0]) || args[0].toLowerCase() == "help"){
         embed.setTitle("Bot Commands Help")
           .setDescription(`
@@ -449,6 +449,10 @@ module.exports = {
         await message.reactions.removeAll();
         react(message, '❌');
       }
+    }
+    else{
+      await message.reactions.removeAll();
+      react(message, '❌');
     }
   }    
 }
